@@ -104,7 +104,7 @@ const page = () => {
           <Comments height={rightDivHeight} />
         </div>
       </div>
-      <div className='px-[100px]'>
+      <div className='px-[20px] lg:px-[100px]'>
         <p className='mb-7 font-bold text-[20px]'>Related Polls: </p>
         <Selection />
       </div>

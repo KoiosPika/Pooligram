@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-const Card = ({ poll }) => {
+const Card = ({ poll } : {poll :{title:string, image:string}}) => {
     return (
         <div className='flex relative flex-col max-h-[400px] w-[300px] border-black border-2 rounded-md mx-3'>
             <div className='absolute top-3 right-3 bg-slate-200 border-black border-2 p-1 rounded-lg'>

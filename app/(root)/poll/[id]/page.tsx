@@ -20,7 +20,7 @@ const FormSchema = z.object({
 const page = () => {
 
   const leftDivRef = useRef<HTMLDivElement>(null);
-  const [rightDivHeight, setRightDivHeight] = useState<Number>();
+  const [rightDivHeight, setRightDivHeight] = useState<number>(0);
 
   useEffect(() => {
     if (leftDivRef.current) {

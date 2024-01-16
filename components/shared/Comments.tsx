@@ -4,10 +4,10 @@ import { Button } from '../ui/button'
 import Image from 'next/image'
 import { ScrollArea } from '../ui/scroll-area'
 
-const Comments = ({ height }) => {
+const Comments = ({ height }: { height: number }) => {
     const arr = [1, 2, 3, 4, 56, 7, 5, 4, 3, 2, 4, 5, 3, 45, 6, 4, 7, 4, 5, 6, 7, 3, 1];
     return (
-        <div className='bg-slate-100 border-black border-2 my-5 rounded-lg h-0' style={{height}}>
+        <div className='bg-slate-100 border-black border-2 my-5 rounded-lg h-0' style={{ height }}>
             <div className='w-full flex flex-row p-3 items-center'>
                 <p className='text-[18px] font-semibold'>Comments</p>
                 <p className='text-[16px] font-semibold ml-5'>63.5k</p>

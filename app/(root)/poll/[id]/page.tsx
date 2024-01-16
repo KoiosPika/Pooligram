@@ -19,8 +19,8 @@ const FormSchema = z.object({
 
 const page = () => {
 
-  const leftDivRef = useRef(null);
-  const [rightDivHeight, setRightDivHeight] = useState('auto');
+  const leftDivRef = useRef<HTMLDivElement>(null);
+  const [rightDivHeight, setRightDivHeight] = useState<Number>();
 
   useEffect(() => {
     if (leftDivRef.current) {

@@ -12,7 +12,7 @@ const Comments = ({ height }: { height: number }) => {
                 <p className='text-[18px] font-semibold'>Comments</p>
                 <p className='text-[16px] font-semibold ml-5'>63.5k</p>
             </div>
-            <ScrollArea style={{ height: height - 120 }} className='flex flex-1 px-3'>
+            <ScrollArea style={{ height: height - 120 }} className='flex flex-1 px-3 h-0'>
                 {arr.map((item) => (
                     <>
                         <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>

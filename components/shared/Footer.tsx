@@ -14,7 +14,7 @@ const Footer = () => {
           height={50}
           />
         </Link>
-        <p>2023 Pooligram. All Rights reserved.</p>
+        <p>2024 Pooligram. All Rights reserved.</p>
       </div>
     </footer>
   )

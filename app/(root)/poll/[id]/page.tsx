@@ -40,7 +40,7 @@ const page = () => {
     <div>
       <div className='w-full flex justify-center h-[70px] items-center'>
         <div className='bg-slate-400 w-full max-w-[800px] h-[70px] m-2'>
-          
+
         </div>
       </div>
       <div className='flex flex-row justify-center md:justify-center xl:justify-center'>
@@ -96,7 +96,13 @@ const page = () => {
                   </FormItem>
                 )}
               />
-              <Button className='bg-black' type="submit">Save</Button>
+              <div className='flex flex-row'>
+                <Button className='flex flex-row bg-transparent border-2 border-black hover:bg-slate-400'>
+                  <Image src={'/assets/icons/plus.svg'} alt='add' width={10} height={10}/>
+                  <p className=' text-black ml-2'>Add</p>
+                </Button>
+                <Button className='bg-black ml-auto hover:bg-slate-400 border-2 border-black' type="submit">Save</Button>
+              </div>
             </form>
           </Form>
         </div>

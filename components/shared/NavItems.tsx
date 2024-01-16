@@ -9,7 +9,7 @@ import React from 'react'
 const NavItems = () => {
   const pathname = usePathname();
   return (
-    <ul className='lg:flex-between flex w-full flex-col items-start gap-5 lg:flex-row'>
+    <ul className='lg:flex-center flex w-full flex-col items-start gap-10 lg:flex-row'>
       {Links.map((link) => {
         const isActive = pathname === link.route
         return (

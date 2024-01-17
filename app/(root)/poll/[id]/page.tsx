@@ -39,9 +39,7 @@ const page = () => {
   return (
     <div>
       <div className='w-full flex justify-center h-[70px] items-center'>
-        <div className='bg-slate-400 w-full max-w-[800px] h-[70px] m-2'>
-
-        </div>
+        <div className='bg-slate-400 w-full max-w-[800px] h-[70px] m-2'></div>
       </div>
       <div className='flex flex-row justify-center md:justify-center xl:justify-center'>
         <div ref={leftDivRef} className='flex flex-col justify-center items-center my-5 border-2 rounded-lg border-black'>
@@ -53,7 +51,7 @@ const page = () => {
                 name="type"
                 render={({ field }) => (
                   <FormItem className="space-y-3">
-                    <FormLabel>Would you stay in this era? Would you stay in this era? Would you stay in this era?</FormLabel>
+                    <FormLabel>Would you stay in this era? Would you stay in this era? Would you stay in this era?Would you stay in this era? Would you stay in this era? Would you stay in this era?</FormLabel>
                     <FormControl>
                       <RadioGroup
                         onValueChange={field.onChange}
@@ -98,7 +96,7 @@ const page = () => {
               />
               <div className='flex flex-row'>
                 <Button className='flex flex-row bg-transparent border-2 border-black hover:bg-slate-400'>
-                  <Image src={'/assets/icons/plus.svg'} alt='add' width={10} height={10}/>
+                  <Image src={'/assets/icons/plus.svg'} alt='add' width={10} height={10} />
                   <p className=' text-black ml-2'>Add</p>
                 </Button>
                 <Button className='bg-black ml-auto hover:bg-slate-400 border-2 border-black' type="submit">Save</Button>

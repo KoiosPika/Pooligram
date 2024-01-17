@@ -7,6 +7,9 @@ const page = () => {
   return (
     <div className='w-full flex justify-center bg-slate-100'>
       <div className='flex-col flex w-full max-w-[1000px] mx-[5px]'>
+        <div className='w-full flex justify-center h-[70px] items-center'>
+          <div className='bg-slate-400 w-full max-w-[800px] h-[70px] m-2'></div>
+        </div>
         <div className='flex flex-row justify-center items-center'>
           <Search />
         </div>

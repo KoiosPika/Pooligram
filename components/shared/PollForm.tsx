@@ -1,0 +1,186 @@
+'use client'
+
+import React, { useState } from 'react'
+import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form'
+import { useFieldArray, useForm } from 'react-hook-form'
+import { zodResolver } from "@hookform/resolvers/zod"
+import * as z from "zod"
+import { Button } from '../ui/button'
+import { eventFormSchema } from '@/lib/validator'
+import { Textarea } from '../ui/textarea'
+import { FileUploader } from './FileUploader'
+import { Input } from '../ui/input'
+import Image from 'next/image'
+import { Checkbox } from '../ui/checkbox'
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+const PollForm = () => {
+    const form = useForm<z.infer<typeof eventFormSchema>>({
+        resolver: zodResolver(eventFormSchema)
+    })
+
+    const Today = new Date();
+    const MaxDate = new Date(Today);
+    MaxDate.setDate(Today.getDate() + 30);
+
+    const [options, setOptions] = useState<String[]>([]);
+    const [newOption, setNewOption] = useState('')
+    const [canChangeDate, setCanChangeDate] = useState<boolean>(false);
+
+    const [files, setFiles] = useState<File[]>([])
+
+    const AddOption = () => {
+        setOptions((prevState) => [...prevState, newOption])
+        setNewOption('')
+    }
+
+    const handleDeleteOption = (index: any) => {
+        setOptions(prevOptions => prevOptions.filter((_, i) => i !== index));
+    };
+
+    const onSubmit = () => {
+
+    }
+    return (
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-1 flex-col gap-5 justify-center items-center px-3">
+                <FormField
+                    control={form.control}
+                    name="title"
+                    render={({ field }) => (
+                        <FormItem className="w-full p-5 max-w-[500px] bg-white border-2 border-black rounded-lg">
+                            <FormControl>
+                                <>
+                                    <p className='text-[20px] font-bold underline'>Poll Title:</p>
+                                    <Textarea placeholder="Poll Title" {...field} className='flex flex-row flex-1 border-2 border-black' />
+                                </>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="imageUrl"
+                    render={({ field }) => (
+                        <FormItem className="w-full p-5 max-w-[500px] bg-white border-2 border-black rounded-lg">
+                            <FormControl className="h-72">
+                                <>
+                                    <p className='text-[20px] font-bold underline'>Poll Cover Image:</p>
+                                    <FileUploader onFieldChange={field.onChange} imageUrl={field.value} setFiles={setFiles} />
+                                </>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+
+                <div className='w-full p-5 max-w-[500px] bg-white border-2 border-black rounded-lg'>
+                    <p className='text-[20px] font-bold mb-3 underline'>Poll Answers:</p>
+                    {options.length > 0 &&
+                        <div className='w-full flex flex-col max-w-[500px] justify-center items-center px-5 md:px-15'>
+                            {options.map((option, index) => (
+                                <div className='w-full p-3 bg-white border-2 border-black rounded-md flex flex-row my-2 justify-between'>
+                                    <p className='text-[16px] font-semibold'>{option}</p>
+                                    <button type="button" onClick={() => handleDeleteOption(index)}>
+                                        <Image src={'/assets/icons/minus.svg'} alt='minus' width={20} height={30} />
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    }
+                    <div className='flex flex-col gap-2 justify-center md:justify-between items-center'>
+                    <div className='flex flex-row justify-center items-center gap-2'>
+                        <Input placeholder='Add Answer' className='w-full px-5 max-w-[300px] border-2 border-black' onChange={(e) => setNewOption(e.target.value)} value={newOption} />
+                        <button className='bg-black hover:bg-grey-400 w-11 h-9 text-white text-[18px] rounded-md border-2 border-black' type="button" onClick={AddOption}>+</button>
+                    </div>
+                    <FormField
+                        control={form.control}
+                        name="isFree"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <div className="flex items-center my-3">
+                                        <Checkbox onCheckedChange={field.onChange} checked={field.value} id="isFree" className="mr-2 h-7 w-7 border-2 border-black" />
+                                        <label htmlFor="isFree" className="font-semibold">Allow users to add more options</label>
+                                    </div>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
+                </div>
+
+                
+
+                <div className='w-full p-5 max-w-[500px] bg-white border-2 border-black rounded-lg'>
+                    <p className='text-[20px] font-bold underline'>Poll Options:</p>
+                    <FormField
+                        control={form.control}
+                        name="isFree"
+                        render={({ field }) => (
+                            <FormItem className="w-full px-5 max-w-[500px]">
+                                <FormControl>
+                                    <div className="flex m-3 items-center">
+                                        <Checkbox onCheckedChange={field.onChange} checked={field.value} id="isFree" className="mr-2 h-7 w-7 border-2 border-black" />
+                                        <label htmlFor="isFree" className="font-semibold">Sponsor the poll for $1.50</label>
+                                    </div>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <div className='w-full p-5 max-w-[500px]'>
+                        <div className="flex m-3 items-center">
+                            <Checkbox onCheckedChange={() => setCanChangeDate(!canChangeDate)} checked={canChangeDate} className="mr-2 h-7 w-7 border-2 border-black" />
+                            <label htmlFor="isFree" className="font-semibold">Polls expire after 7 days but you can customize the date for $1.50 (Note: Max is 30 Days)</label>
+                        </div>
+                        {canChangeDate &&
+                            <FormField
+                                control={form.control}
+                                name="endDateTime"
+                                render={({ field }) => (
+                                    <FormItem className="w-full">
+                                        <FormControl>
+                                            <div className="flex-center h-[54px] w-full overflow-hidden rounded-full px-4 py-2">
+                                                <Image src="/assets/icons/calendar.svg" alt="calender" width={24} height={24} />
+                                                <p className="m-3 whitespace-nowrap font-semibold">End Date:</p>
+                                                <DatePicker
+                                                    className='border-2 border-black rounded-lg px-2 font-semibold w-[105px]'
+                                                    selected={field.value}
+                                                    onChange={(date: Date) => field.onChange(date)}
+                                                    minDate={Today}
+                                                    maxDate={MaxDate}
+                                                    dateFormat={"MM/dd/yyyy"}
+                                                />
+                                            </div>
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        }
+                    </div>
+                </div>
+
+                <div className='w-full p-5 max-w-[500px] bg-white border-2 border-black rounded-lg'>
+                    <p className='text-[20px] font-bold underline'>Poll Comments:</p>
+                    <div className='w-full px-5 max-w-[500px]'>
+                        <div className="flex m-3 items-center">
+                            <Checkbox onCheckedChange={() => setCanChangeDate(!canChangeDate)} checked={canChangeDate} className="mr-2 h-7 w-7 border-2 border-black" />
+                            <label htmlFor="isFree" className="font-semibold">Allow users to comment on your poll</label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <Button disabled={form.formState.isSubmitting} className="bg-black col-span-2 w-[100px]" type="submit">{form.formState.isSubmitting ? 'Please wait...' : `Create Now!`}</Button>
+            </form>
+        </Form>
+    )
+}
+
+export default PollForm

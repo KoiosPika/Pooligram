@@ -25,9 +25,9 @@ const Header = () => {
             <UserButton afterSignOutUrl='/' />
           </SignedIn>
           <SignedOut>
-            <Button asChild className='rounded-full' size={'lg'}>
+            <Button asChild className='rounded-md bg-black hover:bg-slate-400' size={'icon'}>
               <Link href={'/sign-in'}>
-                Log In
+                <Image src={'/assets/icons/login.svg'} alt='sigin' width={20} height={20}/>
               </Link>
             </Button>
           </SignedOut>

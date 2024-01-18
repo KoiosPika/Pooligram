@@ -52,7 +52,10 @@ const PollForm = () => {
                         <FormItem className="w-full p-5 max-w-[500px] bg-white border-2 border-black rounded-lg">
                             <FormControl>
                                 <>
-                                    <p className='text-[20px] font-bold underline'>Poll Title:</p>
+                                    <div className='flex flex-row gap-3'>
+                                        <Image src={'/assets/icons/pen.svg'} alt='pen' height={20} width={20} />
+                                        <p className='text-[20px] font-bold underline'>Poll Title:</p>
+                                    </div>
                                     <Textarea placeholder="Poll Title" {...field} className='flex flex-row flex-1 border-2 border-black' />
                                 </>
                             </FormControl>
@@ -67,7 +70,10 @@ const PollForm = () => {
                         <FormItem className="w-full p-5 max-w-[500px] bg-white border-2 border-black rounded-lg">
                             <FormControl className="h-72">
                                 <>
-                                    <p className='text-[20px] font-bold underline'>Poll Cover Image:</p>
+                                    <div className='flex flex-row gap-3'>
+                                        <Image src={'/assets/icons/image.svg'} alt='pen' height={20} width={20} />
+                                        <p className='text-[20px] font-bold underline'>Poll Cover Image:</p>
+                                    </div>
                                     <FileUploader onFieldChange={field.onChange} imageUrl={field.value} setFiles={setFiles} />
                                 </>
                             </FormControl>
@@ -78,7 +84,10 @@ const PollForm = () => {
 
 
                 <div className='w-full p-5 max-w-[500px] bg-white border-2 border-black rounded-lg'>
-                    <p className='text-[20px] font-bold mb-3 underline'>Poll Answers:</p>
+                    <div className='flex flex-row gap-3'>
+                        <Image src={'/assets/icons/answers.svg'} alt='pen' height={25} width={25} />
+                        <p className='text-[20px] font-bold underline'>Poll Answers:</p>
+                    </div>
                     {options.length > 0 &&
                         <div className='w-full flex flex-col max-w-[500px] justify-center items-center px-5 md:px-15'>
                             {options.map((option, index) => (
@@ -92,32 +101,35 @@ const PollForm = () => {
                         </div>
                     }
                     <div className='flex flex-col gap-2 justify-center md:justify-between items-center'>
-                    <div className='flex flex-row justify-center items-center gap-2'>
-                        <Input placeholder='Add Answer' className='w-full px-5 max-w-[300px] border-2 border-black' onChange={(e) => setNewOption(e.target.value)} value={newOption} />
-                        <button className='bg-black hover:bg-grey-400 w-11 h-9 text-white text-[18px] rounded-md border-2 border-black' type="button" onClick={AddOption}>+</button>
+                        <div className='flex flex-row justify-center items-center gap-2'>
+                            <Input placeholder='Add Answer' className='w-full px-5 max-w-[300px] border-2 border-black' onChange={(e) => setNewOption(e.target.value)} value={newOption} />
+                            <button className='bg-black hover:bg-grey-400 w-11 h-9 text-white text-[18px] rounded-md border-2 border-black' type="button" onClick={AddOption}>+</button>
+                        </div>
+                        <FormField
+                            control={form.control}
+                            name="isFree"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <div className="flex items-center my-3">
+                                            <Checkbox onCheckedChange={field.onChange} checked={field.value} id="isFree" className="mr-2 h-7 w-7 border-2 border-black" />
+                                            <label htmlFor="isFree" className="font-semibold">Allow users to add more options</label>
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                     </div>
-                    <FormField
-                        control={form.control}
-                        name="isFree"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormControl>
-                                    <div className="flex items-center my-3">
-                                        <Checkbox onCheckedChange={field.onChange} checked={field.value} id="isFree" className="mr-2 h-7 w-7 border-2 border-black" />
-                                        <label htmlFor="isFree" className="font-semibold">Allow users to add more options</label>
-                                    </div>
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                </div>
                 </div>
 
-                
+
 
                 <div className='w-full p-5 max-w-[500px] bg-white border-2 border-black rounded-lg'>
-                    <p className='text-[20px] font-bold underline'>Poll Options:</p>
+                    <div className='flex flex-row gap-3'>
+                        <Image src={'/assets/icons/settings.svg'} alt='pen' height={25} width={25} />
+                        <p className='text-[20px] font-bold underline'>Poll Options:</p>
+                    </div>
                     <FormField
                         control={form.control}
                         name="isFree"
@@ -167,7 +179,10 @@ const PollForm = () => {
                 </div>
 
                 <div className='w-full p-5 max-w-[500px] bg-white border-2 border-black rounded-lg'>
-                    <p className='text-[20px] font-bold underline'>Poll Comments:</p>
+                    <div className='flex flex-row gap-3'>
+                        <Image src={'/assets/icons/comments.svg'} alt='pen' height={25} width={25} />
+                        <p className='text-[20px] font-bold underline'>Poll Comments:</p>
+                    </div>
                     <div className='w-full px-5 max-w-[500px]'>
                         <div className="flex m-3 items-center">
                             <Checkbox onCheckedChange={() => setCanChangeDate(!canChangeDate)} checked={canChangeDate} className="mr-2 h-7 w-7 border-2 border-black" />
@@ -177,7 +192,10 @@ const PollForm = () => {
                 </div>
 
 
-                <Button disabled={form.formState.isSubmitting} className="bg-black col-span-2 w-[100px]" type="submit">{form.formState.isSubmitting ? 'Please wait...' : `Create Now!`}</Button>
+                <Button disabled={form.formState.isSubmitting} className="bg-black col-span-2 w-[155px] gap-1" type="submit">
+                    <Image src={'/assets/icons/create.svg'} alt='create' height={20} width={20}/>
+                    <p>{form.formState.isSubmitting ? 'Please Wait...' : 'Create Poll Now!'}</p>
+                </Button>
             </form>
         </Form>
     )

@@ -7,3 +7,27 @@ export type CreateUserParams = {
     verified: boolean
     balance: number
 }
+
+export type CreatePollParams = {
+    userId: string,
+    poll: {
+        title: string
+        hashtags: [string]
+        imageUrl: string
+        startDateTime: Date
+        endDateTime: Date
+        sponsored: boolean
+        openList: boolean
+        openComments: boolean
+    }
+}
+
+export type CreateAnswerParams = {
+    pollId: string
+    title: string
+}
+
+export type SearchParamsProps = {
+    params: { id: string },
+    searchParams: { [key: string]: string | string[] | undefined }
+}

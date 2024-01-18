@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form'
-import { useFieldArray, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import { Button } from '../ui/button'
@@ -14,17 +14,25 @@ import Image from 'next/image'
 import { Checkbox } from '../ui/checkbox'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { pollDefaultValues } from '@/constants'
+import { useUploadThing } from '@/lib/uploadthing'
+import { createPoll } from '@/lib/actions/poll.actions'
+import { useRouter } from 'next/navigation'
+import { createAnswer } from '@/lib/actions/answer.actions'
 
-const PollForm = () => {
+const PollForm = ({ userId }: { userId: string }) => {
     const form = useForm<z.infer<typeof eventFormSchema>>({
-        resolver: zodResolver(eventFormSchema)
+        resolver: zodResolver(eventFormSchema),
+        defaultValues: pollDefaultValues
     })
+
+    const router = useRouter();
 
     const Today = new Date();
     const MaxDate = new Date(Today);
     MaxDate.setDate(Today.getDate() + 30);
 
-    const [options, setOptions] = useState<String[]>([]);
+    const [options, setOptions] = useState<string[]>([]);
     const [newOption, setNewOption] = useState('')
     const [canChangeDate, setCanChangeDate] = useState<boolean>(false);
 
@@ -39,8 +47,37 @@ const PollForm = () => {
         setOptions(prevOptions => prevOptions.filter((_, i) => i !== index));
     };
 
-    const onSubmit = () => {
+    const { startUpload } = useUploadThing('imageUploader');
 
+    const onSubmit = async (values: z.infer<typeof eventFormSchema>) => {
+        let uploadedImageUrl = values.imageUrl;
+
+        if (files.length > 0) {
+            const uploadedImages = await startUpload(files)
+
+            if (!uploadedImages) {
+                return;
+            }
+
+            uploadedImageUrl = uploadedImages[0].url;
+        }
+
+        try {
+            const newPoll = await createPoll({
+                userId,
+                poll: { ...values, hashtags: [''], imageUrl: uploadedImageUrl }
+            })
+
+            await Promise.all(options.map(async (option) => {
+                await createAnswer({ pollId: newPoll._id, title: option });
+            })).then((res) => {
+                form.reset();
+                router.push(`/poll/${newPoll._id}`);
+            })
+
+        } catch (error) {
+            console.log(error)
+        }
     }
     return (
         <Form {...form}>
@@ -107,13 +144,13 @@ const PollForm = () => {
                         </div>
                         <FormField
                             control={form.control}
-                            name="isFree"
+                            name="sponsored"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
                                         <div className="flex items-center my-3">
-                                            <Checkbox onCheckedChange={field.onChange} checked={field.value} id="isFree" className="mr-2 h-7 w-7 border-2 border-black" />
-                                            <label htmlFor="isFree" className="font-semibold">Allow users to add more options</label>
+                                            <Checkbox onCheckedChange={field.onChange} checked={field.value} id="sponsored" className="mr-2 h-7 w-7 border-2 border-black" />
+                                            <label htmlFor="sponsored" className="font-semibold">Allow users to add more options</label>
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -132,13 +169,13 @@ const PollForm = () => {
                     </div>
                     <FormField
                         control={form.control}
-                        name="isFree"
+                        name="openList"
                         render={({ field }) => (
                             <FormItem className="w-full px-5 max-w-[500px]">
                                 <FormControl>
                                     <div className="flex m-3 items-center">
-                                        <Checkbox onCheckedChange={field.onChange} checked={field.value} id="isFree" className="mr-2 h-7 w-7 border-2 border-black" />
-                                        <label htmlFor="isFree" className="font-semibold">Sponsor the poll for $1.50</label>
+                                        <Checkbox onCheckedChange={field.onChange} checked={field.value} id="openList" className="mr-2 h-7 w-7 border-2 border-black" />
+                                        <label htmlFor="openList" className="font-semibold">Sponsor the poll for $1.50</label>
                                     </div>
                                 </FormControl>
                                 <FormMessage />
@@ -178,22 +215,28 @@ const PollForm = () => {
                     </div>
                 </div>
 
-                <div className='w-full p-5 max-w-[500px] bg-white border-2 border-black rounded-lg'>
-                    <div className='flex flex-row gap-3'>
-                        <Image src={'/assets/icons/comments.svg'} alt='pen' height={25} width={25} />
-                        <p className='text-[20px] font-bold underline'>Poll Comments:</p>
-                    </div>
-                    <div className='w-full px-5 max-w-[500px]'>
-                        <div className="flex m-3 items-center">
-                            <Checkbox onCheckedChange={() => setCanChangeDate(!canChangeDate)} checked={canChangeDate} className="mr-2 h-7 w-7 border-2 border-black" />
-                            <label htmlFor="isFree" className="font-semibold">Allow users to comment on your poll</label>
-                        </div>
-                    </div>
-                </div>
+                <FormField
+                    control={form.control}
+                    name="openComments"
+                    render={({ field }) => (
+                        <FormItem className='w-full p-5 max-w-[500px] bg-white border-2 border-black rounded-lg'>
+                            <div className='flex flex-row gap-3'>
+                                <Image src={'/assets/icons/comments.svg'} alt='pen' height={25} width={25} />
+                                <p className='text-[20px] font-bold underline'>Poll Comments:</p>
+                            </div>
+                            <div className='w-full px-5 max-w-[500px]'>
+                                <div className="flex m-3 items-center">
+                                    <Checkbox onCheckedChange={field.onChange} checked={field.value} id='openComments' className="mr-2 h-7 w-7 border-2 border-black" />
+                                    <label htmlFor="openComments" className="font-semibold">Allow users to comment on your poll</label>
+                                </div>
+                            </div>
+                        </FormItem>
+                    )}
+                />
 
 
                 <Button disabled={form.formState.isSubmitting} className="bg-black col-span-2 w-[155px] gap-1" type="submit">
-                    <Image src={'/assets/icons/create.svg'} alt='create' height={20} width={20}/>
+                    <Image src={'/assets/icons/create.svg'} alt='create' height={20} width={20} />
                     <p>{form.formState.isSubmitting ? 'Please Wait...' : 'Create Poll Now!'}</p>
                 </Button>
             </form>

@@ -14,7 +14,7 @@ const Card = ({ poll } : {poll :{title:string, image:string}}) => {
             <Link href={'/poll/54'} className=' flex h-[350px] justify-center items-center overflow-hidden'>
                 <Image src={poll.image} alt='hero' height={350} width={350} />
             </Link>
-            <Link href={'/poll/54'} className='h-[155px] w-full p-2 flex flex-col justify-between bg-slate-200 rounded-b-sm border-black border-t-2'>
+            <Link href={'/poll/65a8c56f73fcf8a3f54bbe25'} className='h-[155px] w-full p-2 flex flex-col justify-between bg-slate-200 rounded-b-sm border-black border-t-2'>
                 <p className='font-bold truncate-2-lines'>{poll.title}</p>
                 <div className='flex flex-row items-center'>
                     <Image src={'/assets/images/user.png'} alt='user' height={30} width={30} />

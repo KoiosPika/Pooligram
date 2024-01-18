@@ -10,24 +10,58 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import Comments from '@/components/shared/Comments'
 import Selection from '@/components/shared/Selection'
+import { SearchParamsProps } from '@/types'
+import { getPollById } from '@/lib/actions/poll.actions'
+import { IPoll } from '@/lib/database/models/poll.model'
+import { getAnswersByPoll } from '@/lib/actions/answer.actions'
+import { IAnswer } from '@/lib/database/models/answer.model'
 
-const FormSchema = z.object({
-  type: z.enum(["all", "mentions", "none"], {
-    required_error: "You need to select a notification type.",
-  }),
-})
-
-const page = () => {
+const page = ({ params: { id }, searchParams }: SearchParamsProps) => {
 
   const leftDivRef = useRef<HTMLDivElement>(null);
   const [rightDivHeight, setRightDivHeight] = useState<number>(0);
+  const [Poll, setPoll] = useState<IPoll>()
+  const [Answers, setAnswers] = useState<IAnswer[]>([]);
+  const [showComments, setShowComments] = useState(false);
 
   useEffect(() => {
     if (leftDivRef.current) {
       const height = leftDivRef.current.offsetHeight;
       setRightDivHeight(height);
     }
+  }, [Answers]);
+
+  useEffect(() => {
+    const getPoll = async () => {
+      const thisPoll = await getPollById(id);
+      return thisPoll;
+    };
+  
+    const getAnswers = async () => {
+      const answers = await getAnswersByPoll(id);
+      return answers;
+    };
+  
+    const fetchData = async () => {
+      try {
+        const [poll, answers] = await Promise.all([getPoll(), getAnswers()]);
+        setPoll(poll);
+        setAnswers(answers);
+  
+        // Delay showing comments
+        setTimeout(() => setShowComments(true), 5);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        // Handle any errors here
+      }
+    };
+  
+    fetchData();
   }, []);
+
+  const FormSchema = z.object({
+    Answer: z.string({ required_error: "Please Select an Answer to Continue", }),
+  })
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -36,6 +70,8 @@ const page = () => {
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log('hello')
   }
+
+
   return (
     <div>
       <div className='w-full flex justify-center h-[70px] items-center'>
@@ -43,51 +79,33 @@ const page = () => {
       </div>
       <div className='flex flex-row justify-center md:justify-center xl:justify-center'>
         <div ref={leftDivRef} className='flex flex-col justify-center items-center my-5 border-2 rounded-lg border-black'>
-          <Image className='w-full max-w-[350px] md:max-w-[350px]' src={'/assets/images/Job.png'} alt='hero' width={400} height={400} />
+          <Image className='w-[350px]' src={Poll?.imageUrl || '/assets/images/loading.png'} alt='hero' width={350} height={350} />
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 bg-slate-200 max-w-[350px] md:max-w-[350px] p-3 rounded-lg">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 bg-slate-200 w-[350px] p-3 rounded-lg">
               <FormField
                 control={form.control}
-                name="type"
+                name="Answer"
                 render={({ field }) => (
-                  <FormItem className="space-y-3">
-                    <FormLabel>Would you stay in this era? Would you stay in this era? Would you stay in this era?Would you stay in this era? Would you stay in this era? Would you stay in this era?</FormLabel>
+                  <FormItem className="w-full space-y-3">
+                    <FormLabel>{Poll?.title}</FormLabel>
                     <FormControl>
                       <RadioGroup
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                         className="flex flex-col space-y-1"
                       >
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="all" />
-                          </FormControl>
-                          <div className="font-semibold w-full bg-white px-2 py-1 border-2 rounded-md border-black">
-                            <FormLabel>
-                              Yes
-                            </FormLabel>
-                          </div>
-                        </FormItem>
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="mentions" />
-                          </FormControl>
-                          <div className="font-semibold w-full bg-white px-2 py-1 border-2 rounded-md border-black">
-                            <FormLabel>
-                              No
-                            </FormLabel>
-                          </div>
-                        </FormItem>
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="mentions" />
-                          </FormControl>
-                          <div className="font-semibold w-full bg-white px-2 py-1 border-2 rounded-md border-black">
-                            <FormLabel>
-                              Maybe
-                            </FormLabel>
-                          </div>
-                        </FormItem>
+                        {Answers && Answers.map((answer) => (
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value={answer._id} />
+                            </FormControl>
+                            <div className="font-semibold w-full bg-white px-2 py-1 border-2 rounded-md border-black">
+                              <FormLabel>
+                                {answer.title}
+                              </FormLabel>
+                            </div>
+                          </FormItem>
+                        ))}
                       </RadioGroup>
                     </FormControl>
                     <FormMessage />
@@ -95,18 +113,20 @@ const page = () => {
                 )}
               />
               <div className='flex flex-row'>
-                <Button className='flex flex-row bg-transparent border-2 border-black hover:bg-slate-400'>
+                {(Poll && Poll.openList) && <Button className='flex flex-row bg-transparent border-2 border-black hover:bg-slate-400'>
                   <Image src={'/assets/icons/plus.svg'} alt='add' width={10} height={10} />
                   <p className=' text-black ml-2'>Add</p>
-                </Button>
+                </Button>}
                 <Button className='bg-black ml-auto hover:bg-slate-400 border-2 border-black' type="submit">Save</Button>
               </div>
             </form>
           </Form>
         </div>
+
+        {showComments && 
         <div className='hidden md:block w-full max-w-[350px] h-[0px]'>
           <Comments height={rightDivHeight} />
-        </div>
+        </div>}
       </div>
       <div className='px-[20px] lg:px-[200px]'>
         <p className='mb-7 font-bold text-[20px]'>Related Polls: </p>

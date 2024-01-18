@@ -77,3 +77,12 @@ export const Polls = [
     },
 
 ]
+
+export const pollDefaultValues = {
+    startDateTime: new Date(),
+    endDateTime: new Date(),
+    createdAt: new Date(),
+    sponsored: false,
+    openList: false,
+    openComments: false,
+  }

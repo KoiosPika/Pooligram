@@ -5,9 +5,8 @@ const UserSchema = new Schema({
     email: { type: String, required: true, unique: true },
     username: { type: String, required: true, unique: true },
     photo: { type: String, required: true },
-    verified: {type: Boolean},
-    premium: {type: Boolean},
-    tickets: {type: Number}
+    verified: {type: Boolean, required: true},
+    balance: {type: Number, required: true}
 })
 
 const User = models.User || model('User', UserSchema);

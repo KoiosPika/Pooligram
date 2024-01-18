@@ -66,6 +66,8 @@ export async function POST(req: Request) {
       verified: false
     }
 
+    console.error(user)
+
     const newUser = await createUser(user);
 
     if(newUser) {

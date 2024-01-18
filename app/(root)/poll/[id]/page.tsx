@@ -79,7 +79,7 @@ const page = ({ params: { id }, searchParams }: SearchParamsProps) => {
       </div>
       <div className='flex flex-row justify-center md:justify-center xl:justify-center'>
         <div ref={leftDivRef} className='flex flex-col justify-center items-center my-5 border-2 rounded-lg border-black'>
-          <Image className='w-[350px]' src={Poll?.imageUrl || '/assets/images/loading.png'} alt='hero' width={350} height={350} />
+          <Image className='w-[350px] rounded-lg' src={Poll?.imageUrl || '/assets/images/loading.png'} alt='hero' width={1000} height={1000} />
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 bg-slate-200 w-[350px] p-3 rounded-lg">
               <FormField

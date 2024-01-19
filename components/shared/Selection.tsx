@@ -1,16 +1,30 @@
-import React from 'react'
-import { Polls } from '@/constants'
+'use client'
+
+import React, { useEffect, useState } from 'react'
 import Card from './Card'
+import { getAllPolls } from '@/lib/actions/poll.actions'
+import { IPoll } from '@/lib/database/models/poll.model'
 
 const Selection = () => {
+
+    const [Polls, setPolls] = useState<IPoll[]>()
+    useEffect(() => {
+        async function getPolls(){
+            const polls = await getAllPolls();
+            setPolls(polls)
+        }
+
+        getPolls();
+    }, [])
+
     return (
-        <>{Polls.length > 0 ? (
+        <>{Polls && Polls.length > 0 ? (
             <div className='flex flex-col items-center gap-10'>
                 <ul className='grid w-full grid-cols-1 gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3'>
                     {Polls.map((poll) => {
                         return (
                             <li className='flex justify-center overflow-hidden'>
-                                <Card poll={poll}/>
+                                <Card poll={poll} />
                             </li>
                         )
                     })}

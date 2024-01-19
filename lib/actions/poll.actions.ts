@@ -7,10 +7,10 @@ import Poll from '../database/models/poll.model'
 import { CreatePollParams } from '@/types'
 import User from '../database/models/user.model'
 
-const populateEvent = (query: any) => {
+const populatePoll = (query: any) => {
     return query
-        .populate({ path: 'creator', model: User, select: '_id username photo' })
-}
+      .populate({ path: 'creator', model: User, select:'_id username photo verified' })
+  }
 
 export async function createPoll({ userId, poll }: CreatePollParams) {
     try {
@@ -34,6 +34,21 @@ export async function getPollById(eventId: string) {
 
         return JSON.parse(JSON.stringify(poll))
     } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function getAllPolls() {
+    try {
+        await connectToDatabase();
+
+        const pollsQuery = Poll.find({}).sort({ createdAt: 'desc' })
+
+        const polls = await populatePoll(pollsQuery)
+
+        return JSON.parse(JSON.stringify(polls));
+        
+    } catch (error){
         console.log(error)
     }
 }

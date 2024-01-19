@@ -30,6 +30,8 @@ const PollForm = ({ userId }: { userId: string }) => {
 
     const Today = new Date();
     const MaxDate = new Date(Today);
+    const PollMax = new Date(Today)
+    PollMax.setDate(Today.getDate() + 7)
     MaxDate.setDate(Today.getDate() + 30);
 
     const [options, setOptions] = useState<string[]>([]);
@@ -65,7 +67,7 @@ const PollForm = ({ userId }: { userId: string }) => {
         try {
             const newPoll = await createPoll({
                 userId,
-                poll: { ...values, hashtags: [''], imageUrl: uploadedImageUrl }
+                poll: { ...values, endDateTime: canChangeDate ? values.endDateTime : PollMax, hashtags: [''], imageUrl: uploadedImageUrl }
             })
 
             await Promise.all(options.map(async (option) => {
@@ -89,9 +91,9 @@ const PollForm = ({ userId }: { userId: string }) => {
                         <FormItem className="w-full p-5 max-w-[500px] bg-white border-2 border-black rounded-lg">
                             <FormControl>
                                 <>
-                                    <div className='flex flex-row gap-3'>
+                                    <div className='inline-flex flex-row flex-shrink gap-2 bg-black p-2 rounded-md'>
                                         <Image src={'/assets/icons/pen.svg'} alt='pen' height={20} width={20} />
-                                        <p className='text-[20px] font-bold underline'>Poll Title:</p>
+                                        <p className='text-[18px] font-bold text-white'>Poll Title</p>
                                     </div>
                                     <Textarea placeholder="Poll Title" {...field} className='flex flex-row flex-1 border-2 border-black' />
                                 </>
@@ -107,9 +109,9 @@ const PollForm = ({ userId }: { userId: string }) => {
                         <FormItem className="w-full p-5 max-w-[500px] bg-white border-2 border-black rounded-lg">
                             <FormControl className="h-72">
                                 <>
-                                    <div className='flex flex-row gap-3'>
+                                    <div className='inline-flex flex-row gap-2 bg-black p-2 rounded-md'>
                                         <Image src={'/assets/icons/image.svg'} alt='pen' height={20} width={20} />
-                                        <p className='text-[20px] font-bold underline'>Poll Cover Image:</p>
+                                        <p className='text-[18px] font-bold text-white'>Poll Cover Image</p>
                                     </div>
                                     <FileUploader onFieldChange={field.onChange} imageUrl={field.value} setFiles={setFiles} />
                                 </>
@@ -121,9 +123,9 @@ const PollForm = ({ userId }: { userId: string }) => {
 
 
                 <div className='w-full p-5 max-w-[500px] bg-white border-2 border-black rounded-lg'>
-                    <div className='flex flex-row gap-3'>
+                    <div className='inline-flex flex-row gap-2 bg-black p-2 rounded-md mb-3'>
                         <Image src={'/assets/icons/answers.svg'} alt='pen' height={25} width={25} />
-                        <p className='text-[20px] font-bold underline'>Poll Answers:</p>
+                        <p className='text-[18px] font-bold text-white'>Poll Answers</p>
                     </div>
                     {options.length > 0 &&
                         <div className='w-full flex flex-col max-w-[500px] justify-center items-center px-5 md:px-15'>
@@ -163,9 +165,9 @@ const PollForm = ({ userId }: { userId: string }) => {
 
 
                 <div className='w-full p-5 max-w-[500px] bg-white border-2 border-black rounded-lg'>
-                    <div className='flex flex-row gap-3'>
+                    <div className='inline-flex flex-row gap-3 bg-black p-2 rounded-md'>
                         <Image src={'/assets/icons/settings.svg'} alt='pen' height={25} width={25} />
-                        <p className='text-[20px] font-bold underline'>Poll Options:</p>
+                        <p className='text-[18px] font-bold text-white'>Poll Options</p>
                     </div>
                     <FormField
                         control={form.control}
@@ -173,7 +175,7 @@ const PollForm = ({ userId }: { userId: string }) => {
                         render={({ field }) => (
                             <FormItem className="w-full px-5 max-w-[500px]">
                                 <FormControl>
-                                    <div className="flex m-3 items-center">
+                                    <div className="flex mt-4 ml-3 items-center">
                                         <Checkbox onCheckedChange={field.onChange} checked={field.value} id="openList" className="mr-2 h-7 w-7 border-2 border-black" />
                                         <label htmlFor="openList" className="font-semibold">Sponsor the poll for $1.50</label>
                                     </div>
@@ -182,8 +184,8 @@ const PollForm = ({ userId }: { userId: string }) => {
                             </FormItem>
                         )}
                     />
-                    <div className='w-full p-5 max-w-[500px]'>
-                        <div className="flex m-3 items-center">
+                    <div className='w-full pl-5 pt-4 max-w-[500px]'>
+                        <div className="flex mb-3 ml-3 items-center">
                             <Checkbox onCheckedChange={() => setCanChangeDate(!canChangeDate)} checked={canChangeDate} className="mr-2 h-7 w-7 border-2 border-black" />
                             <label htmlFor="isFree" className="font-semibold">Polls expire after 7 days but you can customize the date for $1.50 (Note: Max is 30 Days)</label>
                         </div>
@@ -220,9 +222,9 @@ const PollForm = ({ userId }: { userId: string }) => {
                     name="openComments"
                     render={({ field }) => (
                         <FormItem className='w-full p-5 max-w-[500px] bg-white border-2 border-black rounded-lg'>
-                            <div className='flex flex-row gap-3'>
-                                <Image src={'/assets/icons/comments.svg'} alt='pen' height={25} width={25} />
-                                <p className='text-[20px] font-bold underline'>Poll Comments:</p>
+                            <div className='inline-flex flex-row gap-2 items-center bg-black p-2 rounded-md'>
+                                <Image src={'/assets/icons/comments.svg'} alt='pen' height={28} width={28} />
+                                <p className='text-[18px] font-bold text-white'>Poll Comments</p>
                             </div>
                             <div className='w-full px-5 max-w-[500px]'>
                                 <div className="flex m-3 items-center">

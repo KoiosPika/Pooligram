@@ -1,4 +1,5 @@
 import { Schema, model, models, Document } from "mongoose";
+import { IUser } from './user.model'
 
 export interface IPoll extends Document {
     _id: string,
@@ -11,13 +12,13 @@ export interface IPoll extends Document {
     sponsored: boolean
     openList: boolean
     openComments: boolean
-    creator: { _id: string, username: string },
+    creator: IUser ,
 }
 
 const PollSchema = new Schema({
     title: { type: String, required: true },
     hashtags: { type: [String], required: true },
-    imageUrl: { type: String , required: true},
+    imageUrl: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
     startDateTime: { type: Date, default: Date.now },
     endDateTime: { type: Date, default: Date.now },

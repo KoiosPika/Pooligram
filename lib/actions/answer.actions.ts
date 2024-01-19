@@ -25,11 +25,27 @@ export async function getAnswersByPoll(id: string) {
 
         const condition = { poll: id }
 
-        const answersQuery = Answer.find(condition)
+        const answersQuery =  Answer.find(condition).sort({ nofVotes: -1 })
 
         const answers = await populateAnswer(answersQuery)
 
         return JSON.parse(JSON.stringify(answers));
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function handleVoting(id: string) {
+    try {
+        await connectToDatabase();
+
+        const result = await Answer.updateOne(
+            { _id: id },
+            { $inc: { nofVotes: 1 } }
+        )
+
+        return result;
+
     } catch (error) {
         console.log(error)
     }

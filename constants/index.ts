@@ -2,12 +2,12 @@ export const Links = [
     {
         label: 'Home',
         icon: '/assets/icons/house-solid.svg',
-        route:'/',
+        route: '/',
     },
     {
         label: 'Create Poll',
         icon: '/assets/icons/square-plus-solid.svg',
-        route:'/poll/create'
+        route: '/poll/create'
     },
     {
         label: 'Live Poll',
@@ -17,12 +17,12 @@ export const Links = [
     {
         label: 'Create Ad',
         icon: '/assets/icons/advert.svg',
-        route:'/poll/create'
+        route: '/poll/create'
     },
     {
         label: 'Contact Us',
         icon: '/assets/icons/email-1.svg',
-        route:'/poll/create'
+        route: '/poll/create'
     },
 ]
 
@@ -78,11 +78,15 @@ export const Polls = [
 
 ]
 
+const Today = new Date();
+const MaxDate = new Date(Today);
+MaxDate.setDate(Today.getDate() + 7);
+
 export const pollDefaultValues = {
     startDateTime: new Date(),
-    endDateTime: new Date(),
+    endDateTime: MaxDate,
     createdAt: new Date(),
     sponsored: false,
     openList: false,
     openComments: false,
-  }
+}

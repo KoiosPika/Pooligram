@@ -42,7 +42,7 @@ export async function getAllPolls() {
     try {
         await connectToDatabase();
 
-        const pollsQuery = Poll.find({}).sort({ createdAt: 'desc' })
+        const pollsQuery = Poll.find({hashtags:{$in:['cute','football']}}).sort({ createdAt: 'desc' })
 
         const polls = await populatePoll(pollsQuery)
 

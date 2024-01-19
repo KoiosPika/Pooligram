@@ -65,10 +65,10 @@ export async function getAllPolls({ postHashtags, userHashtags, page , limit = 6
 
         
         if (skipAmount < totalPostHashtagsCount) {
-            const matchingPostHashtagsPolls = await Poll.find({ hashtags: { $in: postHashtags } })
+            const matchingPostHashtagsPolls = await populatePoll(Poll.find({ hashtags: { $in: postHashtags } })
                 .sort({ createdAt: 'desc' })
                 .skip(skipAmount)
-                .limit(limit);
+                .limit(limit));
 
             combinedPolls.push(...matchingPostHashtagsPolls);
         }
@@ -77,13 +77,13 @@ export async function getAllPolls({ postHashtags, userHashtags, page , limit = 6
         let remainingLimit = limit - combinedPolls.length;
         if (remainingLimit > 0 && skipAmount + combinedPolls.length < totalPostHashtagsCount + totalUserHashtagsCount) {
             const skipUserHashtags = Math.max(0, skipAmount - totalPostHashtagsCount);
-            const matchingUserHashtagsPolls = await Poll.find({ 
+            const matchingUserHashtagsPolls = await populatePoll(Poll.find({ 
                 hashtags: { $in: userHashtags },
                 _id: { $nin: combinedPolls.map(poll => poll._id) }
             })
             .sort({ createdAt: 'desc' })
             .skip(skipUserHashtags)
-            .limit(remainingLimit);
+            .limit(remainingLimit));
 
             combinedPolls.push(...matchingUserHashtagsPolls);
         }
@@ -92,13 +92,13 @@ export async function getAllPolls({ postHashtags, userHashtags, page , limit = 6
         remainingLimit = limit - combinedPolls.length;
         if (remainingLimit > 0) {
             const skipRemaining = Math.max(0, skipAmount - totalPostHashtagsCount - totalUserHashtagsCount);
-            const remainingPolls = await Poll.find({ 
+            const remainingPolls = await populatePoll(Poll.find({ 
                 hashtags: { $nin: [...postHashtags, ...userHashtags] },
                 _id: { $nin: combinedPolls.map(poll => poll._id) }
             })
             .sort({ createdAt: 'desc' })
             .skip(skipRemaining)
-            .limit(remainingLimit);
+            .limit(remainingLimit));
 
             combinedPolls.push(...remainingPolls);
         }

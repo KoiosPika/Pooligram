@@ -18,8 +18,9 @@ const Selection = ({ postHashtags, userHashtags }: SelectionParams) => {
         async function getPolls() {
             const polls = await getAllPolls({ postHashtags, userHashtags, page: 1, limit: 6 });
             setPolls(polls?.data)
+            console.log(polls.data)
         }
-        
+
         getPolls();
     }, [])
 

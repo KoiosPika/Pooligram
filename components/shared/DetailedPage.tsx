@@ -54,7 +54,7 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                 setPoll(poll);
                 setAnswers(answers);
                 setVote(vote)
-                console.log(answers)
+                console.log(poll)
 
                 // Delay showing comments
                 setTimeout(() => setShowComments(true), 5);
@@ -178,14 +178,15 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                                 <p className='flex font-semibold text-[16px] mx-5 text-center'>Please submit a vote to reveal the comment section.</p>
                             </div>}
                     </div>
-
-
                 }
             </div>
-            <div className='px-[20px] lg:px-[200px]'>
-                <p className='mb-7 font-bold text-[20px]'>Related Polls: </p>
-                <Selection postHashtags={['']} userHashtags={['']} />
-            </div>
+            {Poll &&
+                <div className='w-full flex justify-center items-center'>
+                    <div className='px-[20px] max-w-[1000px]'>
+                        <p className='mb-7 font-bold text-[20px]'>Related Polls: </p>
+                        <Selection postHashtags={Poll?.hashtags} userHashtags={['']} />
+                    </div>
+                </div>}
         </div>
     )
 }

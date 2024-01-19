@@ -8,7 +8,7 @@ import { updateUser } from '@/lib/actions/user.actions'
 
 type SelectionParams = {
     userHashtags: [string],
-    postHashtags: [string]
+    postHashtags: string[]
 }
 
 const Selection = ({ postHashtags, userHashtags }: SelectionParams) => {

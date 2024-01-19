@@ -44,7 +44,7 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
         };
 
         const getVote = async () => {
-            const vote = await getVoteByPoll(id)
+            const vote = await getVoteByPoll({pollId: id, userId})
             return vote;
         }
 
@@ -80,7 +80,8 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
             handleVoting(data.Answer);
             await createVote({
                 pollId: id,
-                answerId: data.Answer
+                answerId: data.Answer,
+                userId: userId
             }).then((res) => {
                 form.reset();
                 window.location.reload();

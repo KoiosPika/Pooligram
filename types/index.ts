@@ -34,5 +34,6 @@ export type SearchParamsProps = {
 
 export type CreateVoteParams = {
     pollId: string,
-    answerId: string
+    answerId: string,
+    userId: string
 }

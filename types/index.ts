@@ -37,3 +37,10 @@ export type CreateVoteParams = {
     answerId: string,
     userId: string
 }
+
+export type GetPollsParams = {
+    postHashtags: string[],
+    userHashtags: string[],
+    page:number,
+    limit: number
+}

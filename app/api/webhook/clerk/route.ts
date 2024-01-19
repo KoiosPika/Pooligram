@@ -64,7 +64,7 @@ export async function POST(req: Request) {
       photo: image_url,
       balance: 0,
       verified: false,
-      hashtags: []
+      hashtags: ['trend','sport','movies']
     }
 
     console.error(user)

@@ -4,16 +4,22 @@ import React, { useEffect, useState } from 'react'
 import Card from './Card'
 import { getAllPolls } from '@/lib/actions/poll.actions'
 import { IPoll } from '@/lib/database/models/poll.model'
+import { updateUser } from '@/lib/actions/user.actions'
 
-const Selection = () => {
+type SelectionParams = {
+    userHashtags: [string],
+    postHashtags: [string]
+}
+
+const Selection = ({ postHashtags, userHashtags }: SelectionParams) => {
 
     const [Polls, setPolls] = useState<IPoll[]>()
     useEffect(() => {
-        async function getPolls(){
-            const polls = await getAllPolls();
-            setPolls(polls)
+        async function getPolls() {
+            const polls = await getAllPolls({ postHashtags, userHashtags, page: 1, limit: 6 });
+            setPolls(polls?.data)
         }
-
+        
         getPolls();
     }, [])
 

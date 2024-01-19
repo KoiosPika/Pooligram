@@ -6,7 +6,7 @@ export interface IUser extends Document {
     username: string,
     photo: string,
     verified: boolean,
-    hashtags: [string],
+    hashtags: string[],
     balance: number
 }
 

@@ -8,7 +8,7 @@ import { CreateUserParams } from '@/types'
 export async function createUser(user: CreateUserParams) {
     try {
         await connectToDatabase()
-        const newUser = await User.create(user)
+        const newUser = await User.create({...user,hashtags:['trend','popular','sport']})
         return JSON.parse(JSON.stringify(newUser))
     } catch (error) {
         console.log(error)

@@ -63,11 +63,10 @@ export async function POST(req: Request) {
       username: username!,
       photo: image_url,
       balance: 0,
-      verified: false,
-      hashtags: ['trend','sport','movies']
+      verified: false
     }
 
-    console.error(user)
+    console.log(user)
 
     const newUser = await createUser(user);
 

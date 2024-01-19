@@ -7,7 +7,7 @@ import { IPoll } from '@/lib/database/models/poll.model'
 import { updateUser } from '@/lib/actions/user.actions'
 
 type SelectionParams = {
-    userHashtags: [string],
+    userHashtags: string[],
     postHashtags: string[]
 }
 

@@ -15,9 +15,9 @@ export const Links = [
         route: '/live-poll'
     },
     {
-        label: 'Create Ad',
+        label: 'My Profile',
         icon: '/assets/icons/advert.svg',
-        route: '/poll/create'
+        route: '/profile'
     },
     {
         label: 'Contact Us',

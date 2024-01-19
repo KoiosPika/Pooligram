@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { startTransition, useEffect, useRef, useState } from 'react'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -12,10 +12,16 @@ import Comments from '@/components/shared/Comments'
 import Selection from '@/components/shared/Selection'
 import { getPollById } from '@/lib/actions/poll.actions'
 import { IPoll } from '@/lib/database/models/poll.model'
-import { getAnswersByPoll, handleVoting } from '@/lib/actions/answer.actions'
+import { createAnswer, getAnswersByPoll, handleVoting } from '@/lib/actions/answer.actions'
 import { IAnswer } from '@/lib/database/models/answer.model'
 import { createVote, getVoteByPoll } from '@/lib/actions/vote.actions'
 import { IVote } from '@/lib/database/models/vote.model'
+import {
+    AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { Input } from '../ui/input'
+import { getUserById } from '@/lib/actions/user.actions'
+import { IUser } from '@/lib/database/models/user.model'
 
 const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
     const leftDivRef = useRef<HTMLDivElement>(null);
@@ -24,6 +30,8 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
     const [Answers, setAnswers] = useState<IAnswer[]>([]);
     const [vote, setVote] = useState<IVote>()
     const [showComments, setShowComments] = useState(false);
+    const [newAnswer, setNewAnswer] = useState<string>('');
+    const [User, setUser] = useState<IUser>();
 
     useEffect(() => {
         if (leftDivRef.current) {
@@ -48,13 +56,18 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
             return vote;
         }
 
+        const getUser = async () => {
+            const user = await getUserById(userId);
+            return user;
+        }
+
         const fetchData = async () => {
             try {
-                const [poll, answers, vote] = await Promise.all([getPoll(), getAnswers(), getVote()]);
+                const [poll, answers, vote, user] = await Promise.all([getPoll(), getAnswers(), getVote(), getUser()]);
                 setPoll(poll);
                 setAnswers(answers);
                 setVote(vote)
-                console.log(poll)
+                setUser(user)
 
                 // Delay showing comments
                 setTimeout(() => setShowComments(true), 5);
@@ -89,6 +102,17 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
         } catch (error) {
             console.log(error)
         }
+    }
+
+    const handleAddAnswer = () => {
+        createAnswer({
+            pollId: id,
+            title: newAnswer
+        })
+            .then((answer) => {
+                console.log(answer);
+                setAnswers((prevState) => [...prevState, answer])
+            })
     }
     return (
         <div>
@@ -133,10 +157,25 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                                 )}
                             />
                             <div className='flex flex-row'>
-                                {(Poll && Poll.openList) && <Button className='flex flex-row bg-transparent border-2 border-black hover:bg-slate-400'>
-                                    <Image src={'/assets/icons/plus.svg'} alt='add' width={10} height={10} />
-                                    <p className=' text-black ml-2'>Add</p>
-                                </Button>}
+                                {(Poll && Poll.openList) &&
+                                    <AlertDialog>
+                                        <AlertDialogTrigger>
+                                            <Button type='button' className='flex flex-row bg-transparent border-2 border-black hover:bg-slate-400'>
+                                                <Image src={'/assets/icons/plus.svg'} alt='add' width={10} height={10} />
+                                                <p className=' text-black ml-2'>Add</p>
+                                            </Button>
+                                        </AlertDialogTrigger>
+                                        <AlertDialogContent className='bg-white max-w-[350px] rounded-xl'>
+                                            <AlertDialogHeader>
+                                                <AlertDialogTitle>Add a new Answer</AlertDialogTitle>
+                                                <Input placeholder='Enter answer here...' className='border-2 border-black' onChange={(e) => setNewAnswer(e.target.value)} />
+                                            </AlertDialogHeader>
+                                            <AlertDialogFooter>
+                                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                <AlertDialogAction className='bg-black' onClick={() => startTransition(handleAddAnswer)}>Add Answer</AlertDialogAction>
+                                            </AlertDialogFooter>
+                                        </AlertDialogContent>
+                                    </AlertDialog>}
                                 <Button className='bg-black ml-auto hover:bg-slate-400 border-2 border-black' type="submit">{form.formState.isSubmitting ? 'Please wait..' : 'Save'}</Button>
                             </div>
                         </form>
@@ -168,8 +207,8 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
 
                 {showComments &&
                     <div className='hidden md:block w-full max-w-[350px] h-[0px]'>
-                        {vote && <Comments height={rightDivHeight} />}
-                        {!vote &&
+                        {(vote || Poll?.creator._id === userId) && <Comments height={rightDivHeight} />}
+                        {(!vote && Poll?.creator._id != userId) &&
                             <div style={{ height: rightDivHeight }} className='flex flex-col justify-center items-center bg-slate-200 my-5 rounded-lg border-2 border-black gap-2'>
                                 <div className='flex flex-row gap-2 items-center'>
                                     <Image src={'/assets/icons/lock.svg'} alt='lock' width={20} height={20} />
@@ -180,11 +219,11 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                     </div>
                 }
             </div>
-            {Poll &&
+            {(Poll && User) &&
                 <div className='w-full flex justify-center items-center'>
                     <div className='px-[20px] max-w-[1000px]'>
                         <p className='mb-7 font-bold text-[20px]'>Related Polls: </p>
-                        <Selection postHashtags={Poll?.hashtags} userHashtags={['']} />
+                        <Selection postHashtags={Poll?.hashtags} userHashtags={User?.hashtags} />
                     </div>
                 </div>}
         </div>

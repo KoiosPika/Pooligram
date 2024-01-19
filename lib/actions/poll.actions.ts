@@ -9,8 +9,8 @@ import User from '../database/models/user.model'
 
 const populatePoll = (query: any) => {
     return query
-      .populate({ path: 'creator', model: User, select:'_id username photo verified' })
-  }
+        .populate({ path: 'creator', model: User, select: '_id username photo verified' })
+}
 
 export async function createPoll({ userId, poll }: CreatePollParams) {
     try {
@@ -24,11 +24,11 @@ export async function createPoll({ userId, poll }: CreatePollParams) {
     }
 }
 
-export async function getPollById(eventId: string) {
+export async function getPollById(pollId: string) {
     try {
         await connectToDatabase()
 
-        const poll = await Poll.findById(eventId)
+        const poll = await populatePoll(Poll.findById(pollId))
 
         if (!poll) throw new Error('Poll not found')
 
@@ -38,23 +38,36 @@ export async function getPollById(eventId: string) {
     }
 }
 
-export async function getAllPolls({ postHashtags, userHashtags, page , limit = 6 }: GetPollsParams) {
+export async function getPollsByUser(userId: string) {
     try {
         await connectToDatabase();
 
-        
-        const totalPostHashtagsCount = postHashtags.length > 0 ? 
-        await Poll.countDocuments({
-            hashtags: { $in: postHashtags }
-        }) : 0;
+        const polls = await populatePoll(Poll.find({ creator: userId })).sort({ createdAt: 'desc' })
+
+        return JSON.parse(JSON.stringify(polls))
+
+    } catch(error) {
+        console.log(error);
+    }
+}
+
+export async function getAllPolls({ postHashtags, userHashtags, page, limit = 6 }: GetPollsParams) {
+    try {
+        await connectToDatabase();
 
 
-        const totalUserHashtagsCount = userHashtags.length > 0 ? 
-        await Poll.countDocuments({
-            hashtags: { $in: userHashtags, $nin: postHashtags }
-        }) : 0;
+        const totalPostHashtagsCount = postHashtags.length > 0 ?
+            await Poll.countDocuments({
+                hashtags: { $in: postHashtags }
+            }) : 0;
 
-        
+
+        const totalUserHashtagsCount = userHashtags.length > 0 ?
+            await Poll.countDocuments({
+                hashtags: { $in: userHashtags, $nin: postHashtags }
+            }) : 0;
+
+
         const totalOtherCount = await Poll.countDocuments({
             hashtags: { $nin: [...postHashtags, ...userHashtags] }
         });
@@ -63,7 +76,7 @@ export async function getAllPolls({ postHashtags, userHashtags, page , limit = 6
         const skipAmount = (page - 1) * limit;
         let combinedPolls = [];
 
-        
+
         if (skipAmount < totalPostHashtagsCount) {
             const matchingPostHashtagsPolls = await populatePoll(Poll.find({ hashtags: { $in: postHashtags } })
                 .sort({ createdAt: 'desc' })
@@ -73,17 +86,17 @@ export async function getAllPolls({ postHashtags, userHashtags, page , limit = 6
             combinedPolls.push(...matchingPostHashtagsPolls);
         }
 
-        
+
         let remainingLimit = limit - combinedPolls.length;
         if (remainingLimit > 0 && skipAmount + combinedPolls.length < totalPostHashtagsCount + totalUserHashtagsCount) {
             const skipUserHashtags = Math.max(0, skipAmount - totalPostHashtagsCount);
-            const matchingUserHashtagsPolls = await populatePoll(Poll.find({ 
+            const matchingUserHashtagsPolls = await populatePoll(Poll.find({
                 hashtags: { $in: userHashtags },
                 _id: { $nin: combinedPolls.map(poll => poll._id) }
             })
-            .sort({ createdAt: 'desc' })
-            .skip(skipUserHashtags)
-            .limit(remainingLimit));
+                .sort({ createdAt: 'desc' })
+                .skip(skipUserHashtags)
+                .limit(remainingLimit));
 
             combinedPolls.push(...matchingUserHashtagsPolls);
         }
@@ -92,13 +105,13 @@ export async function getAllPolls({ postHashtags, userHashtags, page , limit = 6
         remainingLimit = limit - combinedPolls.length;
         if (remainingLimit > 0) {
             const skipRemaining = Math.max(0, skipAmount - totalPostHashtagsCount - totalUserHashtagsCount);
-            const remainingPolls = await populatePoll(Poll.find({ 
+            const remainingPolls = await populatePoll(Poll.find({
                 hashtags: { $nin: [...postHashtags, ...userHashtags] },
                 _id: { $nin: combinedPolls.map(poll => poll._id) }
             })
-            .sort({ createdAt: 'desc' })
-            .skip(skipRemaining)
-            .limit(remainingLimit));
+                .sort({ createdAt: 'desc' })
+                .skip(skipRemaining)
+                .limit(remainingLimit));
 
             combinedPolls.push(...remainingPolls);
         }

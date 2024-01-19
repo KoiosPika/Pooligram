@@ -1,16 +1,16 @@
 import Search from '@/components/shared/Search'
 import Selection from '@/components/shared/Selection'
-import { getUser } from '@/lib/actions/user.actions'
-import { auth } from '@clerk/nextjs'
+import { getUserById } from '@/lib/actions/user.actions'
+import { SignedIn, SignedOut, auth } from '@clerk/nextjs'
 import Image from 'next/image'
 import React from 'react'
 
 const page = async () => {
 
-  const {sessionClaims} = auth()
+  const { sessionClaims } = auth()
   const userId = sessionClaims?.userId as string;
 
-  const user = await getUser(userId)
+  const user = await getUserById(userId)
   const userHashtags = user?.hashtags
 
 
@@ -27,7 +27,12 @@ const page = async () => {
           <p className='text-[20px] font-semibold my-5 ml-5 mr-2'>Popular Polls</p>
           <Image src={'/assets/icons/trend-solid.svg'} alt='trend' height={30} width={30} />
         </div>
-        <Selection postHashtags={['']} userHashtags={userHashtags} />
+        <SignedIn>
+          <Selection postHashtags={['']} userHashtags={userHashtags} />
+        </SignedIn>
+        <SignedOut>
+          <Selection postHashtags={['']} userHashtags={['']} />
+        </SignedOut>
       </div>
     </div>
   )

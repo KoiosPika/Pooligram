@@ -15,7 +15,7 @@ export async function createUser(user: CreateUserParams) {
     }
 }
 
-export async function getUser(id: string) {
+export async function getUserById(id: string) {
     try {
         await connectToDatabase()
         const user = await User.findById(id)

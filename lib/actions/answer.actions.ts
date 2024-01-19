@@ -13,7 +13,8 @@ const populateAnswer = (query: any) => {
 export async function createAnswer({ pollId, title }: CreateAnswerParams) {
     try {
         await connectToDatabase();
-        Answer.create({ title, poll: pollId, nofVotes: 0 })
+        const newAnswer = await Answer.create({ title, poll: pollId, nofVotes: 0 })
+        return JSON.parse(JSON.stringify(newAnswer))
     } catch (error) {
         console.log(error)
     }

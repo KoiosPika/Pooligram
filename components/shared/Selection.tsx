@@ -26,7 +26,7 @@ const Selection = ({ postHashtags, userHashtags }: SelectionParams) => {
 
     return (
         <>{Polls && Polls.length > 0 ? (
-            <div className='flex flex-col items-center gap-10'>
+            <div className='flex flex-col items-center gap-10 mb-10'>
                 <ul className='grid w-full grid-cols-1 gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3'>
                     {Polls.map((poll) => {
                         return (

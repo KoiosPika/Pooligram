@@ -9,7 +9,7 @@ import Search from './Search'
 
 const Header = () => {
   return (
-    <header className='w-full h-20 border-b bg-slate-50'>
+    <header className='w-full h-20 border-b bg-blue-800'>
       <div className='wrapper flex items-center justify-between lg:justify-around'>
         <MobileNav />
         <Link href={'/'}>
@@ -22,12 +22,14 @@ const Header = () => {
 
         <div className='flex justify-end'>
           <SignedIn>
-            <UserButton afterSignOutUrl='/' />
+            <div className='border-2 border-white rounded-full'>
+              <UserButton afterSignOutUrl='/' />
+            </div>
           </SignedIn>
           <SignedOut>
             <Button asChild className='rounded-md bg-black hover:bg-slate-400' size={'icon'}>
               <Link href={'/sign-in'}>
-                <Image src={'/assets/icons/login.svg'} alt='sigin' width={20} height={20}/>
+                <Image src={'/assets/icons/login.svg'} alt='sigin' width={20} height={20} />
               </Link>
             </Button>
           </SignedOut>

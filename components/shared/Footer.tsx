@@ -4,7 +4,7 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <footer className='border-t bg-slate-50'>
+    <footer className='border-t bg-blue-800'>
       <div className='flex-center wrapper flex-between flex flex-col gap-4 p-5 text-center sm:flex-row'>
         <Link href={'/'}>
           <Image
@@ -14,7 +14,7 @@ const Footer = () => {
           height={50}
           />
         </Link>
-        <p>2024 Pooligram. All Rights reserved.</p>
+        <p className='text-white'>2024 Pooligram. All Rights reserved.</p>
       </div>
     </footer>
   )

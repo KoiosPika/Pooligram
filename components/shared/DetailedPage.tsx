@@ -143,7 +143,7 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                                                         <FormControl>
                                                             <RadioGroupItem value={answer._id} />
                                                         </FormControl>
-                                                        <div className="font-semibold w-full bg-white px-2 py-1 border-2 rounded-md border-black">
+                                                        <div className="font-semibold w-full bg-white px-2 py-1 rounded-md">
                                                             <FormLabel>
                                                                 {answer.title}
                                                             </FormLabel>
@@ -182,12 +182,12 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                     </Form>}
 
                     {vote &&
-                        <div className="space-y-6 bg-slate-200 w-[350px] p-3 rounded-b-lg">
+                        <div className="space-y-6 bg-blue-800 w-[350px] p-3 rounded-b-md">
                             <div className="w-full space-y-3">
-                                <p className='font-semibold text-[18px]'>{Poll?.title}</p>
-                                <div className="flex flex-col space-y-1">
+                                <p className='font-semibold text-[18px] text-white'>{Poll?.title}</p>
+                                <div className="flex flex-col space-y-1 gap-2">
                                     {Answers && Answers.map((answer) => (
-                                        <div className="font-semibold px-2 py-1 border-2 rounded-md bg-white border-black">
+                                        <div className="font-semibold px-2 py-1 rounded-md bg-white">
                                             <div className='w-full flex flex-row justify-between items-center'>
                                                 <div className='gap-2 items-center flex flex-row'>
                                                     <p>{answer.title}</p>
@@ -195,7 +195,7 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                                                 </div>
                                                 <p>24.5%</p>
                                             </div>
-                                            <div className='h-3 w-[200px] bg-primary-500 rounded-sm my-2 border-[2px] border-black'></div>
+                                            <div className='h-3 w-[200px] bg-blue-800 rounded-sm my-2 '></div>
                                             <p className='text-[13px]'>{answer.nofVotes} Votes</p>
                                         </div>
                                     ))}

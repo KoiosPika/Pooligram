@@ -15,7 +15,7 @@ const NavItems = () => {
         return (
           <li
             key={link.route}
-            className={`${isActive && 'text-primary-500'} flex-center p-medium-16 whitespace-nowrap`}
+            className={`${isActive && 'text-yellow-200'} text-white flex-center p-medium-16 whitespace-nowrap`}
           >
             <Image src={link.icon} alt='icon' height={25} width={25} className='mr-5 ml-2 lg:hidden'/>
             <Link className='text-[16px]' href={link.route}>{link.label}</Link>

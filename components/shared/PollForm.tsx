@@ -99,10 +99,10 @@ const PollForm = ({ userId }: { userId: string }) => {
                     control={form.control}
                     name="title"
                     render={({ field }) => (
-                        <FormItem className="w-full p-5 max-w-[500px] bg-white border-2 border-black rounded-lg">
+                        <FormItem className="w-full p-5 max-w-[500px] bg-blue-800 border-2 border-black rounded-lg">
                             <FormControl>
                                 <>
-                                    <div className='inline-flex flex-row flex-shrink gap-2 bg-black p-2 rounded-md'>
+                                    <div className='inline-flex flex-row flex-shrink gap-2 bg-blue-800 p-1 rounded-md'>
                                         <Image src={'/assets/icons/pen.svg'} alt='pen' height={20} width={20} />
                                         <p className='text-[18px] font-bold text-white'>Poll Title</p>
                                     </div>
@@ -114,16 +114,16 @@ const PollForm = ({ userId }: { userId: string }) => {
                     )}
                 />
 
-                <div className='w-full p-5 max-w-[500px] bg-white border-2 border-black rounded-lg'>
-                    <div className='inline-flex flex-row gap-2 bg-black p-2 rounded-md mb-3'>
+                <div className='w-full p-5 max-w-[500px] bg-blue-800 border-2 border-black rounded-lg'>
+                    <div className='inline-flex flex-row gap-2 bg-blue-800 p-1 rounded-md mb-3'>
                         <Image src={'/assets/icons/hashtag.svg'} alt='pen' height={25} width={25} />
                         <p className='text-[18px] font-bold text-white'>Poll Hashtags</p>
                     </div>
                     {hashtags.length > 0 &&
                         <div className='w-full flex flex-col max-w-[500px] justify-center items-center px-5 md:px-15 grid-cols-2'>
                             {hashtags.map((hashtag, index) => (
-                                <div className='w-full p-3 bg-white border-2 border-black rounded-md flex flex-row my-2 justify-between'>
-                                    <p className='text-[16px] font-semibold'>#{hashtag}</p>
+                                <div className='w-full p-3 border-2 border-white bg-white rounded-md flex flex-row my-2 justify-between'>
+                                    <p className='text-[16px] text-black font-semibold'>#{hashtag}</p>
                                     <button type="button" onClick={() => handleDeleteHashtag(index)}>
                                         <Image src={'/assets/icons/minus.svg'} alt='minus' width={20} height={30} />
                                     </button>
@@ -134,7 +134,7 @@ const PollForm = ({ userId }: { userId: string }) => {
                     <div className='flex flex-col gap-2 justify-center md:justify-between items-center'>
                         <div className='flex flex-row justify-center items-center gap-2'>
                             <Input placeholder='Add Hashtag (Max 7)' className='w-full px-5 max-w-[300px] border-2 border-black' onChange={(e) => setNewHashtag(e.target.value)} value={newHashtag} />
-                            <button disabled={hashtags.length == 7} className='bg-black hover:bg-grey-400 w-11 h-9 text-white text-[18px] rounded-md border-2 border-black' type="button" onClick={AddHashtag}>+</button>
+                            <button disabled={hashtags.length == 7} className='bg-yellow-300 hover:bg-grey-400 w-11 h-9 text-blue-800 text-[18px] rounded-md border-2 border-black' type="button" onClick={AddHashtag}>+</button>
                         </div>
                     </div>
                 </div>
@@ -143,10 +143,10 @@ const PollForm = ({ userId }: { userId: string }) => {
                     control={form.control}
                     name="imageUrl"
                     render={({ field }) => (
-                        <FormItem className="w-full p-5 max-w-[500px] bg-white border-2 border-black rounded-lg">
+                        <FormItem className="w-full p-5 max-w-[500px] bg-blue-800 border-2 border-black rounded-lg">
                             <FormControl className="h-72">
                                 <>
-                                    <div className='inline-flex flex-row gap-2 bg-black p-2 rounded-md'>
+                                    <div className='inline-flex flex-row gap-2 bg-blue-800 p-1 rounded-md'>
                                         <Image src={'/assets/icons/image.svg'} alt='pen' height={20} width={20} />
                                         <p className='text-[18px] font-bold text-white'>Poll Cover Image</p>
                                     </div>
@@ -159,16 +159,16 @@ const PollForm = ({ userId }: { userId: string }) => {
                 />
 
 
-                <div className='w-full p-5 max-w-[500px] bg-white border-2 border-black rounded-lg'>
-                    <div className='inline-flex flex-row gap-2 bg-black p-2 rounded-md mb-3'>
+                <div className='w-full p-5 max-w-[500px] bg-blue-800 border-2 border-black rounded-lg'>
+                    <div className='inline-flex flex-row gap-2 bg-blue-800 p-1 rounded-md mb-3'>
                         <Image src={'/assets/icons/answers.svg'} alt='pen' height={25} width={25} />
                         <p className='text-[18px] font-bold text-white'>Poll Answers</p>
                     </div>
                     {options.length > 0 &&
                         <div className='w-full flex flex-col max-w-[500px] justify-center items-center px-5 md:px-15'>
                             {options.map((option, index) => (
-                                <div className='w-full p-3 bg-white border-2 border-black rounded-md flex flex-row my-2 justify-between'>
-                                    <p className='text-[16px] font-semibold'>{option}</p>
+                                <div className='w-full p-3 border-2 border-white bg-white rounded-md flex flex-row my-2 justify-between'>
+                                    <p className='text-[16px] text-black font-semibold'>{option}</p>
                                     <button type="button" onClick={() => handleDeleteOption(index)}>
                                         <Image src={'/assets/icons/minus.svg'} alt='minus' width={20} height={30} />
                                     </button>
@@ -179,7 +179,7 @@ const PollForm = ({ userId }: { userId: string }) => {
                     <div className='flex flex-col gap-2 justify-center md:justify-between items-center'>
                         <div className='flex flex-row justify-center items-center gap-2'>
                             <Input placeholder='Add Answer' className='w-full px-5 max-w-[300px] border-2 border-black' onChange={(e) => setNewOption(e.target.value)} value={newOption} />
-                            <button className='bg-black hover:bg-grey-400 w-11 h-9 text-white text-[18px] rounded-md border-2 border-black' type="button" onClick={AddOption}>+</button>
+                            <button className='hover:bg-grey-400 w-11 h-9 text-blue-800 text-[18px] rounded-md border-2 border-black bg-yellow-400' type="button" onClick={AddOption}>+</button>
                         </div>
                         <FormField
                             control={form.control}
@@ -188,8 +188,8 @@ const PollForm = ({ userId }: { userId: string }) => {
                                 <FormItem>
                                     <FormControl>
                                         <div className="flex items-center my-3">
-                                            <Checkbox onCheckedChange={field.onChange} checked={field.value} id="sponsored" className="mr-2 h-7 w-7 border-2 border-black" />
-                                            <label htmlFor="sponsored" className="font-semibold">Allow users to add more options</label>
+                                            <Checkbox onCheckedChange={field.onChange} checked={field.value} id="sponsored" className="mr-2 h-7 w-7 border-2 border-white" />
+                                            <label htmlFor="sponsored" className="font-semibold text-white">Allow users to add more options</label>
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -201,8 +201,8 @@ const PollForm = ({ userId }: { userId: string }) => {
 
 
 
-                <div className='w-full p-5 max-w-[500px] bg-white border-2 border-black rounded-lg'>
-                    <div className='inline-flex flex-row gap-3 bg-black p-2 rounded-md'>
+                <div className='w-full p-5 max-w-[500px] bg-blue-800 border-2 border-black rounded-lg'>
+                    <div className='inline-flex flex-row gap-3 bg-blue-800 p-1 rounded-md'>
                         <Image src={'/assets/icons/settings.svg'} alt='pen' height={25} width={25} />
                         <p className='text-[18px] font-bold text-white'>Poll Options</p>
                     </div>
@@ -213,8 +213,8 @@ const PollForm = ({ userId }: { userId: string }) => {
                             <FormItem className="w-full px-5 max-w-[500px]">
                                 <FormControl>
                                     <div className="flex mt-4 ml-3 items-center">
-                                        <Checkbox onCheckedChange={field.onChange} checked={field.value} id="openList" className="mr-2 h-7 w-7 border-2 border-black" />
-                                        <label htmlFor="openList" className="font-semibold">Sponsor the poll for $1.50</label>
+                                        <Checkbox onCheckedChange={field.onChange} checked={field.value} id="openList" className="mr-2 h-7 w-7 border-2 border-white" />
+                                        <label htmlFor="openList" className="font-semibold text-white">Sponsor the poll for $1.50</label>
                                     </div>
                                 </FormControl>
                                 <FormMessage />
@@ -223,8 +223,8 @@ const PollForm = ({ userId }: { userId: string }) => {
                     />
                     <div className='w-full pl-5 pt-4 max-w-[500px]'>
                         <div className="flex mb-3 ml-3 items-center">
-                            <Checkbox onCheckedChange={() => setCanChangeDate(!canChangeDate)} checked={canChangeDate} className="mr-2 h-7 w-7 border-2 border-black" />
-                            <label htmlFor="isFree" className="font-semibold">Polls expire after 7 days but you can customize the date for $1.50 (Note: Max is 30 Days)</label>
+                            <Checkbox onCheckedChange={() => setCanChangeDate(!canChangeDate)} checked={canChangeDate} className="mr-2 h-7 w-7 border-2 border-white" />
+                            <label htmlFor="isFree" className="font-semibold text-white">Polls expire after 7 days but you can customize the date for $1.50 (Note: Max is 30 Days)</label>
                         </div>
                         {canChangeDate &&
                             <FormField
@@ -235,9 +235,9 @@ const PollForm = ({ userId }: { userId: string }) => {
                                         <FormControl>
                                             <div className="flex-center h-[54px] w-full overflow-hidden rounded-full px-4 py-2">
                                                 <Image src="/assets/icons/calendar.svg" alt="calender" width={24} height={24} />
-                                                <p className="m-3 whitespace-nowrap font-semibold">End Date:</p>
+                                                <p className="m-3 whitespace-nowrap font-semibold text-white">End Date:</p>
                                                 <DatePicker
-                                                    className='border-2 border-black rounded-lg px-2 font-semibold w-[105px]'
+                                                    className='rounded-lg px-2 font-semibold w-[105px]'
                                                     selected={field.value}
                                                     onChange={(date: Date) => field.onChange(date)}
                                                     minDate={Today}
@@ -258,15 +258,15 @@ const PollForm = ({ userId }: { userId: string }) => {
                     control={form.control}
                     name="openComments"
                     render={({ field }) => (
-                        <FormItem className='w-full p-5 max-w-[500px] bg-white border-2 border-black rounded-lg'>
-                            <div className='inline-flex flex-row gap-2 items-center bg-black p-2 rounded-md'>
+                        <FormItem className='w-full p-5 max-w-[500px] bg-blue-800 border-2 border-black rounded-lg'>
+                            <div className='inline-flex flex-row gap-2 items-center bg-blue-800 p-1 rounded-md'>
                                 <Image src={'/assets/icons/comments.svg'} alt='pen' height={28} width={28} />
                                 <p className='text-[18px] font-bold text-white'>Poll Comments</p>
                             </div>
                             <div className='w-full px-5 max-w-[500px]'>
                                 <div className="flex m-3 items-center">
-                                    <Checkbox onCheckedChange={field.onChange} checked={field.value} id='openComments' className="mr-2 h-7 w-7 border-2 border-black" />
-                                    <label htmlFor="openComments" className="font-semibold">Allow users to comment on your poll</label>
+                                    <Checkbox onCheckedChange={field.onChange} checked={field.value} id='openComments' className="mr-2 h-7 w-7 border-2 border-white" />
+                                    <label htmlFor="openComments" className="font-semibold text-white">Allow users to comment on your poll</label>
                                 </div>
                             </div>
                         </FormItem>
@@ -274,7 +274,7 @@ const PollForm = ({ userId }: { userId: string }) => {
                 />
 
 
-                <Button disabled={form.formState.isSubmitting} className="bg-black col-span-2 w-[155px] gap-1" type="submit">
+                <Button disabled={form.formState.isSubmitting} className="bg-blue-800 col-span-2 w-[155px] gap-1" type="submit">
                     <Image src={'/assets/icons/create.svg'} alt='create' height={20} width={20} />
                     <p>{form.formState.isSubmitting ? 'Please Wait...' : 'Create Poll Now!'}</p>
                 </Button>

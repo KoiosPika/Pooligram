@@ -12,7 +12,7 @@ export type CreatePollParams = {
     userId: string,
     poll: {
         title: string
-        hashtags: [string]
+        hashtags: string[]
         imageUrl: string
         startDateTime: Date
         endDateTime: Date

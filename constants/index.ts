@@ -26,58 +26,6 @@ export const Links = [
     },
 ]
 
-export const Polls = [
-    {
-        title: 'Do You Spend more time inside or outside?',
-        image: '/assets/images/outside.png'
-    },
-    {
-        title: 'Would you stay in your current job?',
-        image: '/assets/images/Job.png'
-    },
-    {
-        title: 'Would you stay in this forest?',
-        image: '/assets/images/forest.png'
-    },
-    {
-        title: 'Would you stay in this era? Would you stay in this era? Would you stay in this era?',
-        image: '/assets/images/old-sm.png'
-    },
-    {
-        title: 'Would you stay in this forest?',
-        image: '/assets/images/forest.png'
-    },
-    {
-        title: 'Would you stay in this era?',
-        image: '/assets/images/old.png'
-    },
-    {
-        title: 'Do You Spend more time inside or outside?',
-        image: '/assets/images/outside.png'
-    },
-    {
-        title: 'Would you stay in your current job?',
-        image: '/assets/images/Job.png'
-    },
-    {
-        title: 'Would you stay in this forest?',
-        image: '/assets/images/phone.jpg'
-    },
-    {
-        title: 'Would you stay in this era? Would you stay in this era? Would you stay in this era?',
-        image: '/assets/images/old-sm.png'
-    },
-    {
-        title: 'Would you stay in this forest?',
-        image: '/assets/images/forest.png'
-    },
-    {
-        title: 'Would you stay in this era?',
-        image: '/assets/images/old.png'
-    },
-
-]
-
 const Today = new Date();
 const MaxDate = new Date(Today);
 MaxDate.setDate(Today.getDate() + 7);

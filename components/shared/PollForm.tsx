@@ -36,6 +36,8 @@ const PollForm = ({ userId }: { userId: string }) => {
 
     const [options, setOptions] = useState<string[]>([]);
     const [newOption, setNewOption] = useState('')
+    const [hashtags, setHashtags] = useState<string[]>([]);
+    const [newHashtag, setNewHashtag] = useState<string>('');
     const [canChangeDate, setCanChangeDate] = useState<boolean>(false);
 
     const [files, setFiles] = useState<File[]>([])
@@ -45,8 +47,17 @@ const PollForm = ({ userId }: { userId: string }) => {
         setNewOption('')
     }
 
+    const AddHashtag = () => {
+        setHashtags((prevState) => [...prevState, newHashtag.toLowerCase()])
+        setNewHashtag('')
+    }
+
     const handleDeleteOption = (index: any) => {
         setOptions(prevOptions => prevOptions.filter((_, i) => i !== index));
+    };
+
+    const handleDeleteHashtag = (index: any) => {
+        setHashtags(prevHashtags => prevHashtags.filter((_, i) => i !== index));
     };
 
     const { startUpload } = useUploadThing('imageUploader');
@@ -67,7 +78,7 @@ const PollForm = ({ userId }: { userId: string }) => {
         try {
             const newPoll = await createPoll({
                 userId,
-                poll: { ...values, endDateTime: canChangeDate ? values.endDateTime : PollMax, hashtags: [''], imageUrl: uploadedImageUrl }
+                poll: { ...values, endDateTime: canChangeDate ? values.endDateTime : PollMax, hashtags: hashtags, imageUrl: uploadedImageUrl }
             })
 
             await Promise.all(options.map(async (option) => {
@@ -102,6 +113,32 @@ const PollForm = ({ userId }: { userId: string }) => {
                         </FormItem>
                     )}
                 />
+
+                <div className='w-full p-5 max-w-[500px] bg-white border-2 border-black rounded-lg'>
+                    <div className='inline-flex flex-row gap-2 bg-black p-2 rounded-md mb-3'>
+                        <Image src={'/assets/icons/hashtag.svg'} alt='pen' height={25} width={25} />
+                        <p className='text-[18px] font-bold text-white'>Poll Hashtags</p>
+                    </div>
+                    {hashtags.length > 0 &&
+                        <div className='w-full flex flex-col max-w-[500px] justify-center items-center px-5 md:px-15 grid-cols-2'>
+                            {hashtags.map((hashtag, index) => (
+                                <div className='w-full p-3 bg-white border-2 border-black rounded-md flex flex-row my-2 justify-between'>
+                                    <p className='text-[16px] font-semibold'>#{hashtag}</p>
+                                    <button type="button" onClick={() => handleDeleteHashtag(index)}>
+                                        <Image src={'/assets/icons/minus.svg'} alt='minus' width={20} height={30} />
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    }
+                    <div className='flex flex-col gap-2 justify-center md:justify-between items-center'>
+                        <div className='flex flex-row justify-center items-center gap-2'>
+                            <Input placeholder='Add Hashtag (Max 7)' className='w-full px-5 max-w-[300px] border-2 border-black' onChange={(e) => setNewHashtag(e.target.value)} value={newHashtag} />
+                            <button disabled={hashtags.length == 7} className='bg-black hover:bg-grey-400 w-11 h-9 text-white text-[18px] rounded-md border-2 border-black' type="button" onClick={AddHashtag}>+</button>
+                        </div>
+                    </div>
+                </div>
+
                 <FormField
                     control={form.control}
                     name="imageUrl"
@@ -146,7 +183,7 @@ const PollForm = ({ userId }: { userId: string }) => {
                         </div>
                         <FormField
                             control={form.control}
-                            name="sponsored"
+                            name="openList"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
@@ -171,7 +208,7 @@ const PollForm = ({ userId }: { userId: string }) => {
                     </div>
                     <FormField
                         control={form.control}
-                        name="openList"
+                        name="sponsored"
                         render={({ field }) => (
                             <FormItem className="w-full px-5 max-w-[500px]">
                                 <FormControl>

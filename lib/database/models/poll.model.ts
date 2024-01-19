@@ -4,7 +4,7 @@ import { IUser } from './user.model'
 export interface IPoll extends Document {
     _id: string,
     title: string
-    hashtags: [string]
+    hashtags: string[]
     imageUrl: string
     createdAt: Date,
     startDateTime: Date

@@ -10,7 +10,7 @@ const Card = ({ poll }: { poll: IPoll }) => {
                 <div className='absolute top-3 left-3 bg-slate-200 border-black border-2 p-1 rounded-full'>
                     <Image src={'/assets/icons/speaker.svg'} alt='speaker' height={20} width={20} />
                 </div>}
-            <Link href={`/poll/${poll._id}`} className=' flex h-[350px] justify-center items-center overflow-hidden'>
+            <Link href={`/poll/${poll._id}`} className=' flex h-[350px] justify-center items-center overflow-hidden rounded-t-sm'>
                 <Image src={poll.imageUrl} alt='hero' height={350} width={350} />
             </Link>
             <Link href={`/poll/${poll._id}`} className='h-[155px] w-full p-2 flex flex-col justify-between bg-slate-200 rounded-b-sm border-black border-t-2'>

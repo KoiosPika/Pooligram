@@ -44,7 +44,7 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
         };
 
         const getVote = async () => {
-            const vote = await getVoteByPoll({pollId: id, userId})
+            const vote = await getVoteByPoll({ pollId: id, userId })
             return vote;
         }
 
@@ -97,7 +97,9 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
             </div>
             <div className='flex flex-row justify-center md:justify-center xl:justify-center'>
                 <div ref={leftDivRef} className='flex flex-col justify-center items-center my-5 border-2 rounded-lg border-black'>
-                    <Image className='w-[350px] rounded-t-lg' src={Poll?.imageUrl || '/assets/images/loading.png'} alt='hero' width={1000} height={1000} />
+                    <div className='flex h-[350px] justify-center items-center overflow-hidden rounded-t-sm'>
+                        <Image src={Poll?.imageUrl || '/assets/images/loading.png'} alt='hero' width={350} height={350} />
+                    </div>
                     {vote === undefined && <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 bg-slate-200 w-[350px] p-3 rounded-b-lg">
                             <FormField
@@ -141,7 +143,7 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                     </Form>}
 
                     {vote &&
-                        <div className="space-y-6 bg-slate-200 w-[350px] p-3 rounded-lg">
+                        <div className="space-y-6 bg-slate-200 w-[350px] p-3 rounded-b-lg">
                             <div className="w-full space-y-3">
                                 <p className='font-semibold text-[18px]'>{Poll?.title}</p>
                                 <div className="flex flex-col space-y-1">

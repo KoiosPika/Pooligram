@@ -184,7 +184,7 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
             </div>
             <div className='px-[20px] lg:px-[200px]'>
                 <p className='mb-7 font-bold text-[20px]'>Related Polls: </p>
-                <Selection />
+                <Selection postHashtags={['']} userHashtags={['']} />
             </div>
         </div>
     )

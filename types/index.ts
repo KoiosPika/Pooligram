@@ -27,6 +27,12 @@ export type CreateAnswerParams = {
     title: string
 }
 
+export type CreateCommentParams = {
+    text: string,
+    pollId: string,
+    userId: string
+}
+
 export type SearchParamsProps = {
     params: { id: string },
     searchParams: { [key: string]: string | string[] | undefined }
@@ -41,10 +47,6 @@ export type CreateVoteParams = {
 export type GetPollsParams = {
     postHashtags: string[],
     userHashtags: string[],
-    page:number,
+    page: number,
     limit: number
-}
-
-export type ReturnedAnswers = {
-    
 }

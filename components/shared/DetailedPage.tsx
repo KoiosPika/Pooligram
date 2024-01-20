@@ -8,7 +8,7 @@ import * as z from "zod"
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import Comments from '@/components/shared/Comments'
+import CommentList from '@/components/shared/CommentList'
 import Selection from '@/components/shared/Selection'
 import { getPollById } from '@/lib/actions/poll.actions'
 import { IPoll } from '@/lib/database/models/poll.model'
@@ -22,6 +22,8 @@ import {
 import { Input } from '../ui/input'
 import { getUserById } from '@/lib/actions/user.actions'
 import { IUser } from '@/lib/database/models/user.model'
+import { getCommentsByPoll } from '@/lib/actions/comment.actions'
+import { IComment } from '@/lib/database/models/comment.model'
 
 const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
     const leftDivRef = useRef<HTMLDivElement>(null);
@@ -68,14 +70,10 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                 setAnswers(answers);
                 setVote(vote)
                 setUser(user)
-
-                console.log(answers)
-
-                // Delay showing comments
+            
                 setTimeout(() => setShowComments(true), 15);
             } catch (error) {
                 console.error('Error fetching data:', error);
-                // Handle any errors here
             }
         };
 
@@ -218,9 +216,9 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                     }
                 </div>
 
-                {showComments &&
+                {(showComments && User) &&
                     <div className='hidden md:block w-full max-w-[350px] h-[0px]'>
-                        {(vote || Poll?.creator._id === userId) && <Comments height={rightDivHeight} />}
+                        {(vote || Poll?.creator._id === userId) && <CommentList height={rightDivHeight} user={User} pollId={id} />}
                         {(!vote && Poll?.creator._id != userId) &&
                             <div style={{ height: rightDivHeight }} className='flex flex-col justify-center items-center bg-blue-800 my-5 rounded-r-lg gap-2'>
                                 <div className='flex flex-row gap-2 items-center'>

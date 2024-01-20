@@ -47,8 +47,8 @@ export function FileUploader({ imageUrl, onFieldChange, setFiles }: FileUploader
                     <img src="/assets/icons/upload.svg" width={60} height={60} alt="file upload" />
                     <h3 className="mb-2 mt-2">Drag photo here</h3>
                     <p className="p-medium-12 mb-4">SVG, PNG, JPG</p>
-                    <Button type="button" className="rounded-md bg-blue-800">
-                        Select from device
+                    <Button type="button" className="rounded-md bg-blue-800 hover:bg-yellow-300 hover:text-blue-800">
+                        <p>Select from device</p>
                     </Button>
                 </div>
             )}

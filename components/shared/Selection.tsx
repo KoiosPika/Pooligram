@@ -5,6 +5,7 @@ import Card from './Card'
 import { getAllPolls } from '@/lib/actions/poll.actions'
 import { IPoll } from '@/lib/database/models/poll.model'
 import { updateUser } from '@/lib/actions/user.actions'
+import LoadMore from './LoadMore'
 
 type SelectionParams = {
     userHashtags: string[],
@@ -30,12 +31,13 @@ const Selection = ({ postHashtags, userHashtags }: SelectionParams) => {
                 <ul className='grid w-full grid-cols-1 gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3'>
                     {Polls.map((poll) => {
                         return (
-                            <li className='flex justify-center overflow-hidden'>
+                            <li key={poll._id} className='flex justify-center overflow-hidden'>
                                 <Card poll={poll} />
                             </li>
                         )
                     })}
                 </ul>
+                <LoadMore postHashtags={postHashtags} userHashtags={userHashtags} />
             </div>
         ) : (
             <></>

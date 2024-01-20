@@ -27,7 +27,7 @@ const Header = () => {
             </div>
           </SignedIn>
           <SignedOut>
-            <Button asChild className='rounded-md bg-black hover:bg-slate-400' size={'icon'}>
+            <Button asChild className='rounded-md bg-white hover:bg-yellow-300' size={'icon'}>
               <Link href={'/sign-in'}>
                 <Image src={'/assets/icons/login.svg'} alt='sigin' width={20} height={20} />
               </Link>

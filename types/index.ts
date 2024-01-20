@@ -44,3 +44,7 @@ export type GetPollsParams = {
     page:number,
     limit: number
 }
+
+export type ReturnedAnswers = {
+    
+}

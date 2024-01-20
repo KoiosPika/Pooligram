@@ -69,8 +69,10 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                 setVote(vote)
                 setUser(user)
 
+                console.log(answers)
+
                 // Delay showing comments
-                setTimeout(() => setShowComments(true), 5);
+                setTimeout(() => setShowComments(true), 15);
             } catch (error) {
                 console.error('Error fetching data:', error);
                 // Handle any errors here
@@ -139,7 +141,7 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                                                 className="flex flex-col space-y-1"
                                             >
                                                 {Answers && Answers.map((answer) => (
-                                                    <FormItem className="flex items-center space-x-3 space-y-0">
+                                                    <FormItem key={answer._id} className="flex items-center space-x-3 space-y-0">
                                                         <FormControl>
                                                             <RadioGroupItem value={answer._id} />
                                                         </FormControl>
@@ -195,9 +197,18 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                                                     <p>{answer.title}</p>
                                                     {vote.Answer._id === answer._id && <Image src={'/assets/icons/check.svg'} alt='check' width={15} height={15} />}
                                                 </div>
-                                                <p>24.5%</p>
+                                                <p>{answer.votePercentage ? `${answer.votePercentage}%` : '0%'}</p>
                                             </div>
-                                            <div className='h-3 w-[200px] bg-blue-800 rounded-sm my-2 '></div>
+                                            <div className="flex w-full my-2">
+                                                <div
+                                                    style={{ width: answer.votePercentage ? `${answer.votePercentage}%` : '0%' }}
+                                                    className='h-3 bg-blue-800 rounded-l-sm'
+                                                ></div>
+                                                <div
+                                                    style={{ flexGrow: 1 }}
+                                                    className='h-3 bg-gray-300'
+                                                ></div>
+                                            </div>
                                             <p className='text-[13px]'>{answer.nofVotes} Votes</p>
                                         </div>
                                     ))}
@@ -211,12 +222,12 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                     <div className='hidden md:block w-full max-w-[350px] h-[0px]'>
                         {(vote || Poll?.creator._id === userId) && <Comments height={rightDivHeight} />}
                         {(!vote && Poll?.creator._id != userId) &&
-                            <div style={{ height: rightDivHeight }} className='flex flex-col justify-center items-center bg-slate-200 my-5 rounded-lg border-2 border-black gap-2'>
+                            <div style={{ height: rightDivHeight }} className='flex flex-col justify-center items-center bg-blue-800 my-5 rounded-r-lg gap-2'>
                                 <div className='flex flex-row gap-2 items-center'>
                                     <Image src={'/assets/icons/lock.svg'} alt='lock' width={20} height={20} />
-                                    <p className='font-semibold text-[16px]'>Comments are locked</p>
+                                    <p className='font-semibold text-[16px] text-white'>Comments are locked</p>
                                 </div>
-                                <p className='flex font-semibold text-[16px] mx-5 text-center'>Please submit a vote to reveal the comment section.</p>
+                                <p className='flex font-semibold text-[16px] mx-5 text-center text-white'>Please submit a vote to reveal the comment section.</p>
                             </div>}
                     </div>
                 }

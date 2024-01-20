@@ -2,7 +2,7 @@
 
 import { CreateAnswerParams } from "@/types"
 import { connectToDatabase } from "../database"
-import Answer from "../database/models/answer.model"
+import Answer, { IAnswer } from "../database/models/answer.model"
 import Poll from "../database/models/poll.model"
 
 const populateAnswer = (query: any) => {
@@ -26,11 +26,22 @@ export async function getAnswersByPoll(id: string) {
 
         const condition = { poll: id }
 
-        const answersQuery =  Answer.find(condition).sort({ nofVotes: -1 })
+        const answersQuery = Answer.find(condition).sort({ nofVotes: -1 })
 
         const answers = await populateAnswer(answersQuery)
 
-        return JSON.parse(JSON.stringify(answers));
+        const totalVotes = answers.reduce((acc: number, answer: IAnswer) => acc + answer.nofVotes, 0);
+
+        const answersWithPercentages = answers.map((answer: IAnswer) => {
+            const answerObj = answer.toObject();
+            const percentage = totalVotes > 0 ? (answerObj.nofVotes / totalVotes * 100).toFixed(1) : 0;
+            return {
+                ...answerObj,
+                votePercentage: percentage
+            };
+        });
+
+        return JSON.parse(JSON.stringify(answersWithPercentages));
     } catch (error) {
         console.log(error)
     }

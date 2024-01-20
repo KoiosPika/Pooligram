@@ -43,8 +43,8 @@ const LoadMore = ({ postHashtags, userHashtags }: SelectionParams) => {
                 <ul className='grid w-full grid-cols-1 gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3'>
                     {Polls.map((poll) => {
                         return (
-                            <li className='flex justify-center overflow-hidden'>
-                                <Card key={poll._id} poll={poll} />
+                            <li key={poll._id} className='flex justify-center overflow-hidden'>
+                                <Card poll={poll} />
                             </li>
                         )
                     })}

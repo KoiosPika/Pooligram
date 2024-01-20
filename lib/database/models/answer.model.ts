@@ -5,7 +5,8 @@ export interface IAnswer extends Document {
     title: string,
     nofVotes: number,
     createdAt: Date,
-    poll: IPoll
+    poll: IPoll,
+    votePercentage?: number
 }
 
 const AnswerSchema = new Schema({

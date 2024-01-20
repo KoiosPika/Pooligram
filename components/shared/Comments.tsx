@@ -36,8 +36,8 @@ const Comments = ({ height }: { height: number }) => {
                 ))}
             </ScrollArea>
             <div className='mt-auto flex flex-row p-2'>
-                <Input placeholder='Write a comment' className='border-2 border-black' />
-                <Button className='ml-2 border-2 border-white bg-white hover:bg-yellow-200'>
+                <Input placeholder='Write a comment' />
+                <Button className='ml-2 border-2 border-white bg-white hover:bg-yellow-300'>
                     <Image src={'/assets/icons/arrow.svg'} alt='arrow' width={25} height={25} />
                 </Button>
             </div>

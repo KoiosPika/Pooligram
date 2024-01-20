@@ -37,14 +37,15 @@ const CommentList = ({ height, user, pollId }: CommentListParams) => {
         }).then((res) => {
             let comment: any = {
                 text: res.text,
-                creator: user
+                creator: user,
+                createdAt: Date.now()
             }
             setComments((prevState) => [comment, ...prevState])
             setNewComment('');
         })
     }
     return (
-        <div className='bg-blue-800 my-5 h-0 rounded-tr-lg rounded-br-lg' style={{ height }}>
+        <div className='bg-blue-800 my-5 h-0 rounded-tr-lg rounded-br-lg ml-0.5' style={{ height }}>
             <div className='w-full flex flex-row p-3 items-center rounded-lg'>
                 <p className='text-[18px] font-semibold text-white'>Comments</p>
                 <p className='text-[16px] font-semibold ml-5 text-white'>63.5k</p>

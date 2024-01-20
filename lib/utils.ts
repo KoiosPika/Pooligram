@@ -12,6 +12,10 @@ export function formatTimeAgo(dateString: Date) {
   const now = new Date().getTime();
   const seconds = Math.floor((now - date) / 1000);
 
+  if (seconds < 60) {
+    return 'Just now';
+  }
+
   let interval = seconds / 31536000;
   if (interval > 1) {
       return Math.floor(interval) + "y";

@@ -120,18 +120,18 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                 <div className='bg-slate-400 w-full max-w-[800px] h-[70px] m-2'></div>
             </div>
             <div className='flex flex-row justify-center md:justify-center xl:justify-center'>
-                <div ref={leftDivRef} className='flex flex-col justify-center items-center my-5 border-2 rounded-lg border-black'>
-                    <div className='flex h-[350px] justify-center items-center overflow-hidden rounded-t-sm'>
+                <div ref={leftDivRef} className='flex flex-col justify-center items-center my-5'>
+                    <div className='flex h-[350px] justify-center items-center overflow-hidden bg-slate-300 rounded-tl-lg rounded-tr-lg md:rounded-tr-none'>
                         <Image src={Poll?.imageUrl || '/assets/images/loading.png'} alt='hero' width={350} height={350} />
                     </div>
                     {vote === undefined && <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 bg-slate-200 w-[350px] p-3 rounded-b-lg">
+                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 bg-blue-800 w-[350px] p-3 rounded-bl-lg rounded-br-lg md:rounded-br-none">
                             <FormField
                                 control={form.control}
                                 name="Answer"
                                 render={({ field }) => (
                                     <FormItem className="w-full space-y-3">
-                                        <FormLabel>{Poll?.title}</FormLabel>
+                                        <FormLabel className='text-white text-[18px]'>{Poll?.title}</FormLabel>
                                         <FormControl>
                                             <RadioGroup
                                                 onValueChange={field.onChange}
@@ -160,9 +160,9 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                                 {(Poll && Poll.openList) &&
                                     <AlertDialog>
                                         <AlertDialogTrigger>
-                                            <Button type='button' className='flex flex-row bg-transparent border-2 border-black hover:bg-slate-400'>
+                                            <Button type='button' className='flex flex-row bg-transparent border-2 border-white hover:bg-slate-400'>
                                                 <Image src={'/assets/icons/plus.svg'} alt='add' width={10} height={10} />
-                                                <p className=' text-black ml-2'>Add</p>
+                                                <p className=' text-white ml-2'>Add</p>
                                             </Button>
                                         </AlertDialogTrigger>
                                         <AlertDialogContent className='bg-white max-w-[350px] rounded-xl'>
@@ -176,13 +176,15 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                                             </AlertDialogFooter>
                                         </AlertDialogContent>
                                     </AlertDialog>}
-                                <Button className='bg-black ml-auto hover:bg-slate-400 border-2 border-black' type="submit">{form.formState.isSubmitting ? 'Please wait..' : 'Save'}</Button>
+                                <Button className='bg-white ml-auto hover:bg-slate-400' type="submit">
+                                    <p className='text-blue-800'>{form.formState.isSubmitting ? 'Please wait..' : 'Save'}</p>
+                                </Button>
                             </div>
                         </form>
                     </Form>}
 
                     {vote &&
-                        <div className="space-y-6 bg-blue-800 w-[350px] p-3 rounded-b-md">
+                        <div className="space-y-6 bg-blue-800 w-[350px] p-3 rounded-bl-lg rounded-br-lg md:rounded-br-none">
                             <div className="w-full space-y-3">
                                 <p className='font-semibold text-[18px] text-white'>{Poll?.title}</p>
                                 <div className="flex flex-col space-y-1 gap-2">

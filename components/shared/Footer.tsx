@@ -12,6 +12,7 @@ const Footer = () => {
           alt="logo"
           width={50}
           height={50}
+          className='rounded-full'
           />
         </Link>
         <p className='text-white'>2024 Pooligram. All Rights reserved.</p>

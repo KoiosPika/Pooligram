@@ -7,10 +7,10 @@ import { ScrollArea } from '../ui/scroll-area'
 const Comments = ({ height }: { height: number }) => {
     const arr = [1, 2, 3, 4, 56, 7, 5, 4, 3, 2, 4, 5, 3, 45, 6, 4, 7, 4, 5, 6, 7, 3, 1];
     return (
-        <div className='bg-slate-100 border-black border-2 my-5 rounded-lg h-0' style={{ height }}>
-            <div className='w-full flex flex-row p-3 items-center'>
-                <p className='text-[18px] font-semibold'>Comments</p>
-                <p className='text-[16px] font-semibold ml-5'>63.5k</p>
+        <div className='bg-blue-800 my-5 h-0 rounded-tr-lg rounded-br-lg' style={{ height }}>
+            <div className='w-full flex flex-row p-3 items-center rounded-lg'>
+                <p className='text-[18px] font-semibold text-white'>Comments</p>
+                <p className='text-[16px] font-semibold ml-5 text-white'>63.5k</p>
             </div>
             <ScrollArea style={{ height: height - 120 }} className='flex flex-1 px-3 h-0'>
                 {arr.map((item) => (
@@ -37,7 +37,7 @@ const Comments = ({ height }: { height: number }) => {
             </ScrollArea>
             <div className='mt-auto flex flex-row p-2'>
                 <Input placeholder='Write a comment' className='border-2 border-black' />
-                <Button className='ml-2 border-2 border-black bg-black'>
+                <Button className='ml-2 border-2 border-white bg-white hover:bg-yellow-200'>
                     <Image src={'/assets/icons/arrow.svg'} alt='arrow' width={25} height={25} />
                 </Button>
             </div>

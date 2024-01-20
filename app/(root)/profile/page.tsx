@@ -22,14 +22,14 @@ const page = async () => {
                         <p className='text-[26px] font-semibold'>{user.username}</p>
                         {user.verified && <Image className='pt-1' src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} />}
                     </div>
-                    <div className='bg-slate-200 flex flex-row border-2 border-black rounded-md gap-20 px-10'>
+                    <div className='bg-blue-800 flex flex-row border-2 border-black rounded-md gap-20 px-10'>
                         <div className='flex flex-col justify-center items-center p-2'>
-                            <p className='text-[20px] font-bold'>8</p>
-                            <p className='text-[15px] font-semibold'>Polls</p>
+                            <p className='text-[20px] font-bold text-white'>8</p>
+                            <p className='text-[15px] font-semibold text-white'>Polls</p>
                         </div>
                         <div className='flex flex-col justify-center items-center p-2'>
-                            <p className='text-[20px] font-bold'>29.5k</p>
-                            <p className='text-[15px] font-semibold'>Votes</p>
+                            <p className='text-[20px] font-bold text-white'>29.5k</p>
+                            <p className='text-[15px] font-semibold text-white'>Votes</p>
                         </div>
                     </div>
                     <div className='grid-cols-1 lg:grid-cols-2 my-5 gap-3'>

@@ -10,19 +10,14 @@ export const Links = [
         route: '/poll/create'
     },
     {
-        label: 'Live Poll',
-        icon: '/assets/icons/stream.svg',
-        route: '/live-poll'
-    },
-    {
         label: 'My Profile',
-        icon: '/assets/icons/advert.svg',
+        icon: '/assets/icons/profile.svg',
         route: '/profile'
     },
     {
         label: 'Contact Us',
-        icon: '/assets/icons/email-1.svg',
-        route: '/poll/create'
+        icon: '/assets/icons/email.svg',
+        route: '/contact-us'
     },
 ]
 

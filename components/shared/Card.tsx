@@ -13,7 +13,7 @@ const Card = ({ poll }: { poll: IPoll }) => {
                 </div>}
             <Link style={{ backgroundImage: `url(${poll.imageUrl})` }} href={`/poll/${poll._id}`} className='flex-center h-[350px] flex-grow bg-gray-50 bg-cover bg-center text-grey-500 rounded-t-lg' />
             <Link href={`/poll/${poll._id}`} className='h-[155px] w-full p-2 flex flex-col justify-between bg-blue-800 border-white border-t-2 rounded-b-lg'>
-                <p className='font-bold truncate-2-lines text-white text-[14px]'>{poll.title}</p>
+                <p className='font-semibold truncate-2-lines text-white text-[14px]'>{poll.title}</p>
                 <div className='flex flex-row items-center'>
                     <Image src={poll.creator?.photo || '/assets/images/user.png'} alt='user' className='w-[35px] h-[35px] rounded-full border-2 border-white' height={100} width={100} />
                     <p className='ml-2 font-semibold text-white'>{poll.creator?.username}</p>

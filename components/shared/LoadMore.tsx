@@ -6,15 +6,17 @@ import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { useInView } from "react-intersection-observer"
 import Card from './Card'
+import { Button } from '../ui/button'
 
 type SelectionParams = {
     userHashtags: string[],
-    postHashtags: string[]
+    postHashtags: string[],
+    query?: string
 }
 
 let page = 2;
 
-const LoadMore = ({ postHashtags, userHashtags }: SelectionParams) => {
+const LoadMore = ({ postHashtags, userHashtags, query }: SelectionParams) => {
 
     const { ref, inView } = useInView()
 
@@ -24,9 +26,9 @@ const LoadMore = ({ postHashtags, userHashtags }: SelectionParams) => {
 
     useEffect(() => {
         async function getPolls() {
-            const polls = await getAllPolls({ postHashtags, userHashtags, page, limit: 6 });
+            const polls = await getAllPolls({ postHashtags, userHashtags, page, limit: 6, query });
             console.log(polls);
-            if(polls.data.length == 0){
+            if (polls.data.length == 0) {
                 setShowSpinner(false);
             }
             setPolls([...Polls, ...polls.data])
@@ -37,6 +39,12 @@ const LoadMore = ({ postHashtags, userHashtags }: SelectionParams) => {
             getPolls();
         }
     }, [inView])
+
+    useEffect(() => {
+        setPolls([])
+        page = 2;
+    }, [query])
+
     return (
         <>
             <section>

@@ -1,5 +1,7 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
+import qs from "query-string"
+import { RemoveUrlQueryParams, UrlQueryParams } from "@/types"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -18,23 +20,53 @@ export function formatTimeAgo(dateString: Date) {
 
   let interval = seconds / 31536000;
   if (interval > 1) {
-      return Math.floor(interval) + "y";
+    return Math.floor(interval) + "y";
   }
   interval = seconds / 2592000;
   if (interval > 1) {
-      return Math.floor(interval) + "m";
+    return Math.floor(interval) + "m";
   }
   interval = seconds / 86400;
   if (interval > 1) {
-      return Math.floor(interval) + "d";
+    return Math.floor(interval) + "d";
   }
   interval = seconds / 3600;
   if (interval > 1) {
-      return Math.floor(interval) + "h";
+    return Math.floor(interval) + "h";
   }
   interval = seconds / 60;
   if (interval > 1) {
-      return Math.floor(interval) + "m";
+    return Math.floor(interval) + "m";
   }
   return Math.floor(seconds) + "s";
+}
+
+export function formUrlQuery({ params, key, value }: UrlQueryParams) {
+  const currentUrl = qs.parse(params)
+
+  currentUrl[key] = value
+
+  return qs.stringifyUrl(
+    {
+      url: window.location.pathname,
+      query: currentUrl,
+    },
+    { skipNull: true }
+  )
+}
+
+export function removeKeysFromQuery({ params, keysToRemove }: RemoveUrlQueryParams) {
+  const currentUrl = qs.parse(params)
+
+  keysToRemove.forEach(key => {
+    delete currentUrl[key]
+  })
+
+  return qs.stringifyUrl(
+    {
+      url: window.location.pathname,
+      query: currentUrl,
+    },
+    { skipNull: true }
+  )
 }

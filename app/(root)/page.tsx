@@ -1,17 +1,20 @@
 import Search from '@/components/shared/Search'
 import Selection from '@/components/shared/Selection'
 import { getUserById } from '@/lib/actions/user.actions'
+import { SearchParamsProps } from '@/types'
 import { SignedIn, SignedOut, auth } from '@clerk/nextjs'
 import Image from 'next/image'
 import React from 'react'
 
-const page = async () => {
+const page = async ({ searchParams }: SearchParamsProps) => {
 
   const { sessionClaims } = auth()
   const userId = sessionClaims?.userId as string;
 
   const user = await getUserById(userId)
   const userHashtags = user?.hashtags
+
+  const searchText = (searchParams?.query as string) || ''
 
 
   return (
@@ -29,10 +32,10 @@ const page = async () => {
             <Image src={'/assets/icons/trend-solid.svg'} alt='trend' height={30} width={30} />
           </div>
           <SignedIn>
-            <Selection postHashtags={['']} userHashtags={userHashtags} />
+            <Selection postHashtags={['']} userHashtags={userHashtags} query={searchText} />
           </SignedIn>
           <SignedOut>
-            <Selection postHashtags={['']} userHashtags={['']} />
+            <Selection postHashtags={['']} userHashtags={['']} query={searchText}/>
           </SignedOut>
         </div>
       </div>

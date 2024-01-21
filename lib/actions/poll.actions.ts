@@ -46,31 +46,24 @@ export async function getPollsByUser(userId: string) {
 
         return JSON.parse(JSON.stringify(polls))
 
-    } catch(error) {
+    } catch (error) {
         console.log(error);
     }
 }
 
-export async function getAllPolls({ postHashtags, userHashtags, page, limit = 6 }: GetPollsParams) {
+export async function getAllPolls({ postHashtags, userHashtags, page, limit = 6, query }: GetPollsParams) {
     try {
         await connectToDatabase();
 
+        const titleCondition = query ? { title: { $regex: query, $options: 'i' } } : {};
 
-        const totalPostHashtagsCount = postHashtags.length > 0 ?
-            await Poll.countDocuments({
-                hashtags: { $in: postHashtags }
-            }) : 0;
+        const postHashtagsCondition = postHashtags.length > 0 ? { hashtags: { $in: postHashtags } } : {};
+        const userHashtagsCondition = userHashtags.length > 0 ? { hashtags: { $in: userHashtags, $nin: postHashtags } } : {};
+        const otherCondition = { hashtags: { $nin: [...postHashtags, ...userHashtags] } };
 
-
-        const totalUserHashtagsCount = userHashtags.length > 0 ?
-            await Poll.countDocuments({
-                hashtags: { $in: userHashtags, $nin: postHashtags }
-            }) : 0;
-
-
-        const totalOtherCount = await Poll.countDocuments({
-            hashtags: { $nin: [...postHashtags, ...userHashtags] }
-        });
+        const totalPostHashtagsCount = await Poll.countDocuments({ ...postHashtagsCondition, ...titleCondition });
+        const totalUserHashtagsCount = await Poll.countDocuments({ ...userHashtagsCondition, ...titleCondition });
+        const totalOtherCount = await Poll.countDocuments({ ...otherCondition, ...titleCondition });
 
         const totalCount = totalPostHashtagsCount + totalUserHashtagsCount + totalOtherCount;
         const skipAmount = (page - 1) * limit;
@@ -78,7 +71,7 @@ export async function getAllPolls({ postHashtags, userHashtags, page, limit = 6 
 
 
         if (skipAmount < totalPostHashtagsCount) {
-            const matchingPostHashtagsPolls = await populatePoll(Poll.find({ hashtags: { $in: postHashtags } })
+            const matchingPostHashtagsPolls = await populatePoll(Poll.find({ ...postHashtagsCondition, ...titleCondition })
                 .sort({ createdAt: 'desc' })
                 .skip(skipAmount)
                 .limit(limit));
@@ -88,10 +81,12 @@ export async function getAllPolls({ postHashtags, userHashtags, page, limit = 6 
 
 
         let remainingLimit = limit - combinedPolls.length;
+
         if (remainingLimit > 0 && skipAmount + combinedPolls.length < totalPostHashtagsCount + totalUserHashtagsCount) {
             const skipUserHashtags = Math.max(0, skipAmount - totalPostHashtagsCount);
             const matchingUserHashtagsPolls = await populatePoll(Poll.find({
-                hashtags: { $in: userHashtags },
+                ...userHashtagsCondition,
+                ...titleCondition,
                 _id: { $nin: combinedPolls.map(poll => poll._id) }
             })
                 .sort({ createdAt: 'desc' })
@@ -106,7 +101,8 @@ export async function getAllPolls({ postHashtags, userHashtags, page, limit = 6 
         if (remainingLimit > 0) {
             const skipRemaining = Math.max(0, skipAmount - totalPostHashtagsCount - totalUserHashtagsCount);
             const remainingPolls = await populatePoll(Poll.find({
-                hashtags: { $nin: [...postHashtags, ...userHashtags] },
+                ...otherCondition,
+                ...titleCondition,
                 _id: { $nin: combinedPolls.map(poll => poll._id) }
             })
                 .sort({ createdAt: 'desc' })
@@ -122,6 +118,6 @@ export async function getAllPolls({ postHashtags, userHashtags, page, limit = 6 
         };
     } catch (error) {
         console.log(error);
-        throw error; // It's a good practice to re-throw the error for further handling.
+        throw error;
     }
 }

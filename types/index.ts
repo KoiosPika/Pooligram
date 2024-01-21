@@ -48,5 +48,17 @@ export type GetPollsParams = {
     postHashtags: string[],
     userHashtags: string[],
     page: number,
-    limit: number
+    limit: number,
+    query?: string
 }
+
+export type UrlQueryParams = {
+    params: string
+    key: string
+    value: string | null
+  }
+  
+  export type RemoveUrlQueryParams = {
+    params: string
+    keysToRemove: string[]
+  }

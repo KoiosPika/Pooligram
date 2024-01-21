@@ -4,26 +4,28 @@ import React, { useEffect, useState } from 'react'
 import Card from './Card'
 import { getAllPolls } from '@/lib/actions/poll.actions'
 import { IPoll } from '@/lib/database/models/poll.model'
-import { updateUser } from '@/lib/actions/user.actions'
 import LoadMore from './LoadMore'
 
 type SelectionParams = {
     userHashtags: string[],
-    postHashtags: string[]
+    postHashtags: string[],
+    query?: string;
 }
 
-const Selection = ({ postHashtags, userHashtags }: SelectionParams) => {
+const Selection = ({ postHashtags, userHashtags, query }: SelectionParams) => {
 
     const [Polls, setPolls] = useState<IPoll[]>()
+
     useEffect(() => {
+        setPolls([])
         async function getPolls() {
-            const polls = await getAllPolls({ postHashtags, userHashtags, page: 1, limit: 6 });
+            const polls = await getAllPolls({ postHashtags, userHashtags, page: 1, limit: 6, query: query });
             setPolls(polls?.data)
             console.log(polls.data)
         }
 
         getPolls();
-    }, [])
+    }, [query])
 
     return (
         <>{Polls && Polls.length > 0 ? (
@@ -37,7 +39,7 @@ const Selection = ({ postHashtags, userHashtags }: SelectionParams) => {
                         )
                     })}
                 </ul>
-                <LoadMore postHashtags={postHashtags} userHashtags={userHashtags} />
+                <LoadMore postHashtags={postHashtags} userHashtags={userHashtags} query={query} />
             </div>
         ) : (
             <></>

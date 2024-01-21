@@ -70,3 +70,24 @@ export function removeKeysFromQuery({ params, keysToRemove }: RemoveUrlQueryPara
     { skipNull: true }
   )
 }
+
+export function timeUntil(dateString: string) {
+  const now = new Date();
+  const futureDate = new Date(dateString);
+
+  if (futureDate < now) {
+    return false;
+  }
+
+  const differenceInMilliseconds = futureDate.getTime() - now.getTime();
+
+  // Convert milliseconds to days and hours
+  const daysLeft = Math.floor(differenceInMilliseconds / (1000 * 60 * 60 * 24));
+  const hoursLeft = Math.floor((differenceInMilliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+  if (daysLeft > 0) {
+    return `Ends in ${daysLeft} days`;
+  } else {
+    return `Ends in ${hoursLeft} hours`;
+  }
+}

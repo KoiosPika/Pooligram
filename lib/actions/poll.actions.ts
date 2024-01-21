@@ -42,7 +42,7 @@ export async function getPollsByUser(userId: string) {
     try {
         await connectToDatabase();
 
-        const polls = await populatePoll(Poll.find({ creator: userId })).sort({ createdAt: 'desc' })
+        const polls = await populatePoll(Poll.find({ creator: userId })).sort({ createdAt: 1 })
 
         return JSON.parse(JSON.stringify(polls))
 

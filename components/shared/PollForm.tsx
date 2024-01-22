@@ -20,6 +20,9 @@ import { createPoll } from '@/lib/actions/poll.actions'
 import { useRouter } from 'next/navigation'
 import { createAnswer } from '@/lib/actions/answer.actions'
 import { getUserById } from '@/lib/actions/user.actions'
+import { daysBetweenDates } from '@/lib/utils'
+
+const DailyCharge = 0.75;
 
 const PollForm = ({ userId }: { userId: string }) => {
     const form = useForm<z.infer<typeof eventFormSchema>>({
@@ -31,8 +34,10 @@ const PollForm = ({ userId }: { userId: string }) => {
 
     const Today = new Date();
     const MaxDate = new Date(Today);
+    const MinDate = new Date(Today);
     const PollMax = new Date(Today)
-    PollMax.setDate(Today.getDate() + 7)
+    PollMax.setDate(Today.getDate() + 5)
+    MinDate.setDate(Today.getDate() + 5);
     MaxDate.setDate(Today.getDate() + 30);
 
     const [options, setOptions] = useState<string[]>([]);
@@ -44,9 +49,8 @@ const PollForm = ({ userId }: { userId: string }) => {
 
     const [files, setFiles] = useState<File[]>([])
     const [userBalance, setUserBalance] = useState(0);
-    const [extraDays, setExtraDays] = useState<number>(0)
-    const [extendedCharge, setExtendedCharge] = useState<number>(0)
-    const prevExtraDaysRef = useRef(extraDays);
+    const [selectedDate, setSelectedDate] = useState<Date>(MinDate);
+    const [days, setDays] = useState(0);
 
     useEffect(() => {
         async function getUser() {
@@ -66,12 +70,9 @@ const PollForm = ({ userId }: { userId: string }) => {
     }, [sponsored])
 
     useEffect(() => {
-        if (Number.isNaN(extraDays)) {
-            setExtendedCharge(0)
-        } else {
-            setExtendedCharge(extraDays * 0.25)
-        }
-    }, [extraDays])
+        const day = daysBetweenDates(selectedDate, MinDate)
+        setDays(day);
+    }, [selectedDate])
 
     const AddOption = () => {
         setOptions((prevState) => [...prevState, newOption])
@@ -239,9 +240,8 @@ const PollForm = ({ userId }: { userId: string }) => {
                         <Image src={'/assets/icons/settings.svg'} alt='pen' height={25} width={25} />
                         <p className='text-[18px] font-bold text-white'>Poll Options</p>
                     </div>
-                    <p className='text-[13px] font-semibold text-white'>(please refill your wallet first)</p>
                     <div className='flex flex-col bg-white rounded-lg m-7 p-3'>
-                        <p className='ml-5 mt-3 mb-2 text-blue-800 font-bold'>For a $2.00 sponsorship fee, you can enhance the visibility of your poll by ensuring it appears at the top of the poll list for 24 hours.</p>
+                        <p className='ml-5 mt-3 mb-2 text-black font-bold'>For a $2.00 sponsorship fee, you can enhance the visibility of your poll by ensuring it appears at the top of the poll list for 24 hours.</p>
                         <FormField
                             control={form.control}
                             name="sponsored"
@@ -250,7 +250,8 @@ const PollForm = ({ userId }: { userId: string }) => {
                                     <FormControl>
                                         <div className="flex mt-4 items-center">
                                             <Checkbox onCheckedChange={() => setSponsored(!sponsored)} checked={sponsored} id="openList" className="mr-2 h-7 w-7 border-2 border-blue-800" />
-                                            <label htmlFor="openList" className="font-bold text-blue-800 text-[16px]">Sponsor the poll for $2.00</label>
+                                            <label htmlFor="openList" className="font-bold text-blue-800 text-[16px]">Sponsor the poll for</label>
+                                            <p className='bg-green-200 text-green-800 p-1 rounded-md font-semibold ml-1'>$2.00</p>
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -259,24 +260,56 @@ const PollForm = ({ userId }: { userId: string }) => {
                         />
                     </div>
                     <div className='flex flex-col bg-white rounded-lg m-7 p-3'>
-                        <p className='ml-5 mt-3 mb-2 text-blue-800 font-bold'>Polls expire within 5 days. But you can extend the period now for $0.25 per day or later for $0.50 per day</p>
+                        <p className='ml-5 mt-3 mb-2 text-black font-bold'>Polls expire within 5 days. But you can extend the period now for $0.75 per day or later for $1.00 per day. (Max is 30)</p>
                         <div className='w-full pl-5 pt-4 max-w-[500px]'>
-                            <div className="flex mb-3 items-center">
-                                <Checkbox onCheckedChange={() => setCanChangeDate(!canChangeDate)} checked={canChangeDate} className="mr-2 h-7 w-7 border-2 border-blue-800" />
-                                <label htmlFor="isFree" className="font-bold text-blue-800">Check here to add more days</label>
-                            </div>
                             <div className='w-full flex justify-center items-center'>
-                                {canChangeDate &&
-                                    <Input min={0} className='w-[160px] border-2 border-black font-bold' step={'1'} type='number' placeholder='How many days?' value={extraDays} onChange={(e) => setExtraDays(e.target.valueAsNumber)} onKeyDown={(e)=>{if(e.key === '.'){e.preventDefault()}}} />
-                                }
+
+                                <FormField
+                                    control={form.control}
+                                    name="endDateTime"
+                                    render={({ field }) => (
+                                        <FormItem className="w-full">
+                                            <FormControl>
+                                                <div className="flex-center h-[54px] w-full overflow-hidden rounded-full px-4 py-2">
+                                                    <Image src="/assets/icons/calendar.svg" alt="calender" width={24} height={24} />
+                                                    <p className="m-3 whitespace-nowrap font-semibold text-black">End Date:</p>
+                                                    <DatePicker
+                                                        className='rounded-lg px-2 font-semibold w-[105px] border-2 border-black'
+                                                        onChange={(date: Date) => {
+                                                            field.onChange(date);
+                                                            setSelectedDate(date);
+                                                        }}
+                                                        selected={selectedDate}
+                                                        minDate={MinDate}
+                                                        maxDate={MaxDate}
+                                                        dateFormat={"MM/dd/yyyy"}
+                                                    />
+                                                </div>
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
+                            </div>
+                            <div className="flex mb-3 items-center justify-center">
+                                <p className='text-black font-semibold mr-1'>You're extending {days} days for</p>
+                                <p className='bg-green-200 text-green-800 p-1 rounded-md font-semibold'>${days * DailyCharge}</p>
                             </div>
                         </div>
                     </div>
                     <div className='flex flex-col bg-white rounded-lg m-7 py-3 justify-center items-center'>
-                        <div className='flex flex-row items-center gap-2'>
-                            <p className='text-[20px] font-semibold'>Your Balance: </p>
-                            <p className='text-[20px] font-semibold border-2 border-blue-800 rounded-lg p-2'>{userBalance - extendedCharge}</p>
-                        </div>
+                        {(userBalance - days * DailyCharge > 0) &&
+                            <div className='flex flex-row items-center gap-2'>
+                                <p className='text-[20px] font-semibold'>Your Balance: </p>
+                                <p className='text-[20px] font-semibold border-2 bg-green-200 text-green-800 rounded-lg p-1'>${(userBalance - days * DailyCharge).toFixed(2)}</p>
+                            </div>}
+                        {(userBalance - days * DailyCharge < 0) &&
+                            <div className='flex flex-row items-center gap-2'>
+                                <p className='text-[20px] font-semibold'>Your Balance: </p>
+                                <p className='text-[20px] font-semibold border-2 bg-red-200 text-red-800 rounded-lg p-1'>${(userBalance - days * DailyCharge).toFixed(2)}</p>
+                            </div>}
+                        {(userBalance - days * DailyCharge < 0) && <p className='bg-red-200 text-red-800 rounded-lg p-1 font-semibold mt-2 border-2 border-red-800'>Please refill your wallet first!</p>}
                     </div>
                 </div>
 
@@ -300,7 +333,7 @@ const PollForm = ({ userId }: { userId: string }) => {
                 />
 
 
-                <Button disabled={form.formState.isSubmitting} className="bg-blue-800 col-span-2 w-[155px] gap-1" type="submit">
+                <Button disabled={form.formState.isSubmitting || (userBalance - days * DailyCharge < 0)} className="bg-blue-800 col-span-2 w-[155px] gap-1" type="submit">
                     <Image src={'/assets/icons/create.svg'} alt='create' height={20} width={20} />
                     <p>{form.formState.isSubmitting ? 'Please Wait...' : 'Create Poll Now!'}</p>
                 </Button>

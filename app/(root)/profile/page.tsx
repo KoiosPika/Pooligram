@@ -16,7 +16,7 @@ const page = async () => {
     const Polls = await getPollsByUser(userId)
     return (
         <div className='w-full flex justify-center items-center'>
-            <div className='w-full flex max-w-[800px] justify-center items-center bg-white'>
+            <div className='w-full flex max-w-[700px] justify-center items-center bg-white'>
                 <div className='my-3 justify-center items-center flex flex-col w-full'>
                     <div className='w-full my-3 px-3'>
                         <ul className='flex flex-col w-full bg-blue-800 rounded-xl p-1'>

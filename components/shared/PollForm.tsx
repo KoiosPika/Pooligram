@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -19,6 +19,7 @@ import { useUploadThing } from '@/lib/uploadthing'
 import { createPoll } from '@/lib/actions/poll.actions'
 import { useRouter } from 'next/navigation'
 import { createAnswer } from '@/lib/actions/answer.actions'
+import { getUserById } from '@/lib/actions/user.actions'
 
 const PollForm = ({ userId }: { userId: string }) => {
     const form = useForm<z.infer<typeof eventFormSchema>>({
@@ -39,8 +40,41 @@ const PollForm = ({ userId }: { userId: string }) => {
     const [hashtags, setHashtags] = useState<string[]>([]);
     const [newHashtag, setNewHashtag] = useState<string>('');
     const [canChangeDate, setCanChangeDate] = useState<boolean>(false);
+    const [sponsored, setSponsored] = useState<boolean>(false);
 
     const [files, setFiles] = useState<File[]>([])
+    const [userBalance, setUserBalance] = useState(0);
+    const [extraDays, setExtraDays] = useState<number>(0)
+    const prevExtraDaysRef = useRef(extraDays);
+
+    useEffect(() => {
+        async function getUser() {
+            const user = await getUserById(userId);
+            setUserBalance(user.balance);
+        }
+
+        getUser();
+    }, [])
+
+    useEffect(() => {
+        if (sponsored == false) {
+            setUserBalance(userBalance + 2)
+        } else {
+            setUserBalance(userBalance - 2)
+        }
+    }, [sponsored])
+
+    useEffect(() => {
+        const prevExtraDays = prevExtraDaysRef.current;
+
+        if (extraDays > prevExtraDays) {
+            setUserBalance(currentBalance => currentBalance - (0.25));
+        } else if (extraDays < prevExtraDays) {
+            setUserBalance(currentBalance => currentBalance + (0.25));
+        }
+
+        prevExtraDaysRef.current = extraDays;
+    }, [extraDays]);
 
     const AddOption = () => {
         setOptions((prevState) => [...prevState, newOption])
@@ -115,26 +149,28 @@ const PollForm = ({ userId }: { userId: string }) => {
                 />
 
                 <div className='w-full p-5 max-w-[500px] bg-blue-800 border-2 border-black rounded-lg'>
-                    <div className='inline-flex flex-row gap-2 bg-blue-800 p-1 rounded-md mb-3'>
+                    <div className='inline-flex flex-row gap-1 bg-blue-800 p-1 rounded-md mb-3'>
                         <Image src={'/assets/icons/hashtag.svg'} alt='pen' height={25} width={25} />
                         <p className='text-[18px] font-bold text-white'>Poll Hashtags</p>
                     </div>
                     {hashtags.length > 0 &&
-                        <div className='w-full flex flex-col max-w-[500px] justify-center items-center px-5 md:px-15 grid-cols-2'>
-                            {hashtags.map((hashtag, index) => (
-                                <div className='w-full p-3 border-2 border-white bg-white rounded-md flex flex-row my-2 justify-between'>
-                                    <p className='text-[16px] text-black font-semibold'>#{hashtag}</p>
-                                    <button type="button" onClick={() => handleDeleteHashtag(index)}>
-                                        <Image src={'/assets/icons/minus.svg'} alt='minus' width={20} height={30} />
-                                    </button>
-                                </div>
-                            ))}
+                        <div className='w-full flex flex-col max-w-[500px] justify-center items-center px-5 md:px-15'>
+                            <ul className="grid w-full grid-cols-2 gap-2">
+                                {hashtags.map((hashtag, index) => (
+                                    <li key={index} className='w-full p-3 border-2 border-white bg-white rounded-md flex flex-row my-2 justify-between relative'>
+                                        <p className='text-[16px] text-black font-semibold'>#{hashtag}</p>
+                                        <button type="button" onClick={() => handleDeleteHashtag(index)} className='absolute right-2'>
+                                            <Image src={'/assets/icons/minus.svg'} alt='minus' width={20} height={30} />
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
                     }
                     <div className='flex flex-col gap-2 justify-center md:justify-between items-center'>
                         <div className='flex flex-row justify-center items-center gap-2'>
-                            <Input placeholder='Add Hashtag (Max 7)' className='w-full px-5 max-w-[300px] border-2 border-black' onChange={(e) => setNewHashtag(e.target.value)} value={newHashtag} />
-                            <button disabled={hashtags.length == 7} className='bg-yellow-300 hover:bg-grey-400 w-11 h-9 text-blue-800 text-[18px] rounded-md border-2 border-black' type="button" onClick={AddHashtag}>+</button>
+                            <Input placeholder='Add Hashtag (Max 8)' className='w-full px-5 max-w-[300px] border-2 border-black' onChange={(e) => setNewHashtag(e.target.value)} value={newHashtag} />
+                            <button disabled={hashtags.length == 8} className='bg-yellow-300 hover:bg-grey-400 w-11 h-9 text-blue-800 text-[18px] rounded-md border-2 border-black' type="button" onClick={AddHashtag}>+</button>
                         </div>
                     </div>
                 </div>
@@ -188,8 +224,8 @@ const PollForm = ({ userId }: { userId: string }) => {
                                 <FormItem>
                                     <FormControl>
                                         <div className="flex items-center my-3">
-                                            <Checkbox onCheckedChange={field.onChange} checked={field.value} id="sponsored" className="mr-2 h-7 w-7 border-2 border-white" />
-                                            <label htmlFor="sponsored" className="font-semibold text-white">Allow users to add more options</label>
+                                            <Checkbox onCheckedChange={field.onChange} checked={field.value} id="openList" className="mr-2 h-7 w-7 border-2 border-white" />
+                                            <label htmlFor="openList" className="font-semibold text-white">Allow users to add more options</label>
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -202,55 +238,48 @@ const PollForm = ({ userId }: { userId: string }) => {
 
 
                 <div className='w-full p-5 max-w-[500px] bg-blue-800 border-2 border-black rounded-lg'>
-                    <div className='inline-flex flex-row gap-3 bg-blue-800 p-1 rounded-md'>
+                    <div className='inline-flex flex-row gap-3 bg-blue-800 p-1 rounded-md items-center'>
                         <Image src={'/assets/icons/settings.svg'} alt='pen' height={25} width={25} />
                         <p className='text-[18px] font-bold text-white'>Poll Options</p>
                     </div>
-                    <FormField
-                        control={form.control}
-                        name="sponsored"
-                        render={({ field }) => (
-                            <FormItem className="w-full px-5 max-w-[500px]">
-                                <FormControl>
-                                    <div className="flex mt-4 ml-3 items-center">
-                                        <Checkbox onCheckedChange={field.onChange} checked={field.value} id="openList" className="mr-2 h-7 w-7 border-2 border-white" />
-                                        <label htmlFor="openList" className="font-semibold text-white">Sponsor the poll for $1.50</label>
-                                    </div>
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <div className='w-full pl-5 pt-4 max-w-[500px]'>
-                        <div className="flex mb-3 ml-3 items-center">
-                            <Checkbox onCheckedChange={() => setCanChangeDate(!canChangeDate)} checked={canChangeDate} className="mr-2 h-7 w-7 border-2 border-white" />
-                            <label htmlFor="isFree" className="font-semibold text-white">Polls expire after 7 days but you can customize the date for $1.50 (Note: Max is 30 Days)</label>
+                    <p className='text-[13px] font-semibold text-white'>(please refill your wallet first)</p>
+                    <div className='flex flex-col bg-white rounded-lg m-7 p-3'>
+                        <p className='ml-5 mt-3 mb-2 text-blue-800 font-bold'>For a $2.00 sponsorship fee, you can enhance the visibility of your poll by ensuring it appears at the top of the poll list for 24 hours.</p>
+                        <FormField
+                            control={form.control}
+                            name="sponsored"
+                            render={({ field }) => (
+                                <FormItem className="w-full px-5 max-w-[500px]">
+                                    <FormControl>
+                                        <div className="flex mt-4 items-center">
+                                            <Checkbox onCheckedChange={() => setSponsored(!sponsored)} checked={sponsored} id="openList" className="mr-2 h-7 w-7 border-2 border-blue-800" />
+                                            <label htmlFor="openList" className="font-bold text-blue-800 text-[16px]">Sponsor the poll for $2.00</label>
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+                    <div className='flex flex-col bg-white rounded-lg m-7 p-3'>
+                        <p className='ml-5 mt-3 mb-2 text-blue-800 font-bold'>Polls expire within 5 days. But you can extend the period now for $0.25 per day or later for $0.50 per day</p>
+                        <div className='w-full pl-5 pt-4 max-w-[500px]'>
+                            <div className="flex mb-3 items-center">
+                                <Checkbox onCheckedChange={() => setCanChangeDate(!canChangeDate)} checked={canChangeDate} className="mr-2 h-7 w-7 border-2 border-blue-800" />
+                                <label htmlFor="isFree" className="font-bold text-blue-800">Check here to add more days</label>
+                            </div>
+                            <div className='w-full flex justify-center items-center'>
+                            {canChangeDate &&
+                                <Input min={0} className='w-[70px] border-2 border-black font-bold' type='number' placeholder='How many days?' value={extraDays} onChange={(e) => setExtraDays(e.target.valueAsNumber)} onKeyDown={(e) => e.preventDefault()} />
+                            }
+                            </div>
                         </div>
-                        {canChangeDate &&
-                            <FormField
-                                control={form.control}
-                                name="endDateTime"
-                                render={({ field }) => (
-                                    <FormItem className="w-full">
-                                        <FormControl>
-                                            <div className="flex-center h-[54px] w-full overflow-hidden rounded-full px-4 py-2">
-                                                <Image src="/assets/icons/calendar.svg" alt="calender" width={24} height={24} />
-                                                <p className="m-3 whitespace-nowrap font-semibold text-white">End Date:</p>
-                                                <DatePicker
-                                                    className='rounded-lg px-2 font-semibold w-[105px]'
-                                                    selected={field.value}
-                                                    onChange={(date: Date) => field.onChange(date)}
-                                                    minDate={Today}
-                                                    maxDate={MaxDate}
-                                                    dateFormat={"MM/dd/yyyy"}
-                                                />
-                                            </div>
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        }
+                    </div>
+                    <div className='flex flex-col bg-white rounded-lg m-7 py-3 justify-center items-center'>
+                        <div className='flex flex-row items-center gap-2'>
+                            <p className='text-[20px] font-semibold'>Your Balance: </p>
+                            <p className='text-[20px] font-semibold border-2 border-blue-800 rounded-lg p-2'>{userBalance}</p>
+                        </div>
                     </div>
                 </div>
 
@@ -279,7 +308,7 @@ const PollForm = ({ userId }: { userId: string }) => {
                     <p>{form.formState.isSubmitting ? 'Please Wait...' : 'Create Poll Now!'}</p>
                 </Button>
             </form>
-        </Form>
+        </Form >
     )
 }
 

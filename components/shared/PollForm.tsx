@@ -45,6 +45,7 @@ const PollForm = ({ userId }: { userId: string }) => {
     const [files, setFiles] = useState<File[]>([])
     const [userBalance, setUserBalance] = useState(0);
     const [extraDays, setExtraDays] = useState<number>(0)
+    const [extendedCharge, setExtendedCharge] = useState<number>(0)
     const prevExtraDaysRef = useRef(extraDays);
 
     useEffect(() => {
@@ -65,16 +66,12 @@ const PollForm = ({ userId }: { userId: string }) => {
     }, [sponsored])
 
     useEffect(() => {
-        const prevExtraDays = prevExtraDaysRef.current;
-
-        if (extraDays > prevExtraDays) {
-            setUserBalance(currentBalance => currentBalance - (0.25));
-        } else if (extraDays < prevExtraDays) {
-            setUserBalance(currentBalance => currentBalance + (0.25));
+        if (Number.isNaN(extraDays)) {
+            setExtendedCharge(0)
+        } else {
+            setExtendedCharge(extraDays * 0.25)
         }
-
-        prevExtraDaysRef.current = extraDays;
-    }, [extraDays]);
+    }, [extraDays])
 
     const AddOption = () => {
         setOptions((prevState) => [...prevState, newOption])
@@ -269,16 +266,16 @@ const PollForm = ({ userId }: { userId: string }) => {
                                 <label htmlFor="isFree" className="font-bold text-blue-800">Check here to add more days</label>
                             </div>
                             <div className='w-full flex justify-center items-center'>
-                            {canChangeDate &&
-                                <Input min={0} className='w-[70px] border-2 border-black font-bold' type='number' placeholder='How many days?' value={extraDays} onChange={(e) => setExtraDays(e.target.valueAsNumber)} onKeyDown={(e) => e.preventDefault()} />
-                            }
+                                {canChangeDate &&
+                                    <Input min={0} className='w-[160px] border-2 border-black font-bold' step={'1'} type='number' placeholder='How many days?' value={extraDays} onChange={(e) => setExtraDays(e.target.valueAsNumber)} onKeyDown={(e)=>{if(e.key === '.'){e.preventDefault()}}} />
+                                }
                             </div>
                         </div>
                     </div>
                     <div className='flex flex-col bg-white rounded-lg m-7 py-3 justify-center items-center'>
                         <div className='flex flex-row items-center gap-2'>
                             <p className='text-[20px] font-semibold'>Your Balance: </p>
-                            <p className='text-[20px] font-semibold border-2 border-blue-800 rounded-lg p-2'>{userBalance}</p>
+                            <p className='text-[20px] font-semibold border-2 border-blue-800 rounded-lg p-2'>{userBalance - extendedCharge}</p>
                         </div>
                     </div>
                 </div>

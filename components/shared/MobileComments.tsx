@@ -237,7 +237,7 @@ const MobileComments = ({ pollId }: { pollId: string }) => {
                     ))}
                 </ScrollArea>
                 <DrawerFooter className="pt-2 flex flex-row">
-                    <Input onFocusCapture={(e) => e.preventDefault()} placeholder='Write a comment' value={newComment} onChange={(e) => setNewComment(e.target.value)} className='font-semibold' />
+                    <Input onFocusCapture={(e) => e.preventDefault()} placeholder='Write a comment' value={newComment} onChange={(e) => setNewComment(e.target.value)} className='font-semibold text-[16px]' />
                     <Button className='ml-2 border-2 border-white bg-white hover:bg-yellow-300' onClick={() => handleSubmit()}>
                         <Image src={'/assets/icons/arrow.svg'} alt='arrow' width={25} height={25} />
                     </Button>

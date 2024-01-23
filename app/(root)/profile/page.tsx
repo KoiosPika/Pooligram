@@ -1,17 +1,13 @@
-import Card from '@/components/shared/Card';
+
 import ListItem from '@/components/shared/ListItem';
 import { getPollsByUser } from '@/lib/actions/poll.actions';
-import { getUserById } from '@/lib/actions/user.actions';
 import { IPoll } from '@/lib/database/models/poll.model';
 import { auth } from '@clerk/nextjs'
-import Image from 'next/image';
 import React from 'react'
 
 const page = async () => {
     const { sessionClaims } = auth()
     const userId = sessionClaims?.userId as string;
-
-    const user = await getUserById(userId);
 
     const Polls = await getPollsByUser(userId)
     return (

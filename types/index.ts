@@ -73,3 +73,10 @@ export type UrlQueryParams = {
         openComments: boolean
     }
   }
+
+  export type CreateOrderParams = {
+    stripeId: string
+    buyerId: string
+    price: string
+    createdAt: Date
+  }

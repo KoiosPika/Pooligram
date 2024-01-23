@@ -38,206 +38,206 @@ const MobileComments = ({ pollId }: { pollId: string }) => {
         <Drawer open={open} onOpenChange={setOpen}>
             <DrawerTrigger asChild>
                 <Button variant="outline" className='flex flex-row items-center gap-1 bg-blue-800'>
-                    <Image src={'/assets/icons/comments.svg'} alt='comment' height={20} width={20}/>
+                    <Image src={'/assets/icons/comments.svg'} alt='comment' height={20} width={20} />
                     <p className='text-white'>Comments</p>
                 </Button>
             </DrawerTrigger>
             <DrawerContent className='bg-blue-800 h-5/6'>
-            <ScrollArea className='flex flex-1 px-3 mt-3'>
-                {Comments.map((comment) => (
-                    <>
-                        <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
-                            <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
-                            <div className='flex flex-col ml-2'>
-                                <div className='flex flex-row gap-2 items-center'>
-                                    <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
-                                    <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full'/>
-                                    <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                <ScrollArea className='flex flex-1 px-3 mt-3'>
+                    {Comments.map((comment) => (
+                        <>
+                            <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
+                                <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
+                                <div className='flex flex-col ml-2'>
+                                    <div className='flex flex-row gap-2 items-center'>
+                                        <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
+                                        <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full' />
+                                        <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                                    </div>
+                                    <p>{comment.text}</p>
                                 </div>
-                                <p>{comment.text}</p>
                             </div>
-                        </div>
-                        <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
-                            <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
-                            <div className='flex flex-col ml-2'>
-                                <div className='flex flex-row gap-2 items-center'>
-                                    <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
-                                    <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full'/>
-                                    <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                            <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
+                                <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
+                                <div className='flex flex-col ml-2'>
+                                    <div className='flex flex-row gap-2 items-center'>
+                                        <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
+                                        <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full' />
+                                        <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                                    </div>
+                                    <p>{comment.text}</p>
                                 </div>
-                                <p>{comment.text}</p>
                             </div>
-                        </div>
-                        <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
-                            <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
-                            <div className='flex flex-col ml-2'>
-                                <div className='flex flex-row gap-2 items-center'>
-                                    <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
-                                    <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full'/>
-                                    <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                            <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
+                                <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
+                                <div className='flex flex-col ml-2'>
+                                    <div className='flex flex-row gap-2 items-center'>
+                                        <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
+                                        <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full' />
+                                        <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                                    </div>
+                                    <p>{comment.text}</p>
                                 </div>
-                                <p>{comment.text}</p>
                             </div>
-                        </div>
-                        <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
-                            <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
-                            <div className='flex flex-col ml-2'>
-                                <div className='flex flex-row gap-2 items-center'>
-                                    <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
-                                    <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full'/>
-                                    <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                            <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
+                                <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
+                                <div className='flex flex-col ml-2'>
+                                    <div className='flex flex-row gap-2 items-center'>
+                                        <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
+                                        <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full' />
+                                        <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                                    </div>
+                                    <p>{comment.text}</p>
                                 </div>
-                                <p>{comment.text}</p>
                             </div>
-                        </div>
-                        <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
-                            <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
-                            <div className='flex flex-col ml-2'>
-                                <div className='flex flex-row gap-2 items-center'>
-                                    <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
-                                    <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full'/>
-                                    <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                            <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
+                                <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
+                                <div className='flex flex-col ml-2'>
+                                    <div className='flex flex-row gap-2 items-center'>
+                                        <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
+                                        <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full' />
+                                        <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                                    </div>
+                                    <p>{comment.text}</p>
                                 </div>
-                                <p>{comment.text}</p>
                             </div>
-                        </div>
-                        <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
-                            <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
-                            <div className='flex flex-col ml-2'>
-                                <div className='flex flex-row gap-2 items-center'>
-                                    <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
-                                    <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full'/>
-                                    <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                            <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
+                                <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
+                                <div className='flex flex-col ml-2'>
+                                    <div className='flex flex-row gap-2 items-center'>
+                                        <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
+                                        <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full' />
+                                        <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                                    </div>
+                                    <p>{comment.text}</p>
                                 </div>
-                                <p>{comment.text}</p>
                             </div>
-                        </div>
-                        <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
-                            <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
-                            <div className='flex flex-col ml-2'>
-                                <div className='flex flex-row gap-2 items-center'>
-                                    <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
-                                    <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full'/>
-                                    <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                            <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
+                                <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
+                                <div className='flex flex-col ml-2'>
+                                    <div className='flex flex-row gap-2 items-center'>
+                                        <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
+                                        <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full' />
+                                        <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                                    </div>
+                                    <p>{comment.text}</p>
                                 </div>
-                                <p>{comment.text}</p>
                             </div>
-                        </div>
-                        <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
-                            <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
-                            <div className='flex flex-col ml-2'>
-                                <div className='flex flex-row gap-2 items-center'>
-                                    <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
-                                    <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full'/>
-                                    <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                            <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
+                                <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
+                                <div className='flex flex-col ml-2'>
+                                    <div className='flex flex-row gap-2 items-center'>
+                                        <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
+                                        <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full' />
+                                        <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                                    </div>
+                                    <p>{comment.text}</p>
                                 </div>
-                                <p>{comment.text}</p>
                             </div>
-                        </div>
-                        <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
-                            <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
-                            <div className='flex flex-col ml-2'>
-                                <div className='flex flex-row gap-2 items-center'>
-                                    <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
-                                    <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full'/>
-                                    <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                            <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
+                                <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
+                                <div className='flex flex-col ml-2'>
+                                    <div className='flex flex-row gap-2 items-center'>
+                                        <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
+                                        <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full' />
+                                        <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                                    </div>
+                                    <p>{comment.text}</p>
                                 </div>
-                                <p>{comment.text}</p>
                             </div>
-                        </div>
-                        <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
-                            <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
-                            <div className='flex flex-col ml-2'>
-                                <div className='flex flex-row gap-2 items-center'>
-                                    <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
-                                    <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full'/>
-                                    <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                            <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
+                                <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
+                                <div className='flex flex-col ml-2'>
+                                    <div className='flex flex-row gap-2 items-center'>
+                                        <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
+                                        <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full' />
+                                        <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                                    </div>
+                                    <p>{comment.text}</p>
                                 </div>
-                                <p>{comment.text}</p>
                             </div>
-                        </div>
-                        <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
-                            <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
-                            <div className='flex flex-col ml-2'>
-                                <div className='flex flex-row gap-2 items-center'>
-                                    <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
-                                    <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full'/>
-                                    <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                            <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
+                                <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
+                                <div className='flex flex-col ml-2'>
+                                    <div className='flex flex-row gap-2 items-center'>
+                                        <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
+                                        <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full' />
+                                        <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                                    </div>
+                                    <p>{comment.text}</p>
                                 </div>
-                                <p>{comment.text}</p>
                             </div>
-                        </div>
-                        <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
-                            <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
-                            <div className='flex flex-col ml-2'>
-                                <div className='flex flex-row gap-2 items-center'>
-                                    <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
-                                    <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full'/>
-                                    <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                            <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
+                                <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
+                                <div className='flex flex-col ml-2'>
+                                    <div className='flex flex-row gap-2 items-center'>
+                                        <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
+                                        <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full' />
+                                        <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                                    </div>
+                                    <p>{comment.text}</p>
                                 </div>
-                                <p>{comment.text}</p>
                             </div>
-                        </div>
-                        <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
-                            <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
-                            <div className='flex flex-col ml-2'>
-                                <div className='flex flex-row gap-2 items-center'>
-                                    <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
-                                    <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full'/>
-                                    <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                            <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
+                                <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
+                                <div className='flex flex-col ml-2'>
+                                    <div className='flex flex-row gap-2 items-center'>
+                                        <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
+                                        <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full' />
+                                        <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                                    </div>
+                                    <p>{comment.text}</p>
                                 </div>
-                                <p>{comment.text}</p>
                             </div>
-                        </div>
-                        <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
-                            <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
-                            <div className='flex flex-col ml-2'>
-                                <div className='flex flex-row gap-2 items-center'>
-                                    <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
-                                    <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full'/>
-                                    <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                            <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
+                                <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
+                                <div className='flex flex-col ml-2'>
+                                    <div className='flex flex-row gap-2 items-center'>
+                                        <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
+                                        <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full' />
+                                        <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                                    </div>
+                                    <p>{comment.text}</p>
                                 </div>
-                                <p>{comment.text}</p>
                             </div>
-                        </div>
-                        <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
-                            <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
-                            <div className='flex flex-col ml-2'>
-                                <div className='flex flex-row gap-2 items-center'>
-                                    <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
-                                    <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full'/>
-                                    <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                            <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
+                                <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
+                                <div className='flex flex-col ml-2'>
+                                    <div className='flex flex-row gap-2 items-center'>
+                                        <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
+                                        <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full' />
+                                        <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                                    </div>
+                                    <p>{comment.text}</p>
                                 </div>
-                                <p>{comment.text}</p>
                             </div>
-                        </div>
-                        <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
-                            <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
-                            <div className='flex flex-col ml-2'>
-                                <div className='flex flex-row gap-2 items-center'>
-                                    <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
-                                    <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full'/>
-                                    <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                            <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
+                                <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
+                                <div className='flex flex-col ml-2'>
+                                    <div className='flex flex-row gap-2 items-center'>
+                                        <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
+                                        <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full' />
+                                        <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                                    </div>
+                                    <p>{comment.text}</p>
                                 </div>
-                                <p>{comment.text}</p>
                             </div>
-                        </div>
-                        <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
-                            <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
-                            <div className='flex flex-col ml-2'>
-                                <div className='flex flex-row gap-2 items-center'>
-                                    <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
-                                    <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full'/>
-                                    <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                            <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
+                                <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
+                                <div className='flex flex-col ml-2'>
+                                    <div className='flex flex-row gap-2 items-center'>
+                                        <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
+                                        <Image src={'/assets/icons/verified.svg'} alt='verified' width={25} height={25} className='bg-blue-800 rounded-full' />
+                                        <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
+                                    </div>
+                                    <p>{comment.text}</p>
                                 </div>
-                                <p>{comment.text}</p>
                             </div>
-                        </div>
-                    </>
-                ))}
-            </ScrollArea>
+                        </>
+                    ))}
+                </ScrollArea>
                 <DrawerFooter className="pt-2 flex flex-row">
-                    <Input placeholder='Write a comment' value={newComment} onChange={(e) => setNewComment(e.target.value)} className='font-semibold' />
+                    <Input onFocusCapture={(e) => e.preventDefault()} placeholder='Write a comment' value={newComment} onChange={(e) => setNewComment(e.target.value)} className='font-semibold' />
                     <Button className='ml-2 border-2 border-white bg-white hover:bg-yellow-300' onClick={() => handleSubmit()}>
                         <Image src={'/assets/icons/arrow.svg'} alt='arrow' width={25} height={25} />
                     </Button>

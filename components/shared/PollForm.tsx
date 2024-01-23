@@ -204,14 +204,18 @@ const PollForm = ({ userId, dates }: PollParams) => {
 
 
                 <div className='w-full p-5 max-w-[500px] bg-blue-800 border-2 border-black rounded-lg'>
-                    <div className='inline-flex flex-row gap-2 bg-blue-800 p-1 rounded-md mb-3'>
+                    <div className='inline-flex flex-row gap-2 bg-blue-800 p-1 rounded-md mb-2'>
                         <Image src={'/assets/icons/answers.svg'} alt='pen' height={25} width={25} />
                         <p className='text-[18px] font-bold text-white'>Poll Answers</p>
+                    </div>
+                    <div className='flex flex-row ml-1 mb-2 gap-1'>
+                        <Image src={'/assets/icons/info-white.svg'} alt='info' height={18} width={18} className='mb-auto' />
+                        <p className='text-white text-[12px]'>To ensure integrity of the poll, you won't be able to edit answers after creating the poll</p>
                     </div>
                     {options.length > 0 &&
                         <div className='w-full flex flex-col max-w-[500px] justify-center items-center px-5 md:px-15'>
                             {options.map((option, index) => (
-                                <div className='w-full p-3 border-2 border-white bg-white rounded-md flex flex-row my-2 justify-between'>
+                                <div key={index} className='w-full p-3 border-2 border-white bg-white rounded-md flex flex-row my-2 justify-between'>
                                     <p className='text-[16px] text-black font-semibold'>{option}</p>
                                     <button type="button" onClick={() => handleDeleteOption(index)}>
                                         <Image src={'/assets/icons/minus.svg'} alt='minus' width={20} height={30} />
@@ -225,25 +229,8 @@ const PollForm = ({ userId, dates }: PollParams) => {
                             <Input placeholder='Add Answer' className='w-full px-5 max-w-[300px] border-2 border-black' onChange={(e) => setNewOption(e.target.value)} value={newOption} />
                             <button className='hover:bg-grey-400 w-11 h-9 text-blue-800 text-[18px] rounded-md border-2 border-black bg-yellow-400' type="button" onClick={AddOption}>+</button>
                         </div>
-                        <FormField
-                            control={form.control}
-                            name="openList"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <div className="flex items-center my-3">
-                                            <Checkbox onCheckedChange={field.onChange} checked={field.value} id="openList" className="mr-2 h-7 w-7 border-2 border-white" />
-                                            <label htmlFor="openList" className="font-semibold text-white">Allow users to add more options</label>
-                                        </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
                     </div>
                 </div>
-
-
 
                 <div className='w-full p-5 max-w-[500px] bg-blue-800 border-2 border-black rounded-lg'>
                     <div className='inline-flex flex-row gap-3 bg-blue-800 p-1 rounded-md items-center'>
@@ -255,8 +242,8 @@ const PollForm = ({ userId, dates }: PollParams) => {
                         <div className="w-full px-5 max-w-[500px]">
                             <div className="flex mt-4 items-center">
                                 <Checkbox onCheckedChange={() => setSponsored(!sponsored)} checked={sponsored} id="openList" className="mr-2 h-7 w-7 border-2 border-blue-800" />
-                                <label htmlFor="openList" className="font-bold text-blue-800 text-[16px]">Sponsor the poll for</label>
-                                <p className='bg-green-200 text-green-800 p-1 rounded-md font-semibold ml-1'>$1.00</p>
+                                <label htmlFor="openList" className="font-bold text-blue-800 text-[14px]">Enable Sponsorship</label>
+                                <p className='bg-green-200 text-green-800 p-1 rounded-md font-semibold ml-1 text-[14px]'>$1.00</p>
                             </div>
                         </div>
                     </div>

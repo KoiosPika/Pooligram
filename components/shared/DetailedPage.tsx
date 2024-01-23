@@ -22,8 +22,6 @@ import {
 import { Input } from '../ui/input'
 import { getUserById } from '@/lib/actions/user.actions'
 import { IUser } from '@/lib/database/models/user.model'
-import { getCommentsByPoll } from '@/lib/actions/comment.actions'
-import { IComment } from '@/lib/database/models/comment.model'
 import MobileComments from './MobileComments'
 
 const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
@@ -123,7 +121,7 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                 <div ref={leftDivRef} className='flex flex-col justify-center items-center my-5'>
                     <div className='flex h-[350px] justify-center items-center overflow-hidden bg-slate-300 rounded-tl-lg rounded-tr-lg md:rounded-tr-none relative'>
                         <div className='absolute top-3 right-3 md:hidden'>
-                            <MobileComments pollId={id} />
+                            {User && <MobileComments pollId={id} user={User} />}
                         </div>
                         <Image src={Poll?.imageUrl || '/assets/images/loading.png'} alt='hero' width={350} height={350} />
                     </div>

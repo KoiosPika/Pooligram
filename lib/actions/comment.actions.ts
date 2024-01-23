@@ -32,7 +32,7 @@ export async function getCommentsByPoll(id: string) {
 
         const condition = { poll: id }
 
-        const commentsQuery = Comment.find(condition).sort({ nofVotes: -1 })
+        const commentsQuery = Comment.find(condition).sort({ createdAt: -1 })
 
         const comments = await populateComment(commentsQuery)
 

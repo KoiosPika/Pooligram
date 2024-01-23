@@ -4,8 +4,25 @@ import React from 'react'
 
 const page = () => {
 
-  const {sessionClaims} = auth();
+  const { sessionClaims } = auth();
   const userId = sessionClaims?.userId as string;
+
+  const Today = new Date();
+  const MaxDate = new Date(Today);
+  const MinDate = new Date(Today);
+  const PollMax = new Date(Today);
+  const SponsoredDate = new Date(Today);
+  PollMax.setDate(Today.getDate() + 5)
+  MinDate.setDate(Today.getDate() + 5);
+  MaxDate.setDate(Today.getDate() + 30);
+  SponsoredDate.setDate(Today.getDate() + 1);
+
+  const dates = {
+    Today,
+    MaxDate,
+    MinDate,
+    SponsoredDate,
+  }
 
   return (
     <>
@@ -16,7 +33,7 @@ const page = () => {
         <h3 className='text-[24px] font-semibold'>Create Poll</h3>
       </div> */}
       <div className="flex bg-white justify-center items-center py-5">
-        <PollForm userId={userId}/>
+        <PollForm userId={userId} dates={dates} />
       </div>
     </>
   )

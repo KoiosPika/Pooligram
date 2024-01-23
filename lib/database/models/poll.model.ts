@@ -9,10 +9,10 @@ export interface IPoll extends Document {
     createdAt: Date,
     startDateTime: Date
     endDateTime: Date
-    sponsored: boolean
+    endSponsoredTime: Date
     openList: boolean
     openComments: boolean
-    creator: IUser ,
+    creator: IUser
 }
 
 const PollSchema = new Schema({
@@ -22,7 +22,7 @@ const PollSchema = new Schema({
     createdAt: { type: Date, default: Date.now },
     startDateTime: { type: Date, default: Date.now },
     endDateTime: { type: Date, default: Date.now },
-    sponsored: { type: Boolean, default: false },
+    endSponsoredTime: { type: Date, default: Date.now },
     openList: { type: Boolean, default: false },
     openComments: { type: Boolean, default: true },
     creator: { type: Schema.Types.ObjectId, ref: 'User' },

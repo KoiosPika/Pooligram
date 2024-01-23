@@ -16,7 +16,8 @@ export type CreatePollParams = {
         imageUrl: string
         startDateTime: Date
         endDateTime: Date
-        sponsored: boolean
+        sponsored:boolean
+        days: number
         openList: boolean
         openComments: boolean
     }

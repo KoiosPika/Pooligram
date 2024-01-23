@@ -71,15 +71,15 @@ export function removeKeysFromQuery({ params, keysToRemove }: RemoveUrlQueryPara
   )
 }
 
-export function timeUntil(dateString: string) {
-  const now = new Date();
+export function timeUntil(dateString: string, now: string) {
+  const todayDate = new Date(now);
   const futureDate = new Date(dateString);
 
-  if (futureDate < now) {
+  if (futureDate < todayDate) {
     return false;
   }
 
-  const differenceInMilliseconds = futureDate.getTime() - now.getTime();
+  const differenceInMilliseconds = futureDate.getTime() - todayDate.getTime();
 
   // Convert milliseconds to days and hours
   const daysLeft = Math.floor(differenceInMilliseconds / (1000 * 60 * 60 * 24));
@@ -93,7 +93,7 @@ export function timeUntil(dateString: string) {
 }
 
 export function daysBetweenDates(date1: Date, date2: Date): number {
-  const oneDay = 24 * 60 * 60 * 1000; 
+  const oneDay = 24 * 60 * 60 * 1000;
   const firstDate = new Date(date1).getTime();
   const secondDate = new Date(date2).getTime();
 

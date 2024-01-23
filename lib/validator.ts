@@ -5,7 +5,7 @@ export const eventFormSchema = z.object({
     imageUrl: z.string(),
     startDateTime: z.date(),
     endDateTime: z.date(),
-    sponsored: z.boolean(),
+    endSponsoredTime: z.date(),
     openList: z.boolean(),
     openComments: z.boolean(),
 })

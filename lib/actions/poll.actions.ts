@@ -16,7 +16,25 @@ export async function createPoll({ userId, poll }: CreatePollParams) {
     try {
         await connectToDatabase()
 
-        const newPoll = await Poll.create({ ...poll, creator: userId })
+        console.log(poll.days)
+
+        const Today = new Date();
+        const EndDate = new Date(Today)
+        const SponsoredDate = new Date(Today)
+        EndDate.setDate(Today.getDate() + (5 + poll.days))
+        SponsoredDate.setDate(Today.getDate() + 1);
+
+        const verifiedPoll = {
+            title: poll.title,
+            hashtags: poll.hashtags,
+            imageUrl: poll.imageUrl,
+            startDateTime: Today,
+            endDateTime: EndDate,
+            endSponsoredTime: poll.sponsored ? SponsoredDate : Today,
+            openList: poll.openList,
+            openComments:poll.openComments
+        }
+        const newPoll = await Poll.create({ ...verifiedPoll, creator: userId })
 
         return JSON.parse(JSON.stringify(newPoll))
     } catch (error) {

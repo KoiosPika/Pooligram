@@ -19,12 +19,24 @@ import { useUploadThing } from '@/lib/uploadthing'
 import { createPoll } from '@/lib/actions/poll.actions'
 import { useRouter } from 'next/navigation'
 import { createAnswer } from '@/lib/actions/answer.actions'
-import { getUserById } from '@/lib/actions/user.actions'
+import { getUserById, updateUserBalance } from '@/lib/actions/user.actions'
 import { daysBetweenDates } from '@/lib/utils'
 
-const DailyCharge = 0.75;
+const DailyCharge = 0.50;
 
-const PollForm = ({ userId }: { userId: string }) => {
+type PollParams = {
+    userId: string,
+    dates: {
+        Today: Date
+        MaxDate: Date
+        MinDate: Date
+        SponsoredDate: Date
+    }
+}
+
+const PollForm = ({ userId, dates }: PollParams) => {
+
+    const { MaxDate, MinDate } = dates;
     const form = useForm<z.infer<typeof eventFormSchema>>({
         resolver: zodResolver(eventFormSchema),
         defaultValues: pollDefaultValues
@@ -32,19 +44,10 @@ const PollForm = ({ userId }: { userId: string }) => {
 
     const router = useRouter();
 
-    const Today = new Date();
-    const MaxDate = new Date(Today);
-    const MinDate = new Date(Today);
-    const PollMax = new Date(Today)
-    PollMax.setDate(Today.getDate() + 5)
-    MinDate.setDate(Today.getDate() + 5);
-    MaxDate.setDate(Today.getDate() + 30);
-
     const [options, setOptions] = useState<string[]>([]);
     const [newOption, setNewOption] = useState('')
     const [hashtags, setHashtags] = useState<string[]>([]);
     const [newHashtag, setNewHashtag] = useState<string>('');
-    const [canChangeDate, setCanChangeDate] = useState<boolean>(false);
     const [sponsored, setSponsored] = useState<boolean>(false);
 
     const [files, setFiles] = useState<File[]>([])
@@ -63,9 +66,9 @@ const PollForm = ({ userId }: { userId: string }) => {
 
     useEffect(() => {
         if (sponsored == false) {
-            setUserBalance(userBalance + 2)
+            setUserBalance(userBalance + 1)
         } else {
-            setUserBalance(userBalance - 2)
+            setUserBalance(userBalance - 1)
         }
     }, [sponsored])
 
@@ -110,12 +113,20 @@ const PollForm = ({ userId }: { userId: string }) => {
         try {
             const newPoll = await createPoll({
                 userId,
-                poll: { ...values, endDateTime: canChangeDate ? values.endDateTime : PollMax, hashtags: hashtags, imageUrl: uploadedImageUrl }
+                poll: {
+                    ...values,
+                    days,
+                    sponsored,
+                    hashtags: hashtags,
+                    imageUrl: uploadedImageUrl
+                }
             })
 
             await Promise.all(options.map(async (option) => {
                 await createAnswer({ pollId: newPoll._id, title: option });
             })).then((res) => {
+                console.log(userBalance - days * DailyCharge)
+                updateUserBalance(userId, days, sponsored)
                 form.reset();
                 router.push(`/poll/${newPoll._id}`);
             })
@@ -241,26 +252,17 @@ const PollForm = ({ userId }: { userId: string }) => {
                         <p className='text-[18px] font-bold text-white'>Poll Options</p>
                     </div>
                     <div className='flex flex-col bg-white rounded-lg m-7 p-3'>
-                        <p className='ml-5 mt-3 mb-2 text-black font-bold'>For a $2.00 sponsorship fee, you can enhance the visibility of your poll by ensuring it appears at the top of the poll list for 24 hours.</p>
-                        <FormField
-                            control={form.control}
-                            name="sponsored"
-                            render={({ field }) => (
-                                <FormItem className="w-full px-5 max-w-[500px]">
-                                    <FormControl>
-                                        <div className="flex mt-4 items-center">
-                                            <Checkbox onCheckedChange={() => setSponsored(!sponsored)} checked={sponsored} id="openList" className="mr-2 h-7 w-7 border-2 border-blue-800" />
-                                            <label htmlFor="openList" className="font-bold text-blue-800 text-[16px]">Sponsor the poll for</label>
-                                            <p className='bg-green-200 text-green-800 p-1 rounded-md font-semibold ml-1'>$2.00</p>
-                                        </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                        <p className='ml-5 mt-3 mb-2 text-black font-bold'>For a $1.00 sponsorship fee, you can enhance the visibility of your poll by ensuring it appears at the top of the poll list for 24 hours.</p>
+                        <div className="w-full px-5 max-w-[500px]">
+                            <div className="flex mt-4 items-center">
+                                <Checkbox onCheckedChange={() => setSponsored(!sponsored)} checked={sponsored} id="openList" className="mr-2 h-7 w-7 border-2 border-blue-800" />
+                                <label htmlFor="openList" className="font-bold text-blue-800 text-[16px]">Sponsor the poll for</label>
+                                <p className='bg-green-200 text-green-800 p-1 rounded-md font-semibold ml-1'>$1.00</p>
+                            </div>
+                        </div>
                     </div>
                     <div className='flex flex-col bg-white rounded-lg m-7 p-3'>
-                        <p className='ml-5 mt-3 mb-2 text-black font-bold'>Polls expire within 5 days. But you can extend the period now for $0.75 per day or later for $1.00 per day. (Max is 30)</p>
+                        <p className='ml-5 mt-3 mb-2 text-black font-bold'>Polls expire within 5 days. But you can extend the period now for $0.50 per day or later for $0.75 per day. (Max is 30)</p>
                         <div className='w-full pl-5 pt-4 max-w-[500px]'>
                             <div className='w-full flex justify-center items-center'>
 
@@ -274,7 +276,7 @@ const PollForm = ({ userId }: { userId: string }) => {
                                                     <Image src="/assets/icons/calendar.svg" alt="calender" width={24} height={24} />
                                                     <p className="m-3 whitespace-nowrap font-semibold text-black">End Date:</p>
                                                     <DatePicker
-                                                        className='rounded-lg px-2 font-semibold w-[105px] border-2 border-black'
+                                                        className='rounded-lg px-2 font-semibold w-[105px] bg-blue-800 text-white'
                                                         onChange={(date: Date) => {
                                                             field.onChange(date);
                                                             setSelectedDate(date);
@@ -294,12 +296,12 @@ const PollForm = ({ userId }: { userId: string }) => {
                             </div>
                             <div className="flex mb-3 items-center justify-center">
                                 <p className='text-black font-semibold mr-1'>You're extending {days} days for</p>
-                                <p className='bg-green-200 text-green-800 p-1 rounded-md font-semibold'>${days * DailyCharge}</p>
+                                <p className='bg-green-200 text-green-800 p-1 rounded-md font-semibold'>${(days * DailyCharge).toFixed(2)}</p>
                             </div>
                         </div>
                     </div>
                     <div className='flex flex-col bg-white rounded-lg m-7 py-3 justify-center items-center'>
-                        {(userBalance - days * DailyCharge > 0) &&
+                        {(userBalance - days * DailyCharge >= 0) &&
                             <div className='flex flex-row items-center gap-2'>
                                 <p className='text-[20px] font-semibold'>Your Balance: </p>
                                 <p className='text-[20px] font-semibold border-2 bg-green-200 text-green-800 rounded-lg p-1'>${(userBalance - days * DailyCharge).toFixed(2)}</p>

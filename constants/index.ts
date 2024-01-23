@@ -34,7 +34,7 @@ export const pollDefaultValues = {
     startDateTime: new Date(),
     endDateTime: MaxDate,
     createdAt: new Date(),
-    sponsored: false,
+    endSponsoredTime: new Date(),
     openList: false,
     openComments: false,
 }

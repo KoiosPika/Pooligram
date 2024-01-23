@@ -27,8 +27,6 @@ const page = async ({ params: { id } }: EditPollProps) => {
 
   const PollSponsoreDate = new Date(poll.endSponsoredTime)
 
-  const newSponoreDate = new Date(Today)
-
   const dates = {
     MinDate, MaxDate, Today, PollSponsoreDate
   }

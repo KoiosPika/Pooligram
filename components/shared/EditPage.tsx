@@ -6,17 +6,15 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import { Button } from '../ui/button'
-import { eventFormSchema } from '@/lib/validator'
 import { Input } from '../ui/input'
 import Image from 'next/image'
 import { Checkbox } from '../ui/checkbox'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { pollDefaultValues } from '@/constants'
 import { updatePoll } from '@/lib/actions/poll.actions'
 import { useRouter } from 'next/navigation'
 import { getUserById, updateUserBalance } from '@/lib/actions/user.actions'
-import { daysBetweenDates, getMaxDate, timeUntil } from '@/lib/utils'
+import { daysBetweenDates, timeUntil } from '@/lib/utils'
 import { IPoll } from '@/lib/database/models/poll.model'
 
 const DailyCharge = 0.75;
@@ -34,9 +32,16 @@ type EditPageParams = {
 
 const EditPage = ({ poll, userId, dates }: EditPageParams) => {
 
-    const form = useForm<z.infer<typeof eventFormSchema>>({
-        resolver: zodResolver(eventFormSchema),
-        defaultValues: pollDefaultValues
+    const FormSchema = z.object({
+        openComments: z.boolean(),
+        endDateTime: z.date()
+    })
+
+    const form = useForm<z.infer<typeof FormSchema>>({
+        resolver: zodResolver(FormSchema),
+        defaultValues: {
+            openComments: poll.openComments
+        }
     })
 
     const router = useRouter()
@@ -89,7 +94,8 @@ const EditPage = ({ poll, userId, dates }: EditPageParams) => {
         setHashtags(prevHashtags => prevHashtags.filter((_, i) => i !== index));
     };
 
-    const onSubmit = async (values: z.infer<typeof eventFormSchema>) => {
+    const onSubmit = async (values: z.infer<typeof FormSchema>) => {
+        console.log('hello')
         try {
             const UpdatedPoll = await updatePoll({
                 poll: {
@@ -240,7 +246,7 @@ const EditPage = ({ poll, userId, dates }: EditPageParams) => {
                         />
 
 
-                        <Button disabled={form.formState.isSubmitting || (userBalance - days * DailyCharge < 0)} className="bg-blue-800 col-span-2 w-[155px] gap-1" type="submit">
+                        <Button disabled={form.formState.isSubmitting || (userBalance - days * DailyCharge < 0)} className="bg-blue-800 col-span-2 w-[155px] gap-1" type='submit'>
                             <Image src={'/assets/icons/create.svg'} alt='create' height={20} width={20} />
                             <p>{form.formState.isSubmitting ? 'Please Wait...' : 'Update Poll Now!'}</p>
                         </Button>

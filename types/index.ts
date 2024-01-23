@@ -63,3 +63,13 @@ export type UrlQueryParams = {
     params: string
     keysToRemove: string[]
   }
+
+  export type UpdatePollParams = {
+    poll:{
+        pollId:string,
+        hashtags: string[]
+        sponsored:boolean
+        days: number
+        openComments: boolean
+    }
+  }

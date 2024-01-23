@@ -103,3 +103,9 @@ export function daysBetweenDates(date1: Date, date2: Date): number {
 
   return differenceInDays;
 }
+
+export function getMaxDate(startDateTime: Date): Date {
+  const newDate = new Date(startDateTime);
+  newDate.setDate(newDate.getDate() + 30);
+  return newDate;
+}

@@ -27,7 +27,6 @@ const LoadMore = ({ postHashtags, userHashtags, query }: SelectionParams) => {
     useEffect(() => {
         async function getPolls() {
             const polls = await getAllPolls({ postHashtags, userHashtags, page, limit: 6, query });
-            console.log(polls);
             if (polls.data.length == 0) {
                 setShowSpinner(false);
             }

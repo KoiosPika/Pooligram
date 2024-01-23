@@ -125,7 +125,6 @@ const PollForm = ({ userId, dates }: PollParams) => {
             await Promise.all(options.map(async (option) => {
                 await createAnswer({ pollId: newPoll._id, title: option });
             })).then((res) => {
-                console.log(userBalance - days * DailyCharge)
                 updateUserBalance(userId, days, sponsored)
                 form.reset();
                 router.push(`/poll/${newPoll._id}`);

@@ -7,8 +7,6 @@ const page = ({ params: { id }, searchParams }: SearchParamsProps) => {
   const { sessionClaims } = auth();
   const userId = sessionClaims?.userId as string;
 
-  console.log(userId)
-
   return (
     <DetailedPage id={id} userId={userId} />
   )

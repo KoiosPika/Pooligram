@@ -2,7 +2,6 @@ import { IPoll } from '@/lib/database/models/poll.model'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import { motion } from 'framer-motion'
 
 const Card = ({ poll }: { poll: IPoll }) => {
     return (

@@ -110,7 +110,6 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
             title: newAnswer
         })
             .then((answer) => {
-                console.log(answer);
                 setAnswers((prevState) => [...prevState, answer])
             })
     }

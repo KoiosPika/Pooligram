@@ -3,8 +3,8 @@
 import { revalidatePath } from 'next/cache'
 
 import { connectToDatabase } from '@/lib/database'
-import Poll from '../database/models/poll.model'
-import { CreatePollParams, GetPollsParams } from '@/types'
+import Poll, { IPoll } from '../database/models/poll.model'
+import { CreatePollParams, GetPollsParams, UpdatePollParams } from '@/types'
 import User from '../database/models/user.model'
 
 const populatePoll = (query: any) => {
@@ -38,6 +38,37 @@ export async function createPoll({ userId, poll }: CreatePollParams) {
 
         return JSON.parse(JSON.stringify(newPoll))
     } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function updatePoll({poll}:UpdatePollParams) {
+
+    console.log('hello')
+    try {
+        await connectToDatabase()
+
+        const currentPoll = await Poll.findById(poll.pollId)
+
+        const Today = new Date();
+        const EndDate = new Date();
+        const SponsoredDate = new Date(Today)
+        EndDate.setDate(currentPoll.endDateTime.getDate() + (poll.days))
+        SponsoredDate.setDate(Today.getDate() + 1);
+
+        const updatedPoll = await Poll.findByIdAndUpdate(
+            currentPoll._id,
+            {
+                ...currentPoll,
+                hashtags:poll.hashtags,
+                endDateTime: EndDate,
+                endSponsoredTime: poll.sponsored ? SponsoredDate : currentPoll.SponsoredDate,
+                openComments:poll.openComments
+            }
+        )
+
+        return JSON.parse(JSON.stringify(updatedPoll));
+    } catch(error){
         console.log(error)
     }
 }

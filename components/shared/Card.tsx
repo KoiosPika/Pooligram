@@ -7,10 +7,6 @@ import { motion } from 'framer-motion'
 const Card = ({ poll }: { poll: IPoll }) => {
     return (
         <div className='flex relative flex-col h-[300px] w-[350px] rounded-xl mx-1'>
-            {poll.sponsored &&
-                <div className='absolute top-3 left-3 bg-white border-black border-2 p-1 rounded-full'>
-                    <Image src={'/assets/icons/speaker.svg'} alt='speaker' height={20} width={20} className='bg-white' />
-                </div>}
             <Link style={{ backgroundImage: `url(${poll.imageUrl})` }} href={`/poll/${poll._id}`} className='flex-center h-[350px] flex-grow bg-gray-50 bg-cover bg-center text-grey-500 rounded-t-lg' />
             <Link href={`/poll/${poll._id}`} className='h-[155px] w-full p-2 flex flex-col justify-between bg-blue-800 border-white border-t-2 rounded-b-lg'>
                 <p className='font-semibold truncate-2-lines text-white text-[14px]'>{poll.title}</p>

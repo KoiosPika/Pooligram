@@ -26,7 +26,7 @@ export async function POST(request: Request) {
     const order = {
       stripeId: id,
       buyerId: metadata?.buyerId || '',
-      amount: amount_total || 0,
+      amount: amount_total! / 100 || 0,
       createdAt: new Date(),
     }
 

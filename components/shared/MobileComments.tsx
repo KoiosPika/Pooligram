@@ -56,6 +56,11 @@ const MobileComments = ({ pollId, user }: { pollId: string, user: IUser }) => {
                 </Button>
             </DrawerTrigger>
             <DrawerContent className='bg-blue-800 h-5/6'>
+                <DrawerHeader>
+                    <DrawerTitle>
+                        <p className='text-white'>Comments 63.5K</p>
+                    </DrawerTitle>
+                </DrawerHeader>
                 <ScrollArea className='flex flex-1 px-3 mt-3'>
                     {Comments.map((comment) => (
                         <>

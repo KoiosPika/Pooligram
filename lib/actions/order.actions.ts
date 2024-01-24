@@ -12,6 +12,11 @@ export type CheckoutOrderParams = {
     buyerId: string
 }
 
+const populateOrder = (query:any) => {
+    return query
+        .populate({path:'buyer', model:User, select:'_id username'})
+}
+
 export const checkoutOrder = async (order: CheckoutOrderParams) => {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -45,14 +50,14 @@ export const checkoutOrder = async (order: CheckoutOrderParams) => {
 
 export const createOrder = async (order: CreateOrderParams) => {
     try {
-      await connectToDatabase();
-      
-      const newOrder = await Order.create({
-        ...order,
-        buyer: order.buyerId,
-      });
+        await connectToDatabase();
 
-      const user = await User.findById(order.buyerId);
+        const newOrder = await Order.create({
+            ...order,
+            buyer: order.buyerId,
+        });
+
+        const user = await User.findById(order.buyerId);
 
         const newBalance = user.balance + order.amount;
 
@@ -60,9 +65,26 @@ export const createOrder = async (order: CreateOrderParams) => {
             { _id: order.buyerId },
             { $set: { balance: newBalance } }
         )
-  
-      return JSON.parse(JSON.stringify(newOrder));
+
+        return JSON.parse(JSON.stringify(newOrder));
     } catch (error) {
-      console.log(error);
+        console.log(error);
     }
-  }
+}
+
+export async function getOrdersById(userId: string) {
+    try {
+        await connectToDatabase();
+
+        const conditions = { buyer: userId }
+
+        const eventsQuery = Order.find(conditions)
+            .sort({ createdAt: 'desc' })
+
+        const orders = await populateOrder(eventsQuery)
+
+        return JSON.parse(JSON.stringify(orders))
+    } catch (error) {
+        console.log(error)
+    }
+}

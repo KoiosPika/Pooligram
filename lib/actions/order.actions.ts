@@ -5,6 +5,7 @@ import Stripe from 'stripe';
 import { connectToDatabase } from '../database';
 import Order from '../database/models/order.model';
 import { CreateOrderParams } from '@/types';
+import User from '../database/models/user.model';
 
 export type CheckoutOrderParams = {
     amount: number,
@@ -50,6 +51,15 @@ export const createOrder = async (order: CreateOrderParams) => {
         ...order,
         buyer: order.buyerId,
       });
+
+      const user = await User.findById(order.buyerId);
+
+        const newBalance = user.balance + order.amount;
+
+        await User.updateOne(
+            { _id: order.buyerId },
+            { $set: { balance: newBalance } }
+        )
   
       return JSON.parse(JSON.stringify(newOrder));
     } catch (error) {

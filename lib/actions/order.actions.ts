@@ -1,3 +1,5 @@
+'use server'
+
 import { redirect } from 'next/navigation';
 import Stripe from 'stripe';
 import { connectToDatabase } from '../database';
@@ -18,7 +20,7 @@ export const checkoutOrder = async (order: CheckoutOrderParams) => {
                 {
                     price_data: {
                         currency: 'usd',
-                        unit_amount: order.amount,
+                        unit_amount: order.amount * 100,
                         product_data: {
                             name: 'Recharge'
                         }
@@ -30,7 +32,7 @@ export const checkoutOrder = async (order: CheckoutOrderParams) => {
                 buyerId: order.buyerId,
             },
             mode: 'payment',
-            success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/profile`,
+            success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/wallet`,
             cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/`,
         });
 

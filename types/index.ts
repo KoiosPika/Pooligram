@@ -77,6 +77,6 @@ export type UrlQueryParams = {
   export type CreateOrderParams = {
     stripeId: string
     buyerId: string
-    price: string
+    amount: number
     createdAt: Date
   }

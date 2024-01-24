@@ -1,4 +1,5 @@
 import Checkout from '@/components/shared/Checkout';
+import { Button } from '@/components/ui/button';
 import { getUserById } from '@/lib/actions/user.actions';
 import { auth } from '@clerk/nextjs';
 import React from 'react'
@@ -14,7 +15,8 @@ const page = async () => {
       <div className='w-full flex flex-col max-w-[700px] justify-center items-center bg-white'>
         <div className='mt-3'>
           <p className='bg-green-200 text-green-800 p-1 rounded-md font-semibold ml-1 text-[35px]'>${(user.balance).toFixed(2)}</p>
-          <Checkout userId={userId} amount={5}/>
+          {/* <Checkout userId={userId} amount={5}/> */}
+          <Checkout userId={userId} amount={5.00}/>
         </div>
         <div className='my-3 justify-center items-center flex flex-col w-full'>
           <div className='w-full my-3 px-3'>

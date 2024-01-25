@@ -5,6 +5,7 @@ import Card from './Card'
 import { getAllPolls } from '@/lib/actions/poll.actions'
 import { IPoll } from '@/lib/database/models/poll.model'
 import LoadMore from './LoadMore'
+import Image from 'next/image'
 
 type SelectionParams = {
     userHashtags: string[],
@@ -41,7 +42,13 @@ const Selection = ({ postHashtags, userHashtags, query }: SelectionParams) => {
                 <LoadMore postHashtags={postHashtags} userHashtags={userHashtags} query={query} />
             </div>
         ) : (
-            <></>
+            <Image
+                src="/assets/icons/spinner.svg"
+                alt="spinner"
+                width={56}
+                height={56}
+                className="spin"
+            />
         )}</>
     )
 }

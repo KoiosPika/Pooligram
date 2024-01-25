@@ -31,7 +31,7 @@ const Checkout = ({ userId, amount }: { userId: string, amount: number }) => {
 
     return (
         <form action={onCheckout} method="post">
-            <Button type="submit" role="link" size="lg" className="w-full bg-green-600 border-2 border-white justify-center items-center">
+            <Button type="submit" role="link" size="lg" className="w-full bg-green-600 border-2 border-white justify-center items-center hover:bg-green-800">
                 <p className='font-bold text-[18px] text-white'>Recharge ${amount}</p>
             </Button>
         </form>

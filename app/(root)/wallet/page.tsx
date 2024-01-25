@@ -25,7 +25,9 @@ const page = async () => {
               <Image src={'/assets/icons/balance.svg'} alt='balance' height={32} width={32} />
               <p className='text-white text-[20px] font-semibold'>Current Balance</p>
             </div>
-            <p className='bg-green-200 text-green-800 p-1 rounded-md font-semibold text-[35px] text-center border-4 border-green-800 w-2/3'>${(user.balance).toFixed(2)}</p>
+            <div className='w-full flex-row flex justify-center'>
+              <p className='bg-green-200 text-green-800 p-1 rounded-md font-semibold text-[35px] text-center border-4 border-green-800 w-2/3'>${(user.balance).toFixed(2)}</p>
+            </div>
             <div className='flex flex-row items-center gap-2 mt-5 mb-3'>
               <Image src={'/assets/icons/recharge.svg'} alt='balance' height={30} width={30} />
               <p className='text-white text-[20px] font-semibold'>Recharge with one click!</p>
@@ -63,7 +65,7 @@ const page = async () => {
       </div>
       <div className='w-full lg:w-2/3 p-2'>
         <div className='flex flex-row gap-1 items-center my-3'>
-          <Image src={'/assets/icons/poll-2.svg'} alt='poll' height={29} width={29}/>
+          <Image src={'/assets/icons/poll-2.svg'} alt='poll' height={29} width={29} />
           <p className='font-bold text-[20px]'>More Polls For You:</p>
         </div>
         <Selection userHashtags={user.hashtags} postHashtags={['']} />

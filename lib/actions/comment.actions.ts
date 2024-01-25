@@ -26,13 +26,20 @@ export async function createComment({ pollId, userId, text }: CreateCommentParam
     }
 }
 
-export async function getCommentsByPoll(id: string) {
+export async function getCommentsByPoll({ id, page }: { id: string, page: number }) {
+
+    const limit = 6;
     try {
         await connectToDatabase()
 
         const condition = { poll: id }
 
-        const commentsQuery = Comment.find(condition).sort({ createdAt: -1 })
+        const skipAmount = (page - 1) * limit;
+
+        const commentsQuery = Comment.find(condition)
+            .sort({ createdAt: -1 })
+            .skip(skipAmount)
+            .limit(limit)
 
         const comments = await populateComment(commentsQuery)
 

@@ -23,7 +23,7 @@ export const Links = [
         label: 'Contact Us',
         icon: '/assets/icons/email.svg',
         route: '/contact-us'
-    }
+    },
 ]
 
 const Today = new Date();

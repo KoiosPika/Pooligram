@@ -120,9 +120,6 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
             <div className='flex flex-row justify-center md:justify-center xl:justify-center'>
                 <div ref={leftDivRef} className='flex flex-col justify-center items-center my-5'>
                     <div className='flex h-[350px] justify-center items-center overflow-hidden bg-slate-300 rounded-tl-lg rounded-tr-lg md:rounded-tr-none relative'>
-                        <div className='absolute top-3 right-3 md:hidden'>
-                            {User && <MobileComments pollId={id} user={User} />}
-                        </div>
                         <Image src={Poll?.imageUrl || '/assets/images/loading.png'} alt='hero' width={350} height={350} />
                     </div>
                     {vote === undefined && <Form {...form}>
@@ -158,25 +155,9 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                                 )}
                             />
                             <div className='flex flex-row'>
-                                {(Poll && Poll.openList) &&
-                                    <AlertDialog>
-                                        <AlertDialogTrigger>
-                                            <Button type='button' className='flex flex-row bg-transparent border-2 border-white hover:bg-slate-400'>
-                                                <Image src={'/assets/icons/plus.svg'} alt='add' width={10} height={10} />
-                                                <p className=' text-white ml-2'>Add</p>
-                                            </Button>
-                                        </AlertDialogTrigger>
-                                        <AlertDialogContent className='bg-white max-w-[350px] rounded-xl'>
-                                            <AlertDialogHeader>
-                                                <AlertDialogTitle>Add a new Answer</AlertDialogTitle>
-                                                <Input placeholder='Enter answer here...' className='border-2 border-black' onChange={(e) => setNewAnswer(e.target.value)} />
-                                            </AlertDialogHeader>
-                                            <AlertDialogFooter>
-                                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                <AlertDialogAction className='bg-black' onClick={() => startTransition(handleAddAnswer)}>Add Answer</AlertDialogAction>
-                                            </AlertDialogFooter>
-                                        </AlertDialogContent>
-                                    </AlertDialog>}
+                                <div className='md:hidden'>
+                                    {User && <MobileComments pollId={id} user={User} />}
+                                </div>
                                 <Button className='bg-white ml-auto hover:bg-slate-400' type="submit">
                                     <p className='text-blue-800'>{form.formState.isSubmitting ? 'Please wait..' : 'Save'}</p>
                                 </Button>

@@ -9,14 +9,14 @@ const Card = ({ poll }: { poll: IPoll }) => {
             <Link href={`/poll/${poll._id}`} className='flex flex-center h-[250px] bg-gray-50 text-grey-500 rounded-t-lg'>
                 <Image src={poll.imageUrl} alt='hero' height={400} width={400} className='w-[350px] h-[350px] overflow-hidden'/>
             </Link>
-            <Link href={`/poll/${poll._id}`} className='h-[155px] w-full p-2 flex flex-col justify-between bg-blue-800 border-white border-t-2 rounded-b-lg'>
+            <div className='h-[155px] w-full p-2 flex flex-col justify-between bg-blue-800 border-white border-t-2 rounded-b-lg'>
                 <p className='font-semibold truncate-2-lines text-white text-[14px]'>{poll.title}</p>
-                <div className='flex flex-row items-center'>
+                <Link href={`/poll/${poll._id}`} className='flex flex-row items-center'>
                     <Image src={poll.creator?.photo || '/assets/images/user.png'} alt='user' className='w-[35px] h-[35px] rounded-full border-2 border-white' height={100} width={100} />
                     <p className='ml-2 font-semibold text-white'>{poll.creator?.username}</p>
                     {poll.creator?.verified && <Image className='ml-1' src={'/assets/icons/verified.svg'} alt='verified' height={18} width={18} />}
-                </div>
-            </Link>
+                </Link>
+            </div>
         </div>
     )
 }

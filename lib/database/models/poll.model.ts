@@ -10,8 +10,8 @@ export interface IPoll extends Document {
     startDateTime: Date
     endDateTime: Date
     endSponsoredTime: Date
-    openList: boolean
     openComments: boolean
+    nofVotes: number
     creator: IUser
 }
 
@@ -23,8 +23,8 @@ const PollSchema = new Schema({
     startDateTime: { type: Date, default: Date.now },
     endDateTime: { type: Date, default: Date.now },
     endSponsoredTime: { type: Date, default: Date.now },
-    openList: { type: Boolean, default: false },
     openComments: { type: Boolean, default: true },
+    nofVotes: { type: Number, default: 0 },
     creator: { type: Schema.Types.ObjectId, ref: 'User' },
 })
 

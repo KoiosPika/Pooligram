@@ -130,5 +130,5 @@ export function formatDate(dateInput: Date): string {
   const dayStr = day < 10 ? '0' + day.toString() : day.toString();
   const monthStr = month < 10 ? '0' + month.toString() : month.toString();
 
-  return `${monthNames[month]} ${day}${relevantSuffix} ${year}`;
+  return `${monthNames[month]} ${day}${relevantSuffix}, ${year}`;
 }

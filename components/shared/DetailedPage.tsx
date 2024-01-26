@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import React, { startTransition, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -12,17 +12,14 @@ import CommentList from '@/components/shared/CommentList'
 import Selection from '@/components/shared/Selection'
 import { getPollById } from '@/lib/actions/poll.actions'
 import { IPoll } from '@/lib/database/models/poll.model'
-import { createAnswer, getAnswersByPoll, handleVoting } from '@/lib/actions/answer.actions'
+import { getAnswersByPoll, handleVoting } from '@/lib/actions/answer.actions'
 import { IAnswer } from '@/lib/database/models/answer.model'
 import { createVote, getVoteByPoll } from '@/lib/actions/vote.actions'
 import { IVote } from '@/lib/database/models/vote.model'
-import {
-    AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import { Input } from '../ui/input'
 import { getUserById } from '@/lib/actions/user.actions'
 import { IUser } from '@/lib/database/models/user.model'
 import MobileComments from './MobileComments'
+import ReportMenu from './ReportMenu'
 
 const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
     const leftDivRef = useRef<HTMLDivElement>(null);
@@ -89,7 +86,7 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
         try {
-            handleVoting(data.Answer);
+            handleVoting({ answerId: data.Answer, pollId: id });
             await createVote({
                 pollId: id,
                 answerId: data.Answer,
@@ -103,15 +100,7 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
         }
     }
 
-    const handleAddAnswer = () => {
-        createAnswer({
-            pollId: id,
-            title: newAnswer
-        })
-            .then((answer) => {
-                setAnswers((prevState) => [...prevState, answer])
-            })
-    }
+
     return (
         <div>
             <div className='w-full flex justify-center h-[70px] items-center'>
@@ -119,7 +108,14 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
             </div>
             <div className='flex flex-row justify-center md:justify-center xl:justify-center'>
                 <div ref={leftDivRef} className='flex flex-col justify-center items-center my-5'>
-                    <div className='flex h-[350px] justify-center items-center overflow-hidden bg-slate-300 rounded-tl-lg rounded-tr-lg md:rounded-tr-none relative'>
+                    <div className='flex flex-row items-center h-[50px] bg-blue-800 w-full rounded-tl-lg rounded-tr-lg md:rounded-tr-none'>
+                        <Image className='h-9 w-9 ml-3 rounded-full border-2 border-white' src={Poll?.creator.photo || '/assets/images/user.png'} alt='avatar' width={100} height={100} />
+                        <p className='text-white text-[15px] font-semibold ml-2'>{Poll?.creator.username}</p>
+                        <div className='ml-auto mr-2'>
+                            <ReportMenu id={id} />
+                        </div>
+                    </div>
+                    <div className='flex h-[350px] justify-center items-center overflow-hidden bg-slate-300 relative'>
                         <Image src={Poll?.imageUrl || '/assets/images/loading.png'} alt='hero' width={350} height={350} />
                     </div>
                     {vote === undefined && <Form {...form}>

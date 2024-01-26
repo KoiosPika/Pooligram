@@ -21,6 +21,7 @@ import { useRouter } from 'next/navigation'
 import { createAnswer } from '@/lib/actions/answer.actions'
 import { getUserById, updateUserBalance } from '@/lib/actions/user.actions'
 import { daysBetweenDates } from '@/lib/utils'
+import { createReport } from '@/lib/actions/report.actions'
 
 const DailyCharge = 0.50;
 
@@ -121,6 +122,8 @@ const PollForm = ({ userId, dates }: PollParams) => {
                     imageUrl: uploadedImageUrl
                 }
             })
+
+            createReport(newPoll._id);
 
             await Promise.all(options.map(async (option) => {
                 await createAnswer({ pollId: newPoll._id, title: option });
@@ -281,8 +284,8 @@ const PollForm = ({ userId, dates }: PollParams) => {
 
                             </div>
                             <div className="flex mb-3 items-center justify-center">
-                                <p className='text-black font-semibold mr-1'>You're extending {days} days for</p>
-                                <p className='bg-green-200 text-green-800 p-1 rounded-md font-semibold'>${(days * DailyCharge).toFixed(2)}</p>
+                                <p className='text-black font-semibold mr-1 text-[14px]'>You're extending {days} days for</p>
+                                <p className='bg-green-200 text-green-800 p-1 rounded-md font-semibold text-[14px]'>${(days * DailyCharge).toFixed(2)}</p>
                             </div>
                         </div>
                     </div>

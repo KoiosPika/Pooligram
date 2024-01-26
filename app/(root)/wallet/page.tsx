@@ -28,7 +28,7 @@ const page = async () => {
               <p className='text-white text-[20px] font-semibold'>Current Balance</p>
             </div>
             <div className='w-full flex-row flex justify-center'>
-              <p className='bg-green-100 text-green-800 p-1 rounded-md font-semibold text-[35px] text-center border-2 border-green-800 w-1/3'>${(user.balance).toFixed(2)}</p>
+              <p className='bg-green-100 text-green-800 p-1 rounded-md font-semibold text-[35px] text-center border-4 border-green-800 px-8'>${(user.balance).toFixed(2)}</p>
             </div>
             <div className='flex flex-row items-center gap-2 mt-5 mb-3'>
               <Image src={'/assets/icons/recharge.svg'} alt='balance' height={30} width={30} />
@@ -57,7 +57,7 @@ const page = async () => {
                     {orders && orders.map((order: IOrder) => (
                       <tr key={order._id} className='border-b border-grey-300'>
                         <td className='px-5 py-2 text-[16px] w-1/2 text-center font-semibold'>{formatDate(order.createdAt)}</td>
-                        <td className='px-5 py-2 text-[16px] text-center w-1/2 font-semibold'>${order.amount}</td>
+                        <td className='px-5 py-2 text-[16px] text-center w-1/2 font-semibold'>${(order.amount).toFixed(2)}</td>
                       </tr>
                     ))}
                   </tbody>

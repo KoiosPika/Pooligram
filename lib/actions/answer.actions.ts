@@ -47,12 +47,17 @@ export async function getAnswersByPoll(id: string) {
     }
 }
 
-export async function handleVoting(id: string) {
+export async function handleVoting({ answerId, pollId }: { answerId: string, pollId: string }) {
     try {
         await connectToDatabase();
 
         const result = await Answer.updateOne(
-            { _id: id },
+            { _id: answerId },
+            { $inc: { nofVotes: 1 } }
+        )
+
+        await Poll.updateOne(
+            { _id: pollId },
             { $inc: { nofVotes: 1 } }
         )
 

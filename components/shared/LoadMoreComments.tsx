@@ -32,6 +32,10 @@ const LoadMoreComments = ({ pollId }: { pollId: string }) => {
         }
     }, [inView, pollId])
 
+    useEffect(() => {
+        page = 2;
+    }, [])
+
     return (
         <>
             {comments.length > 0 &&

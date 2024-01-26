@@ -5,9 +5,9 @@ import React from 'react'
 
 const Card = ({ poll }: { poll: IPoll }) => {
     return (
-        <div className='flex relative flex-col h-[300px] w-[350px] rounded-xl mx-1'>
-            <Link href={`/poll/${poll._id}`} className='flex flex-center h-[200px] flex-grow bg-gray-50 bg-cover bg-center text-grey-500 rounded-t-lg'>
-                <Image src={poll.imageUrl} alt='hero' height={300} width={300} className='flex w-[350px] overflow-hidden'/>
+        <div className='flex flex-col h-[350px] w-[350px] rounded-xl mx-1'>
+            <Link href={`/poll/${poll._id}`} className='flex flex-center h-[250px] bg-gray-50 text-grey-500 rounded-t-lg'>
+                <Image src={poll.imageUrl} alt='hero' height={400} width={400} className='w-[350px] h-[350px] overflow-hidden'/>
             </Link>
             <Link href={`/poll/${poll._id}`} className='h-[155px] w-full p-2 flex flex-col justify-between bg-blue-800 border-white border-t-2 rounded-b-lg'>
                 <p className='font-semibold truncate-2-lines text-white text-[14px]'>{poll.title}</p>

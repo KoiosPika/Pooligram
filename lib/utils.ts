@@ -109,3 +109,26 @@ export function getMaxDate(startDateTime: Date): Date {
   newDate.setDate(newDate.getDate() + 30);
   return newDate;
 }
+
+export function formatDate(dateInput: Date): string {
+
+  const date = new Date(dateInput);
+
+
+  if (isNaN(date.getTime())) {
+    throw new Error('Invalid date');
+  }
+
+  let day = date.getDate();
+  let month = date.getMonth();
+  let year = date.getFullYear();
+
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+  const suffixes = ["st", "nd", "rd"];
+  const relevantSuffix = (day < 4 || day > 20) && day % 10 <= 3 ? suffixes[day % 10 - 1] : "th";
+
+  const dayStr = day < 10 ? '0' + day.toString() : day.toString();
+  const monthStr = month < 10 ? '0' + month.toString() : month.toString();
+
+  return `${monthNames[month]} ${day}${relevantSuffix} ${year}`;
+}

@@ -7,8 +7,13 @@ import * as z from "zod";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form"
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { sendEmail } from '@/lib/actions/email.actions';
+import { useRouter } from 'next/navigation';
 
 const ContactFrom = () => {
+
+    const router = useRouter()
+
     const FormSchema = z.object({
         name: z.string(),
         email: z.string(),
@@ -20,8 +25,18 @@ const ContactFrom = () => {
         resolver: zodResolver(FormSchema),
     })
 
-    const onSubmit = () => {
-        
+    const onSubmit = async (values: z.infer<typeof FormSchema>) => {
+        const email = {
+            senderEmail: values.email,
+            subject: values.subject,
+            description: values.description,
+            name: values.name
+        }
+
+        await sendEmail({ email }).then((res)=>{
+            console.log(res)
+            router.push('/');
+        })
     }
     return (
         <div className='w-full flex flex-col justify-center items-center'>
@@ -37,7 +52,7 @@ const ContactFrom = () => {
                                         <FormControl>
                                             <>
                                                 <p className='text-white text-[18px] font-semibold mr-auto mt-2 mb-2'>1. Full Name</p>
-                                                <Input placeholder='Enter your full name'  className='text-[16px]' />
+                                                <Input placeholder='Enter your full name' className='text-[16px]' {...field} />
                                             </>
                                         </FormControl>
                                     </FormItem>
@@ -51,7 +66,7 @@ const ContactFrom = () => {
                                         <FormControl>
                                             <>
                                                 <p className='text-white text-[18px] font-semibold mr-auto mt-4 mb-2'>2. Email</p>
-                                                <Input placeholder='Enter your preferred email' className='text-[16px]'/>
+                                                <Input placeholder='Enter your preferred email' className='text-[16px]' {...field}/>
                                             </>
                                         </FormControl>
                                     </FormItem>
@@ -65,7 +80,7 @@ const ContactFrom = () => {
                                         <FormControl>
                                             <>
                                                 <p className='text-white text-[18px] font-semibold mr-auto mt-4 mb-2'>3. Subject</p>
-                                                <Input placeholder='What are you emailing us about' className='text-[16px]'/>
+                                                <Input placeholder='What are you emailing us about' className='text-[16px]' {...field} />
                                             </>
                                         </FormControl>
                                     </FormItem>
@@ -79,7 +94,7 @@ const ContactFrom = () => {
                                         <FormControl>
                                             <>
                                                 <p className='text-white text-[18px] font-semibold mr-auto mt-4 mb-2'>4. Description</p>
-                                                <Textarea placeholder='Describe the problem and how we can help you' className='text-[16px]'/>
+                                                <Textarea placeholder='Describe the problem and how we can help you' className='text-[16px]' {...field} />
                                             </>
                                         </FormControl>
                                         <FormMessage />

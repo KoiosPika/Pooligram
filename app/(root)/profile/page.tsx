@@ -17,6 +17,7 @@ const page = async () => {
     const user = await getUserById(userId)
 
     const Polls = await getPollsByUser(userId)
+    
 
     return (
         <div className='w-full flex justify-center items-center'>
@@ -40,7 +41,7 @@ const page = async () => {
                                     <p className='font-bold text-[21px]'>
                                         You don't have any polls yet!
                                     </p>
-                                    <Button className='bg-blue-800 mt-3'>
+                                    <Button className='bg-green-600 mt-3 hover:bg-green-700'>
                                         <Link href={'/poll/create'}>
                                             Create Poll Now!
                                         </Link>

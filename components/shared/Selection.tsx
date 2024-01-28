@@ -40,7 +40,7 @@ const Selection = ({ postHashtags, userHashtags, seenIds, query }: SelectionPara
                         )
                     })}
                 </ul>
-                <LoadMore postHashtags={postHashtags} userHashtags={userHashtags} query={query} />
+                <LoadMore postHashtags={postHashtags} userHashtags={userHashtags} query={query} seenIds={seenIds} />
             </div>
         ) : (
             <Image

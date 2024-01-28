@@ -16,7 +16,7 @@ export type CreatePollParams = {
         imageUrl: string
         startDateTime: Date
         endDateTime: Date
-        sponsored:boolean
+        sponsored: boolean
         days: number
         openList: boolean
         openComments: boolean
@@ -50,33 +50,34 @@ export type GetPollsParams = {
     userHashtags: string[],
     page: number,
     limit: number,
-    query?: string
+    query?: string,
+    seenIds?: string[]
 }
 
 export type UrlQueryParams = {
     params: string
     key: string
     value: string | null
-  }
-  
-  export type RemoveUrlQueryParams = {
+}
+
+export type RemoveUrlQueryParams = {
     params: string
     keysToRemove: string[]
-  }
+}
 
-  export type UpdatePollParams = {
-    poll:{
-        pollId:string,
+export type UpdatePollParams = {
+    poll: {
+        pollId: string,
         hashtags: string[]
-        sponsored:boolean
+        sponsored: boolean
         days: number
         openComments: boolean
     }
-  }
+}
 
-  export type CreateOrderParams = {
+export type CreateOrderParams = {
     stripeId: string
     buyerId: string
     amount: number
     createdAt: Date
-  }
+}

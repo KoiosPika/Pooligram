@@ -12,7 +12,7 @@ export const Links = [
     {
         label: 'My Profile',
         icon: '/assets/icons/profile.svg',
-        route: '/profile'
+        route: '/profile/polls'
     },
     {
         label: 'My Wallet',

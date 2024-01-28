@@ -20,7 +20,7 @@ const Selection = ({ postHashtags, userHashtags, query }: SelectionParams) => {
     useEffect(() => {
         setPolls([])
         async function getPolls() {
-            const polls = await getAllPolls({ postHashtags, userHashtags, page: 1, limit: 6, query: query });
+            const polls = await getAllPolls({ postHashtags, userHashtags, page: 1, limit: 6, query: query, seenIds:['65b5cef71bcf3516d3bdddc8'] });
             setPolls(polls?.data)
         }
 

@@ -9,9 +9,9 @@ import Answer from "../database/models/answer.model";
 
 const populateVote = (query: any) => {
     return query
-        .populate({ path: 'Poll', model: Poll, select: '_id' })
+        .populate({ path: 'Poll', model: Poll, select: '_id imageUrl title' })
         .populate({ path: 'Voter', model: User, select: '_id' })
-        .populate({ path: 'Answer', model: Answer, select: '_id' })
+        .populate({ path: 'Answer', model: Answer, select: '_id title' })
 }
 
 export async function createVote({ pollId, answerId, userId }: CreateVoteParams) {
@@ -49,4 +49,21 @@ export async function getVoteByPoll({ pollId, userId }: { pollId: string, userId
         console.log(error)
     }
 
+}
+
+export async function getVotesByUserId(userId: string) {
+    try {
+        await connectToDatabase();
+
+        const condition = { Voter: userId }
+
+        const voteQuery = Vote.find(condition);
+
+        const votes = await populateVote(voteQuery);
+
+        return JSON.parse(JSON.stringify(votes))
+
+    } catch (error) {
+        console.log(error)
+    }
 }

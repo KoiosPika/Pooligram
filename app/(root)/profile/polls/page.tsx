@@ -25,6 +25,16 @@ const page = async () => {
                 <div className='my-3 justify-center items-center flex flex-col w-full'>
                     <div className='w-full my-3 px-3'>
                         <ul className='flex flex-col w-full bg-blue-800 rounded-xl p-2'>
+                            <div className='w-full flex justify-center items-center gap-3'>
+                                <Button className='w-[120px] h-[50px] rounded-sm bg-blue-600 border-b-4 border-b-yellow-400 hover:bg-blue-600'>
+                                    My Polls
+                                </Button>
+                                <Button className='w-[120px] h-[50px] rounded-sm bg-blue-600 border-b-4 border-b-blue-600 hover:bg-blue-600'>
+                                    <Link className='w-full h-full flex justify-center items-center' href={'/profile/votes'}>
+                                        <p>My Votes</p>
+                                    </Link>
+                                </Button>
+                            </div>
                             {Polls.length > 0 && Polls.map((poll: IPoll) => {
                                 return (
                                     <li key={poll._id} className='flex justify-center overflow-hidden'>

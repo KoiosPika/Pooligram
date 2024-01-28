@@ -7,6 +7,7 @@ export interface IUser extends Document {
     photo: string,
     verified: boolean,
     hashtags: string[],
+    seenIds: string[]
     balance: number
 }
 
@@ -14,7 +15,8 @@ const UserSchema = new Schema({
     clerkId: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     username: { type: String, required: true, unique: true },
-    hashtags: {type: [String], required:true},
+    hashtags: { type: [String], required: true },
+    seenIds: { type: [String], required: true },
     photo: { type: String, required: true },
     verified: { type: Boolean, required: true },
     balance: { type: Number, required: true }

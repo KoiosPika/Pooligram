@@ -127,8 +127,5 @@ export function formatDate(dateInput: Date): string {
   const suffixes = ["st", "nd", "rd"];
   const relevantSuffix = (day < 4 || day > 20) && day % 10 <= 3 ? suffixes[day % 10 - 1] : "th";
 
-  const dayStr = day < 10 ? '0' + day.toString() : day.toString();
-  const monthStr = month < 10 ? '0' + month.toString() : month.toString();
-
   return `${monthNames[month]} ${day}${relevantSuffix}, ${year}`;
 }

@@ -64,7 +64,7 @@ export async function handleVoting({ userId, answerId, pollId }: { answerId: str
 
         await User.updateOne(
             { _id: userId },
-            { '$push': { hiddenPolls: pollId } }
+            { '$set': { verified: true } }
         )
 
         return result;

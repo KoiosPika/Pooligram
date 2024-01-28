@@ -16,7 +16,7 @@ const UserSchema = new Schema({
     email: { type: String, required: true, unique: true },
     username: { type: String, required: true, unique: true },
     hashtags: { type: [String], required: true },
-    hiddenPolls: { type: [String] },
+    hiddenPolls: { type: [String], required:true, default:['65b60xa4b6c8b4e3f4ce7fc1'] },
     photo: { type: String, required: true },
     verified: { type: Boolean, required: true },
     balance: { type: Number, required: true }

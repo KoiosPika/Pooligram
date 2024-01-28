@@ -4,6 +4,7 @@ import { CreateAnswerParams } from "@/types"
 import { connectToDatabase } from "../database"
 import Answer, { IAnswer } from "../database/models/answer.model"
 import Poll from "../database/models/poll.model"
+import User from "../database/models/user.model"
 
 const populateAnswer = (query: any) => {
     return query
@@ -59,6 +60,11 @@ export async function handleVoting({ userId, answerId, pollId }: { answerId: str
         await Poll.updateOne(
             { _id: pollId },
             { $inc: { nofVotes: 1 } }
+        )
+
+        await User.updateOne(
+            { _id: userId },
+            { '$push': { hiddenPolls: pollId } }
         )
 
         return result;

@@ -12,6 +12,7 @@ const page = async ({ searchParams }: SearchParamsProps) => {
   const userId = sessionClaims?.userId as string;
 
   const user = await getUserById(userId)
+
   const userHashtags = user?.hashtags
 
   const searchText = (searchParams?.query as string) || ''

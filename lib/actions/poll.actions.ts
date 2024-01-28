@@ -114,7 +114,7 @@ export async function getAllPolls({ postHashtags, userHashtags, seenIds, page, l
         const titleCondition = query ? { title: { $regex: query, $options: 'i' } } : {};
 
         const seenIdsObjectIds = seenIds
-            .filter(isValidObjectId)  // Filter out empty strings and invalid IDs
+            .filter(isValidObjectId)
             .map(id => new ObjectId(id));
 
         const seenIdsCondition = seenIds && seenIds.length > 0

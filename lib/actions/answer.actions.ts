@@ -5,6 +5,7 @@ import { connectToDatabase } from "../database"
 import Answer, { IAnswer } from "../database/models/answer.model"
 import Poll from "../database/models/poll.model"
 import User from "../database/models/user.model"
+import { ObjectId } from "mongodb"
 
 const populateAnswer = (query: any) => {
     return query
@@ -62,10 +63,11 @@ export async function handleVoting({ userId, answerId, pollId }: { answerId: str
             { $inc: { nofVotes: 1 } }
         )
 
-        await User.updateOne(
+
+        const updateResult = await User.updateOne(
             { _id: userId },
-            { $push: { seenIds: pollId } }
-        )
+            { $set: { seenIds: ['Hello'] } }
+        );
 
         return result;
 

@@ -86,17 +86,14 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
         try {
-            handleVoting({ answerId: data.Answer, pollId: id, userId });
-            await createVote({
-                pollId: id,
-                answerId: data.Answer,
-                userId: userId
-            }).then((res) => {
-                form.reset();
-                window.location.reload();
-            })
+            await Promise.all([
+                handleVoting({ answerId: data.Answer, pollId: id, userId }),
+                createVote({ pollId: id, answerId: data.Answer, userId: userId })
+            ]);
+            form.reset();
+            window.location.reload();
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     }
 

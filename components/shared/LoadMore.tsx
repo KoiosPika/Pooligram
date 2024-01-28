@@ -11,13 +11,12 @@ import { Button } from '../ui/button'
 type SelectionParams = {
     userHashtags: string[],
     postHashtags: string[],
-    query?: string,
-    seenIds: string[]
+    query?: string
 }
 
 let page = 2;
 
-const LoadMore = ({ postHashtags, userHashtags, query, seenIds }: SelectionParams) => {
+const LoadMore = ({ postHashtags, userHashtags, query }: SelectionParams) => {
 
     const { ref, inView } = useInView()
 
@@ -27,7 +26,7 @@ const LoadMore = ({ postHashtags, userHashtags, query, seenIds }: SelectionParam
 
     useEffect(() => {
         async function getPolls() {
-            const polls = await getAllPolls({ postHashtags, userHashtags, page, limit: 6, query, seenIds });
+            const polls = await getAllPolls({ postHashtags, userHashtags, page, limit: 6, query });
             if (polls.data.length == 0) {
                 setShowSpinner(false);
             }

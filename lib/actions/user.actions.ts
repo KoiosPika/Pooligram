@@ -44,7 +44,6 @@ export async function updateUserBalance(id: string, days: number, sponsored: boo
     }
 }
 
-
 export async function updateUser(id: string) {
     // try {
     //     await connectToDatabase();

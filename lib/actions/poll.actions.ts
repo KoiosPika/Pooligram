@@ -101,25 +101,13 @@ export async function getPollsByUser(userId: string) {
     }
 }
 
-export async function getAllPolls({ postHashtags, userHashtags, seenIds, page, limit = 6, query }: GetPollsParams) {
-
-    const isValidObjectId = (id:string) => {
-        return id && /^[0-9a-fA-F]{24}$/.test(id);
-    };
+export async function getAllPolls({ postHashtags, userHashtags, page, limit = 6, query }: GetPollsParams) {
 
 
     try {
         await connectToDatabase();
 
         const titleCondition = query ? { title: { $regex: query, $options: 'i' } } : {};
-
-        const seenIdsObjectIds = seenIds
-            .filter(isValidObjectId)
-            .map(id => new ObjectId(id));
-
-        const seenIdsCondition = seenIds && seenIds.length > 0
-            ? { _id: { $nin: seenIdsObjectIds } }
-            : {};
 
         const postHashtagsCondition = postHashtags && postHashtags.length > 0
             ? { hashtags: { $in: postHashtags } }
@@ -131,16 +119,16 @@ export async function getAllPolls({ postHashtags, userHashtags, seenIds, page, l
 
         const otherCondition = { hashtags: { $nin: [...postHashtags || null, ...userHashtags || null] } };
 
-        const totalPostHashtagsCount = await Poll.countDocuments({ ...postHashtagsCondition, ...titleCondition, ...seenIdsCondition });
-        const totalUserHashtagsCount = await Poll.countDocuments({ ...userHashtagsCondition, ...titleCondition, ...seenIdsCondition });
-        const totalOtherCount = await Poll.countDocuments({ ...otherCondition, ...titleCondition, ...seenIdsCondition });
+        const totalPostHashtagsCount = await Poll.countDocuments({ ...postHashtagsCondition, ...titleCondition });
+        const totalUserHashtagsCount = await Poll.countDocuments({ ...userHashtagsCondition, ...titleCondition });
+        const totalOtherCount = await Poll.countDocuments({ ...otherCondition, ...titleCondition });
 
         const totalCount = totalPostHashtagsCount + totalUserHashtagsCount + totalOtherCount;
         const skipAmount = (page - 1) * limit;
         let combinedPolls = [];
 
         if (skipAmount < totalPostHashtagsCount) {
-            const matchingPostHashtagsPolls = await populatePoll(Poll.find({ ...postHashtagsCondition, ...titleCondition, ...seenIdsCondition })
+            const matchingPostHashtagsPolls = await populatePoll(Poll.find({ ...postHashtagsCondition, ...titleCondition })
                 .sort({ createdAt: 'desc' })
                 .skip(skipAmount)
                 .limit(limit));
@@ -156,7 +144,7 @@ export async function getAllPolls({ postHashtags, userHashtags, seenIds, page, l
                 ...userHashtagsCondition,
                 ...titleCondition,
                 $and: [
-                    { _id: { $nin: seenIdsObjectIds } },
+                    // { _id: { $nin: seenIdsObjectIds } },
                     { _id: { $nin: combinedPolls.map(poll => poll._id) } }
                 ]
             })
@@ -174,7 +162,7 @@ export async function getAllPolls({ postHashtags, userHashtags, seenIds, page, l
                 ...otherCondition,
                 ...titleCondition,
                 $and: [
-                    { _id: { $nin: seenIdsObjectIds } },
+                    // { _id: { $nin: seenIdsObjectIds } },
                     { _id: { $nin: combinedPolls.map(poll => poll._id) } }
                 ]
             })

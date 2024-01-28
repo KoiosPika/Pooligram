@@ -11,17 +11,16 @@ type SelectionParams = {
     userHashtags: string[],
     postHashtags: string[],
     query?: string;
-    seenIds: string[]
 }
 
-const Selection = ({ postHashtags, userHashtags, seenIds, query }: SelectionParams) => {
+const Selection = ({ postHashtags, userHashtags, query }: SelectionParams) => {
 
     const [Polls, setPolls] = useState<IPoll[]>()
 
     useEffect(() => {
         setPolls([])
         async function getPolls() {
-            const polls = await getAllPolls({ postHashtags, userHashtags, page: 1, limit: 6, query: query, seenIds });
+            const polls = await getAllPolls({ postHashtags, userHashtags, page: 1, limit: 6, query: query });
             setPolls(polls?.data)
         }
 
@@ -40,7 +39,7 @@ const Selection = ({ postHashtags, userHashtags, seenIds, query }: SelectionPara
                         )
                     })}
                 </ul>
-                <LoadMore postHashtags={postHashtags} userHashtags={userHashtags} query={query} seenIds={seenIds} />
+                <LoadMore postHashtags={postHashtags} userHashtags={userHashtags} query={query} />
             </div>
         ) : (
             <Image

@@ -16,7 +16,7 @@ import { getAnswersByPoll, handleVoting } from '@/lib/actions/answer.actions'
 import { IAnswer } from '@/lib/database/models/answer.model'
 import { createVote, getVoteByPoll } from '@/lib/actions/vote.actions'
 import { IVote } from '@/lib/database/models/vote.model'
-import { getUserById } from '@/lib/actions/user.actions'
+import { getUserById, updateSeenIds } from '@/lib/actions/user.actions'
 import { IUser } from '@/lib/database/models/user.model'
 import MobileComments from './MobileComments'
 import ReportMenu from './ReportMenu'
@@ -88,7 +88,8 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
         try {
             await Promise.all([
                 handleVoting({ answerId: data.Answer, pollId: id, userId }),
-                createVote({ pollId: id, answerId: data.Answer, userId: userId })
+                createVote({ pollId: id, answerId: data.Answer, userId: userId }),
+                updateSeenIds({ userId, pollId: id })
             ]);
             form.reset();
             window.location.reload();
@@ -209,7 +210,7 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                 <div className='w-full flex justify-center items-center'>
                     <div className='px-[20px] max-w-[1000px]'>
                         <p className='mb-7 font-bold text-[20px]'>Related Polls: </p>
-                        <Selection postHashtags={Poll?.hashtags} userHashtags={User?.hashtags} seenIds={User?.seenIds} />
+                        <Selection postHashtags={Poll?.hashtags} userHashtags={User?.hashtags}/>
                     </div>
                 </div>}
         </div>

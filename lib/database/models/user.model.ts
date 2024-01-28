@@ -7,6 +7,7 @@ export interface IUser extends Document {
     photo: string,
     verified: boolean,
     hashtags: string[],
+    hiddenPolls: string[]
     balance: number
 }
 
@@ -15,6 +16,7 @@ const UserSchema = new Schema({
     email: { type: String, required: true, unique: true },
     username: { type: String, required: true, unique: true },
     hashtags: { type: [String], required: true },
+    hiddenPolls: { type: [String] },
     photo: { type: String, required: true },
     verified: { type: Boolean, required: true },
     balance: { type: Number, required: true }

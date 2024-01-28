@@ -11,16 +11,17 @@ type SelectionParams = {
     userHashtags: string[],
     postHashtags: string[],
     query?: string;
+    seenIds: string[]
 }
 
-const Selection = ({ postHashtags, userHashtags, query }: SelectionParams) => {
+const Selection = ({ postHashtags, userHashtags, seenIds, query }: SelectionParams) => {
 
     const [Polls, setPolls] = useState<IPoll[]>()
 
     useEffect(() => {
         setPolls([])
         async function getPolls() {
-            const polls = await getAllPolls({ postHashtags, userHashtags, page: 1, limit: 6, query: query, seenIds:['65b5cef71bcf3516d3bdddc8'] });
+            const polls = await getAllPolls({ postHashtags, userHashtags, page: 1, limit: 6, query: query, seenIds });
             setPolls(polls?.data)
         }
 

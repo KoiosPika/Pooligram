@@ -4,6 +4,7 @@ import { CreateAnswerParams } from "@/types"
 import { connectToDatabase } from "../database"
 import Answer, { IAnswer } from "../database/models/answer.model"
 import Poll from "../database/models/poll.model"
+import User from "../database/models/user.model"
 
 const populateAnswer = (query: any) => {
     return query
@@ -47,7 +48,7 @@ export async function getAnswersByPoll(id: string) {
     }
 }
 
-export async function handleVoting({ answerId, pollId }: { answerId: string, pollId: string }) {
+export async function handleVoting({ userId, answerId, pollId }: { answerId: string, pollId: string, userId: string }) {
     try {
         await connectToDatabase();
 
@@ -59,6 +60,11 @@ export async function handleVoting({ answerId, pollId }: { answerId: string, pol
         await Poll.updateOne(
             { _id: pollId },
             { $inc: { nofVotes: 1 } }
+        )
+
+        await User.updateOne(
+            { _id: userId },
+            { $push: { seenIds: pollId } }
         )
 
         return result;

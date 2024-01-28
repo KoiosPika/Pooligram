@@ -1,8 +1,9 @@
 import DetailedPage from "@/components/shared/DetailedPage";
+import { getUserById } from "@/lib/actions/user.actions";
 import { SearchParamsProps } from "@/types"
 import { auth } from "@clerk/nextjs";
 
-const page = ({ params: { id }, searchParams }: SearchParamsProps) => {
+const page = async ({ params: { id }, searchParams }: SearchParamsProps) => {
 
   const { sessionClaims } = auth();
   const userId = sessionClaims?.userId as string;

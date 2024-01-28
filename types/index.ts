@@ -51,7 +51,7 @@ export type GetPollsParams = {
     page: number,
     limit: number,
     query?: string,
-    seenIds?: string[]
+    seenIds: string[]
 }
 
 export type UrlQueryParams = {

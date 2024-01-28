@@ -18,7 +18,7 @@ const page = async () => {
           <Image src={'/assets/icons/poll-2.svg'} alt='poll' height={29} width={29} />
           <p className='font-bold text-[20px]'>More Polls For You:</p>
         </div>
-        <Selection userHashtags={user.hashtags} postHashtags={['']} />
+        <Selection userHashtags={user.hashtags} postHashtags={['']} seenIds={user?.seenIds} />
       </div>
     </div>
   )

@@ -102,12 +102,20 @@ export async function getPollsByUser(userId: string) {
 }
 
 export async function getAllPolls({ postHashtags, userHashtags, seenIds, page, limit = 6, query }: GetPollsParams) {
+
+    const isValidObjectId = (id:string) => {
+        return id && /^[0-9a-fA-F]{24}$/.test(id);
+    };
+
+
     try {
         await connectToDatabase();
 
         const titleCondition = query ? { title: { $regex: query, $options: 'i' } } : {};
 
-        const seenIdsObjectIds = seenIds && seenIds.map(id => new ObjectId(id));
+        const seenIdsObjectIds = seenIds
+            .filter(isValidObjectId)  // Filter out empty strings and invalid IDs
+            .map(id => new ObjectId(id));
 
         const seenIdsCondition = seenIds && seenIds.length > 0
             ? { _id: { $nin: seenIdsObjectIds } }

@@ -86,7 +86,7 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
         try {
-            handleVoting({ answerId: data.Answer, pollId: id });
+            handleVoting({ answerId: data.Answer, pollId: id, userId });
             await createVote({
                 pollId: id,
                 answerId: data.Answer,
@@ -212,7 +212,7 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                 <div className='w-full flex justify-center items-center'>
                     <div className='px-[20px] max-w-[1000px]'>
                         <p className='mb-7 font-bold text-[20px]'>Related Polls: </p>
-                        <Selection postHashtags={Poll?.hashtags} userHashtags={User?.hashtags} />
+                        <Selection postHashtags={Poll?.hashtags} userHashtags={User?.hashtags} seenIds={User?.seenIds} />
                     </div>
                 </div>}
         </div>

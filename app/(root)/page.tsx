@@ -32,10 +32,10 @@ const page = async ({ searchParams }: SearchParamsProps) => {
             <Image src={'/assets/icons/trend-solid.svg'} alt='trend' height={30} width={30} />
           </div>
           <SignedIn>
-            <Selection postHashtags={['']} userHashtags={userHashtags} query={searchText} />
+            <Selection postHashtags={['']} userHashtags={userHashtags} query={searchText} seenIds={user?.seenIds} />
           </SignedIn>
           <SignedOut>
-            <Selection postHashtags={['']} userHashtags={['']} query={searchText}/>
+            <Selection postHashtags={['']} userHashtags={['']} query={searchText} seenIds={['']} />
           </SignedOut>
         </div>
       </div>

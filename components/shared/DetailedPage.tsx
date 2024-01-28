@@ -16,7 +16,7 @@ import { getAnswersByPoll, handleVoting } from '@/lib/actions/answer.actions'
 import { IAnswer } from '@/lib/database/models/answer.model'
 import { createVote, getVoteByPoll } from '@/lib/actions/vote.actions'
 import { IVote } from '@/lib/database/models/vote.model'
-import { getUserById, updateSeenIds } from '@/lib/actions/user.actions'
+import { getUserById } from '@/lib/actions/user.actions'
 import { IUser } from '@/lib/database/models/user.model'
 import MobileComments from './MobileComments'
 import ReportMenu from './ReportMenu'
@@ -89,7 +89,6 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
             await Promise.all([
                 handleVoting({ answerId: data.Answer, pollId: id, userId }),
                 createVote({ pollId: id, answerId: data.Answer, userId: userId }),
-                updateSeenIds({ userId, pollId: id })
             ]);
             form.reset();
             window.location.reload();

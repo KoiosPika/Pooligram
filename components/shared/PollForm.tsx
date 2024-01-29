@@ -23,7 +23,7 @@ import { getUserById, updateUserBalance } from '@/lib/actions/user.actions'
 import { daysBetweenDates } from '@/lib/utils'
 import { createReport } from '@/lib/actions/report.actions'
 
-const DailyCharge = 0.50;
+const DailyCharge = 0.25;
 
 type PollParams = {
     userId: string,
@@ -67,9 +67,9 @@ const PollForm = ({ userId, dates }: PollParams) => {
 
     useEffect(() => {
         if (sponsored == false) {
-            setUserBalance(userBalance + 1)
+            setUserBalance(userBalance + 0.75)
         } else {
-            setUserBalance(userBalance - 1)
+            setUserBalance(userBalance - 0.75)
         }
     }, [sponsored])
 
@@ -144,7 +144,7 @@ const PollForm = ({ userId, dates }: PollParams) => {
                     control={form.control}
                     name="title"
                     render={({ field }) => (
-                        <FormItem className="w-full p-5 max-w-[500px] bg-blue-800 border-2 border-black rounded-lg">
+                        <FormItem className="w-full p-5 max-w-[500px] bg-blue-800 rounded-lg">
                             <FormControl>
                                 <>
                                     <div className='inline-flex flex-row flex-shrink gap-2 bg-blue-800 p-1 rounded-md'>
@@ -159,7 +159,7 @@ const PollForm = ({ userId, dates }: PollParams) => {
                     )}
                 />
 
-                <div className='w-full p-5 max-w-[500px] bg-blue-800 border-2 border-black rounded-lg'>
+                <div className='w-full p-5 max-w-[500px] bg-blue-800 rounded-lg'>
                     <div className='inline-flex flex-row gap-1 bg-blue-800 p-1 rounded-md mb-3'>
                         <Image src={'/assets/icons/hashtag.svg'} alt='pen' height={25} width={25} />
                         <p className='text-[18px] font-bold text-white'>Poll Hashtags</p>
@@ -190,7 +190,7 @@ const PollForm = ({ userId, dates }: PollParams) => {
                     control={form.control}
                     name="imageUrl"
                     render={({ field }) => (
-                        <FormItem className="w-full p-5 max-w-[500px] bg-blue-800 border-2 border-black rounded-lg">
+                        <FormItem className="w-full p-5 max-w-[500px] bg-blue-800 rounded-lg">
                             <FormControl className="h-72">
                                 <>
                                     <div className='inline-flex flex-row gap-2 bg-blue-800 p-1 rounded-md'>
@@ -206,7 +206,7 @@ const PollForm = ({ userId, dates }: PollParams) => {
                 />
 
 
-                <div className='w-full p-5 max-w-[500px] bg-blue-800 border-2 border-black rounded-lg'>
+                <div className='w-full p-5 max-w-[500px] bg-blue-800 rounded-lg'>
                     <div className='inline-flex flex-row gap-2 bg-blue-800 p-1 rounded-md mb-2'>
                         <Image src={'/assets/icons/answers.svg'} alt='pen' height={25} width={25} />
                         <p className='text-[18px] font-bold text-white'>Poll Answers</p>
@@ -235,23 +235,23 @@ const PollForm = ({ userId, dates }: PollParams) => {
                     </div>
                 </div>
 
-                <div className='w-full p-5 max-w-[500px] bg-blue-800 border-2 border-black rounded-lg'>
+                <div className='w-full p-5 max-w-[500px] bg-blue-800 rounded-lg'>
                     <div className='inline-flex flex-row gap-3 bg-blue-800 p-1 rounded-md items-center'>
                         <Image src={'/assets/icons/settings.svg'} alt='pen' height={25} width={25} />
                         <p className='text-[18px] font-bold text-white'>Poll Options</p>
                     </div>
                     <div className='flex flex-col bg-white rounded-lg m-7 p-3'>
-                        <p className='ml-5 mt-3 mb-2 text-black font-bold'>For a $1.00 sponsorship fee, you can enhance the visibility of your poll by ensuring it appears at the top of the poll list for 24 hours.</p>
+                        <p className='ml-5 mt-3 mb-2 text-black font-bold'>For a $0.75 sponsorship fee, you can enhance the visibility of your poll by ensuring it appears at the top of the poll list for 24 hours.</p>
                         <div className="w-full px-5 max-w-[500px]">
                             <div className="flex mt-4 items-center">
                                 <Checkbox onCheckedChange={() => setSponsored(!sponsored)} checked={sponsored} id="openList" className="mr-2 h-7 w-7 border-2 border-blue-800" />
                                 <label htmlFor="openList" className="font-bold text-blue-800 text-[14px]">Enable Sponsorship</label>
-                                <p className='bg-green-200 text-green-800 p-1 rounded-md font-semibold ml-1 text-[14px]'>$1.00</p>
+                                <p className='bg-green-200 text-green-800 p-1 rounded-md font-semibold ml-1 text-[14px]'>$0.75</p>
                             </div>
                         </div>
                     </div>
                     <div className='flex flex-col bg-white rounded-lg m-7 p-3'>
-                        <p className='ml-5 mt-3 mb-2 text-black font-bold'>Polls expire within 5 days. But you can extend the period now for $0.50 per day or later for $0.75 per day. (Max is 30)</p>
+                        <p className='ml-5 mt-3 mb-2 text-black font-bold'>Polls expire within 5 days. But you can extend the period now for $0.25 per day or later for $0.50 per day. (Max is 30)</p>
                         <div className='w-full pl-5 pt-4 max-w-[500px]'>
                             <div className='w-full flex justify-center items-center'>
 
@@ -308,7 +308,7 @@ const PollForm = ({ userId, dates }: PollParams) => {
                     control={form.control}
                     name="openComments"
                     render={({ field }) => (
-                        <FormItem className='w-full p-5 max-w-[500px] bg-blue-800 border-2 border-black rounded-lg'>
+                        <FormItem className='w-full p-5 max-w-[500px] bg-blue-800 rounded-lg'>
                             <div className='inline-flex flex-row gap-2 items-center bg-blue-800 p-1 rounded-md'>
                                 <Image src={'/assets/icons/comments.svg'} alt='pen' height={28} width={28} />
                                 <p className='text-[18px] font-bold text-white'>Poll Comments</p>

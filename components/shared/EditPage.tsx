@@ -17,7 +17,7 @@ import { getUserById, updateUserBalance } from '@/lib/actions/user.actions'
 import { daysBetweenDates, timeUntil } from '@/lib/utils'
 import { IPoll } from '@/lib/database/models/poll.model'
 
-const DailyCharge = 0.75;
+const DailyCharge = 0.50;
 
 type EditPageParams = {
     poll: IPoll,
@@ -155,7 +155,7 @@ const EditPage = ({ poll, userId, dates }: EditPageParams) => {
                                 <p className='text-[18px] font-bold text-white'>Poll Options</p>
                             </div>
                             <div className='flex flex-col bg-white rounded-lg m-7 p-3'>
-                                <p className='ml-5 mt-3 mb-2 text-black font-bold'>For a $1.00 sponsorship fee, you can enhance the visibility of your poll by ensuring it appears at the top of the poll list for 24 hours.</p>
+                                <p className='ml-5 mt-3 mb-2 text-black font-bold'>For a $0.75 sponsorship fee, you can enhance the visibility of your poll by ensuring it appears at the top of the poll list for 24 hours.</p>
                                 <div className="w-full px-5 max-w-[500px]">
                                     <div className="flex mt-4 items-center">
                                         <Checkbox
@@ -164,13 +164,13 @@ const EditPage = ({ poll, userId, dates }: EditPageParams) => {
                                             checked={sponsored}
                                             className="mr-2 h-7 w-7 border-2 border-blue-800" />
                                         <label className="font-bold text-blue-800 text-[16px]">Sponsor the poll for</label>
-                                        <p className='bg-green-200 text-green-800 p-1 rounded-md font-semibold ml-1'>$1.00</p>
+                                        <p className='bg-green-200 text-green-800 p-1 rounded-md font-semibold ml-1'>$0.75</p>
                                     </div>
                                 </div>
                                 {allowSponsorship && <p className='p-1 ml-5 mt-3 bg-red-200 text-red-600 font-bold text-[14px] text-center rounded-lg'>Current Sponsorship {allowSponsorship}</p>}
                             </div>
                             <div className='flex flex-col bg-white rounded-lg m-7 p-3'>
-                                <p className='ml-5 mt-3 mb-2 text-black font-bold'>Extend the period now for $0.50 per day or later for $0.75 per day.</p>
+                                <p className='ml-5 mt-3 mb-2 text-black font-bold'>Extend the period now for $0.50</p>
                                 <div className='flex flex-row items-center ml-5 mb-2 gap-1'>
                                     <Image src={'/assets/icons/info.svg'} alt='info' height={15} width={15} />
                                     <p className='text-black text-[12px] font-semibold'>(Max is 30 days from the day you created the poll)</p>

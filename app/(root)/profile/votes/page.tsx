@@ -34,8 +34,8 @@ const page = async () => {
                                 </Button>
                             </div>
                             {votes && votes.map((vote: IVote) => (
-                                <div className='bg-white flex flex-row m-2'>
-                                    <Image src={vote.Poll.imageUrl} className='h-[140px] w-[140px]' alt='hero' height={250} width={250} />
+                                <div className='bg-white flex flex-row m-2 p-2 rounded-md'>
+                                    <Image src={vote.Poll.imageUrl} className='h-[140px] w-[140px] bg-slate-200 rounded-md' alt='hero' height={250} width={250} />
                                     <div className='h-full w-full flex flex-col gap-2 p-3 overflow-hidden'>
                                         <p className='bg-blue-300 text-blue-700 rounded-full py-1 px-5 text-center truncate mr-auto'>{vote.Poll.title}</p>
                                         <p className='bg-green-300 text-green-700 rounded-full py-1 px-5 text-center mr-auto'>{vote.Answer.title}</p>
@@ -53,7 +53,7 @@ const page = async () => {
                     <Image src={'/assets/icons/poll-2.svg'} alt='poll' height={29} width={29} />
                     <p className='font-bold text-[20px]'>More Polls For You:</p>
                 </div>
-                <Selection userHashtags={user.hashtags} postHashtags={['']} />
+                <Selection userHashtags={user.hashtags} postHashtags={['']} hiddenPolls={user.hiddenPolls} />
             </div>
         </div>
     )

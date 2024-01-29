@@ -5,6 +5,7 @@ import { connectToDatabase } from "../database"
 import Answer, { IAnswer } from "../database/models/answer.model"
 import Poll from "../database/models/poll.model"
 import User from "../database/models/user.model"
+import { getUserById } from "./user.actions"
 
 const populateAnswer = (query: any) => {
     return query
@@ -48,7 +49,7 @@ export async function getAnswersByPoll(id: string) {
     }
 }
 
-export async function handleVoting({ userId, answerId, pollId }: { answerId: string, pollId: string, userId: string }) {
+export async function handleVoting({ userId, answerId, pollId, hashtags }: { answerId: string, pollId: string, userId: string, hashtags: string[] }) {
     try {
         await connectToDatabase();
 
@@ -62,9 +63,24 @@ export async function handleVoting({ userId, answerId, pollId }: { answerId: str
             { $inc: { nofVotes: 1 } }
         )
 
+        const user = await getUserById(userId);
+
+        let newHashtags: string[] = []
+
+        if (user.hashtags.length < 60) {
+            newHashtags = [...user.hashtags, ...hashtags]
+        } else {
+            newHashtags = [...user.hashtags];
+            newHashtags.splice(0, 7);
+            newHashtags.push(...hashtags);
+        }
+
         await User.updateOne(
             { _id: userId },
-            { '$set': { verified: true } }
+            { 
+                '$push': { hiddenPolls: pollId },
+                '$set': { hashtags: newHashtags }
+            }
         )
 
         return result;

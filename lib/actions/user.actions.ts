@@ -31,7 +31,7 @@ export async function updateUserBalance(id: string, days: number, sponsored: boo
 
         const user = await User.findById(id);
 
-        const deduction = (sponsored ? 1 : 0) + (days * 0.50)
+        const deduction = (sponsored ? 0.75 : 0) + (days * 0.25)
 
         const newBalance = user.balance - deduction;
 

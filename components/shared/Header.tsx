@@ -13,7 +13,7 @@ const Header = () => {
       <div className='wrapper flex items-center justify-between lg:justify-around'>
         <MobileNav />
         <Link href={'/'}>
-          <Image className='rounded-full' src={'/assets/images/logo_header.png'} alt='logo' height={45} width={45} />
+          <Image className='rounded-full h-[45px] w-[45px]' src={'/assets/images/logo_header.png'} alt='logo' height={150} width={150} />
         </Link>
 
         <nav className='lg:flex-between hidden w-full max-w-xs'>

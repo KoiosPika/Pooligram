@@ -86,12 +86,14 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
         try {
-            await Promise.all([
-                handleVoting({ answerId: data.Answer, pollId: id, userId }),
-                createVote({ pollId: id, answerId: data.Answer, userId: userId }),
-            ]);
-            form.reset();
-            window.location.reload();
+            if (Poll) {
+                await Promise.all([
+                    handleVoting({ answerId: data.Answer, pollId: id, userId, hashtags: Poll?.hashtags }),
+                    createVote({ pollId: id, answerId: data.Answer, userId: userId }),
+                ]);
+                form.reset();
+                window.location.reload();
+            }
         } catch (error) {
             console.log(error);
         }
@@ -109,11 +111,11 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                         <Image className='h-9 w-9 ml-3 rounded-full border-2 border-white' src={Poll?.creator.photo || '/assets/images/user.png'} alt='avatar' width={100} height={100} />
                         <p className='text-white text-[15px] font-semibold ml-2'>{Poll?.creator.username}</p>
                         <div className='ml-auto mr-2'>
-                            <ReportMenu id={id} />
+                            <ReportMenu id={id} userId={userId} />
                         </div>
                     </div>
                     <div className='flex h-[350px] justify-center items-center overflow-hidden bg-slate-300 relative'>
-                        <Image src={Poll?.imageUrl || '/assets/images/loading.png'} alt='hero' width={350} height={350} />
+                        <Image src={Poll?.imageUrl || '/assets/images/loading.png'} alt='hero' width={500} height={500} className='h-[350px] w-[350px]' />
                     </div>
                     {vote === undefined && <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 bg-blue-800 w-[350px] p-3 rounded-bl-lg rounded-br-lg md:rounded-br-none">
@@ -209,7 +211,7 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                 <div className='w-full flex justify-center items-center'>
                     <div className='px-[20px] max-w-[1000px]'>
                         <p className='mb-7 font-bold text-[20px]'>Related Polls: </p>
-                        <Selection postHashtags={Poll?.hashtags} userHashtags={User?.hashtags}/>
+                        <Selection postHashtags={Poll?.hashtags} userHashtags={User?.hashtags} hiddenPolls={User?.hiddenPolls} />
                     </div>
                 </div>}
         </div>

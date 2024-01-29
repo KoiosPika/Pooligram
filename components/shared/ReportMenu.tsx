@@ -3,9 +3,9 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import Image from 'next/image'
 import { updateReport } from '@/lib/actions/report.actions'
 
-const ReportMenu = ({ id }: { id: string }) => {
+const ReportMenu = ({ id, userId }: { id: string, userId: string }) => {
     const handleReport = async () => {
-        await updateReport(id)
+        await updateReport({id, userId})
     }
     return (
         <DropdownMenu>

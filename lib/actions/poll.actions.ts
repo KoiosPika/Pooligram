@@ -101,13 +101,17 @@ export async function getPollsByUser(userId: string) {
     }
 }
 
-export async function getAllPolls({ postHashtags, userHashtags, page, limit = 6, query }: GetPollsParams) {
+export async function getAllPolls({ postHashtags, userHashtags, page, limit = 6, query, hiddenPolls }: GetPollsParams) {
 
 
     try {
         await connectToDatabase();
 
         const titleCondition = query ? { title: { $regex: query, $options: 'i' } } : {};
+
+        const hiddenPollsObjectIds = hiddenPolls.map((id) => new ObjectId(id))
+
+        const hiddenPollsCondition = { _id: { $nin: hiddenPollsObjectIds } }
 
         const postHashtagsCondition = postHashtags && postHashtags.length > 0
             ? { hashtags: { $in: postHashtags } }
@@ -119,17 +123,27 @@ export async function getAllPolls({ postHashtags, userHashtags, page, limit = 6,
 
         const otherCondition = { hashtags: { $nin: [...postHashtags || null, ...userHashtags || null] } };
 
-        const totalPostHashtagsCount = await Poll.countDocuments({ ...postHashtagsCondition, ...titleCondition });
-        const totalUserHashtagsCount = await Poll.countDocuments({ ...userHashtagsCondition, ...titleCondition });
-        const totalOtherCount = await Poll.countDocuments({ ...otherCondition, ...titleCondition });
+        const totalPostHashtagsCount = await Poll.countDocuments({ ...postHashtagsCondition, ...titleCondition, ...hiddenPollsCondition });
+        const totalUserHashtagsCount = await Poll.countDocuments({ ...userHashtagsCondition, ...titleCondition, ...hiddenPollsCondition });
+        const totalOtherCount = await Poll.countDocuments({ ...otherCondition, ...titleCondition, ...hiddenPollsCondition });
 
         const totalCount = totalPostHashtagsCount + totalUserHashtagsCount + totalOtherCount;
         const skipAmount = (page - 1) * limit;
-        let combinedPolls = [];
+        let combinedPolls: IPoll[] = [];
 
         if (skipAmount < totalPostHashtagsCount) {
-            const matchingPostHashtagsPolls = await populatePoll(Poll.find({ ...postHashtagsCondition, ...titleCondition })
-                .sort({ createdAt: 'desc' })
+            const matchingPostHashtagsPolls = await populatePoll(Poll.find({
+                ...postHashtagsCondition,
+                ...titleCondition,
+                // endDateTime: { '$lt': new Date() },
+                _id: {
+                    $nin: [
+                        ...hiddenPollsObjectIds,
+                        ...combinedPolls.map(poll => poll._id)
+                    ]
+                }
+            })
+                .sort({ endDateTime: 1 })
                 .skip(skipAmount)
                 .limit(limit));
 
@@ -143,12 +157,15 @@ export async function getAllPolls({ postHashtags, userHashtags, page, limit = 6,
             const matchingUserHashtagsPolls = await populatePoll(Poll.find({
                 ...userHashtagsCondition,
                 ...titleCondition,
-                $and: [
-                    // { _id: { $nin: seenIdsObjectIds } },
-                    { _id: { $nin: combinedPolls.map(poll => poll._id) } }
-                ]
+                // endDateTime: { '$lt': new Date() },
+                _id: {
+                    $nin: [
+                        ...hiddenPollsObjectIds,
+                        ...combinedPolls.map(poll => poll._id)
+                    ]
+                }
             })
-                .sort({ createdAt: 'desc' })
+                .sort({ endDateTime: 1 })
                 .skip(skipUserHashtags)
                 .limit(remainingLimit));
 
@@ -161,12 +178,15 @@ export async function getAllPolls({ postHashtags, userHashtags, page, limit = 6,
             const remainingPolls = await populatePoll(Poll.find({
                 ...otherCondition,
                 ...titleCondition,
-                $and: [
-                    // { _id: { $nin: seenIdsObjectIds } },
-                    { _id: { $nin: combinedPolls.map(poll => poll._id) } }
-                ]
+                // endDateTime: { '$lt': new Date() },
+                _id: {
+                    $nin: [
+                        ...hiddenPollsObjectIds,
+                        ...combinedPolls.map(poll => poll._id)
+                    ]
+                }
             })
-                .sort({ createdAt: 'desc' })
+                .sort({ endDateTime: 1 })
                 .skip(skipRemaining)
                 .limit(remainingLimit));
 
@@ -182,4 +202,5 @@ export async function getAllPolls({ postHashtags, userHashtags, page, limit = 6,
         throw error;
     }
 }
+
 

@@ -49,9 +49,9 @@ const CommentList = ({ height, user, pollId }: CommentListParams) => {
         <div className='bg-blue-800 my-5 h-0 rounded-tr-lg rounded-br-lg ml-0.5' style={{ height }}>
             <div className='w-full flex flex-row p-3 items-center rounded-lg'>
                 <p className='text-[18px] font-semibold text-white'>Comments</p>
-                <p className='text-[16px] font-semibold ml-3 text-white'>63.5k</p>
+                <p className='text-[16px] font-semibold ml-3 text-white'>0</p>
             </div>
-            <ScrollArea style={{ height: height - 110 }} className='flex flex-1 px-3 h-0'>
+            {Comments.length > 0 && <ScrollArea style={{ height: height - 110 }} className='flex flex-1 px-3 h-0'>
                 {Comments.map((comment) => (
                     <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
                         <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
@@ -61,14 +61,18 @@ const CommentList = ({ height, user, pollId }: CommentListParams) => {
                                 <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
                             </div>
                             <p className='text-[14px]'>{comment.text}</p>
-                            <div className='w-full h-7 relative'>
+                            {/* <div className='w-full h-7 relative'>
                                 <p className='ml-auto absolute right-3 text-blue-800 font-bold hover:cursor-pointer'>16 Replies</p>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 ))}
                 <LoadMoreComments pollId={pollId} />
-            </ScrollArea>
+            </ScrollArea>}
+            {Comments.length <= 0 &&
+                <div style={{ height: height - 110 }} className='flex justify-center items-center flex-1 px-3 h-0'>
+                    <p className='text-white text-[17px]'>No Comments yet</p>
+                </div>}
             <div className='mt-auto flex flex-row p-2'>
                 <Input placeholder='Write a comment' value={newComment} onChange={(e) => setNewComment(e.target.value)} className='font-semibold' />
                 <Button className='ml-2 border-2 border-white bg-white hover:bg-yellow-300' onClick={() => handleSubmit()}>

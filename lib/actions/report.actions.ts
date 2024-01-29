@@ -2,6 +2,7 @@
 
 import { connectToDatabase } from "../database"
 import Report from "../database/models/report.model"
+import User from "../database/models/user.model";
 
 export async function createReport(id: string) {
     try {
@@ -20,7 +21,7 @@ export async function createReport(id: string) {
     }
 }
 
-export async function updateReport(id: string) {
+export async function updateReport({ id, userId }: { id: string, userId: string }) {
     try {
         await connectToDatabase();
 
@@ -29,6 +30,11 @@ export async function updateReport(id: string) {
             { $inc: { nofReports: 1 } },
             { new: true }
         );
+
+        await User.updateOne(
+            { _id: userId },
+            { '$push': { hiddenPolls: id } }
+        )
 
         return JSON.parse(JSON.stringify(updatedReport));
     } catch (error) {

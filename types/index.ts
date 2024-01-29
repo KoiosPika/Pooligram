@@ -50,7 +50,8 @@ export type GetPollsParams = {
     userHashtags: string[],
     page: number,
     limit: number,
-    query?: string
+    query?: string,
+    hiddenPolls: string[]
 }
 
 export type UrlQueryParams = {

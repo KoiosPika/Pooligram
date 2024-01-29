@@ -33,10 +33,10 @@ const page = async ({ searchParams }: SearchParamsProps) => {
             <Image src={'/assets/icons/trend-solid.svg'} alt='trend' height={30} width={30} />
           </div>
           <SignedIn>
-            <Selection postHashtags={['']} userHashtags={userHashtags} query={searchText} hiddenPolls={user.hiddenPolls} />
+            <Selection postHashtags={['']} userHashtags={userHashtags} query={searchText} hiddenPolls={user?.hiddenPolls} />
           </SignedIn>
           <SignedOut>
-            <Selection postHashtags={['']} userHashtags={['']} query={searchText} hiddenPolls={['65b6dm1071cc0n9878d2c4b6']} />
+            <Selection postHashtags={['']} userHashtags={['']} query={searchText} hiddenPolls={['65b6d95073cc0d9878d9c560']} />
           </SignedOut>
         </div>
       </div>

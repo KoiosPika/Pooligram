@@ -135,7 +135,7 @@ export async function getAllPolls({ postHashtags, userHashtags, page, limit = 6,
             const matchingPostHashtagsPolls = await populatePoll(Poll.find({
                 ...postHashtagsCondition,
                 ...titleCondition,
-                // endDateTime: { '$lt': new Date() },
+                endDateTime: { '$gt': new Date() },
                 _id: {
                     $nin: [
                         ...hiddenPollsObjectIds,
@@ -157,7 +157,7 @@ export async function getAllPolls({ postHashtags, userHashtags, page, limit = 6,
             const matchingUserHashtagsPolls = await populatePoll(Poll.find({
                 ...userHashtagsCondition,
                 ...titleCondition,
-                // endDateTime: { '$lt': new Date() },
+                endDateTime: { '$gt': new Date() },
                 _id: {
                     $nin: [
                         ...hiddenPollsObjectIds,
@@ -178,7 +178,7 @@ export async function getAllPolls({ postHashtags, userHashtags, page, limit = 6,
             const remainingPolls = await populatePoll(Poll.find({
                 ...otherCondition,
                 ...titleCondition,
-                // endDateTime: { '$lt': new Date() },
+                endDateTime: { '$gt': new Date() },
                 _id: {
                     $nin: [
                         ...hiddenPollsObjectIds,

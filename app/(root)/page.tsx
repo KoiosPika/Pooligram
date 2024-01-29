@@ -36,7 +36,7 @@ const page = async ({ searchParams }: SearchParamsProps) => {
             <Selection postHashtags={['']} userHashtags={userHashtags} query={searchText} hiddenPolls={user.hiddenPolls} />
           </SignedIn>
           <SignedOut>
-            <Selection postHashtags={['']} userHashtags={['']} query={searchText} hiddenPolls={['78964']} />
+            <Selection postHashtags={['']} userHashtags={['']} query={searchText} hiddenPolls={['65b6dm1071cc0n9878d2c4b6']} />
           </SignedOut>
         </div>
       </div>

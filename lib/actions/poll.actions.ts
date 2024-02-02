@@ -10,7 +10,7 @@ import { ObjectId } from 'mongodb';
 
 const populatePoll = (query: any) => {
     return query
-        .populate({ path: 'creator', model: User, select: '_id username photo verified' })
+        .populate({ path: 'creator', model: User, select: '_id username photo verified level' })
 }
 
 export async function createPoll({ userId, poll }: CreatePollParams) {
@@ -45,7 +45,6 @@ export async function createPoll({ userId, poll }: CreatePollParams) {
 
 export async function updatePoll({ poll }: UpdatePollParams) {
 
-    console.log('hello')
     try {
         await connectToDatabase()
 
@@ -57,10 +56,11 @@ export async function updatePoll({ poll }: UpdatePollParams) {
         EndDate.setDate(currentPoll.endDateTime.getDate() + (poll.days))
         SponsoredDate.setDate(Today.getDate() + 1);
 
-        const updatedPoll = await Poll.findByIdAndUpdate(
-            currentPoll._id,
+        console.log(EndDate)
+
+        const updatedPoll = await Poll.updateOne(
+            { _id: currentPoll._id },
             {
-                ...currentPoll,
                 hashtags: poll.hashtags,
                 endDateTime: EndDate,
                 endSponsoredTime: poll.sponsored ? SponsoredDate : currentPoll.SponsoredDate,
@@ -143,7 +143,7 @@ export async function getAllPolls({ postHashtags, userHashtags, page, limit = 6,
                     ]
                 }
             })
-                .sort({ endDateTime: 1 })
+                .sort({ startDateTime: -1 })
                 .skip(skipAmount)
                 .limit(limit));
 
@@ -165,7 +165,7 @@ export async function getAllPolls({ postHashtags, userHashtags, page, limit = 6,
                     ]
                 }
             })
-                .sort({ endDateTime: 1 })
+                .sort({ startDateTime: -1 })
                 .skip(skipUserHashtags)
                 .limit(remainingLimit));
 
@@ -186,7 +186,7 @@ export async function getAllPolls({ postHashtags, userHashtags, page, limit = 6,
                     ]
                 }
             })
-                .sort({ endDateTime: 1 })
+                .sort({ startDateTime: -1 })
                 .skip(skipRemaining)
                 .limit(remainingLimit));
 

@@ -106,7 +106,7 @@ const EditPage = ({ poll, userId, dates }: EditPageParams) => {
                     openComments: values.openComments
                 }
             }).then((res) => {
-                updateUserBalance(userId, days, sponsored)
+                updateUserBalance(userId, days, sponsored, DailyCharge)
                 form.reset();
                 router.push(`/poll/${poll._id}`);
             })

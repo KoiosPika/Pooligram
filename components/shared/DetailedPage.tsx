@@ -187,6 +187,9 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                                             <p className='text-[13px]'>{answer.nofVotes} Votes</p>
                                         </div>
                                     ))}
+                                    <div className='md:hidden'>
+                                    {User && <MobileComments pollId={id} user={User} />}
+                                </div>
                                 </div>
                             </div>
                         </div>

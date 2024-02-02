@@ -9,6 +9,7 @@ export interface IUser extends Document {
     hashtags: string[],
     hiddenPolls: string[]
     balance: number
+    level:number
 }
 
 const UserSchema = new Schema({
@@ -16,10 +17,11 @@ const UserSchema = new Schema({
     email: { type: String, required: true, unique: true },
     username: { type: String, required: true, unique: true },
     hashtags: { type: [String], required: true },
-    hiddenPolls: { type: [String], required:true },
+    hiddenPolls: { type: [String], required: true },
     photo: { type: String, required: true },
     verified: { type: Boolean, required: true },
-    balance: { type: Number, required: true }
+    balance: { type: Number, required: true },
+    level: { type: Number, default: 1 }
 })
 
 const User = models.User || model('User', UserSchema);

@@ -25,13 +25,13 @@ export async function getUserById(id: string) {
     }
 }
 
-export async function updateUserBalance(id: string, days: number, sponsored: boolean) {
+export async function updateUserBalance(id: string, days: number, sponsored: boolean, dailyCharge:number) {
     try {
         await connectToDatabase();
 
         const user = await User.findById(id);
 
-        const deduction = (sponsored ? 0.75 : 0) + (days * 0.25)
+        const deduction = (sponsored ? 0.50 : 0) + (days * dailyCharge)
 
         const newBalance = user.balance - deduction;
 

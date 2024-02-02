@@ -129,3 +129,23 @@ export function formatDate(dateInput: Date): string {
 
   return `${monthNames[month]} ${day}${relevantSuffix}, ${year}`;
 }
+
+export function getLevelColor(level: number) {
+  if (level >= 180) {
+    return 9;
+  } else if (level >= 160) {
+    return 8;
+  } else if (level >= 140) {
+    return 7;
+  } else if (level >= 120) {
+    return 6;
+  } else if (level >= 100) {
+    return 5;
+  } else if (level >= 80) {
+    return 4;
+  } else if (level >= 60) {
+    return 3;
+  } else if (level >= 40) {
+    return 2;
+  } else return 1;
+}

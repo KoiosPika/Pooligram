@@ -23,14 +23,38 @@ const page = async () => {
                 <div className='my-3 justify-center items-center flex flex-col w-full'>
                     <div className='w-full my-3 px-3'>
                         <ul className='flex flex-col w-full bg-blue-800 rounded-xl p-2'>
-                            <div className='w-full flex justify-center items-center gap-3'>
-                                <Button className='w-[120px] h-[50px] rounded-sm bg-blue-600 border-b-4 border-b-blue-600 hover:bg-blue-600'>
+                            <div className='flex flex-col bg-white m-3 rounded-lg p-2'>
+                                <div className='flex flex-row justify-center items-center gap-2'>
+                                    <div className='relative flex items-center justify-center' style={{ height: '65px', width: '65px' }}>
+                                        <Image className='ml-1' src={`/assets/levels/level_5.svg`} alt='verified' height={60} width={60} />
+                                        <p className='font-bold text-white absolute z-10 text-[20px] flex items-center justify-center' style={{ top: '50%', left: '52%', transform: 'translate(-50%, -50%)' }}>125</p>
+                                    </div>
+                                    <p className='text-[17px] font-semibold'>You need 24,690 Points to reach next level!</p>
+                                </div>
+                                <div className='flex flex-col w-full'>
+                                    <p className='ml-auto text-gray-500 mb-1 text-[20px]'>23,560 / 25,000</p>
+                                    <div className='flex w-full rounded-full h-2 bg-green-400'>
+                                        <div className='flex w-2/3 bg-green-700 rounded-full'></div>
+                                    </div>
+                                </div>
+                                <div className='flex flex-row mt-2 items-center gap-1'>
+                                    <Image src={'/assets/icons/info.svg'} alt='info' height={16} width={16}/>
+                                    <p>You can earn points by voting on polls</p>
+                                </div>
+                            </div>
+                            <div className='w-full flex justify-center items-center gap-3 px-4'>
+                                <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 border-b-4 border-b-blue-600 hover:bg-blue-600'>
                                     <Link href={'/profile/polls'} className='w-full h-full flex justify-center items-center'>
                                         <p>My Polls</p>
                                     </Link>
                                 </Button>
-                                <Button className='w-[120px] h-[50px] rounded-sm bg-blue-600 border-b-4 border-b-yellow-400 hover:bg-blue-600'>
-                                    My Votes
+                                <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 border-[3px] border-yellow-400 hover:bg-blue-600'>
+                                    <p className='text-yellow-300'>My Votes</p>
+                                </Button>
+                                <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 hover:bg-blue-600'>
+                                <Link href={'/profile/wallet'} className='w-full h-full flex justify-center items-center'>
+                                        <p>My Wallet</p>
+                                    </Link>
                                 </Button>
                             </div>
                             {votes && votes.map((vote: IVote) => (
@@ -41,7 +65,7 @@ const page = async () => {
                                         <p className='bg-green-300 text-green-700 rounded-full py-1 px-5 text-center mr-auto'>{vote.Answer.title}</p>
                                         <Link href={`/poll/${vote.Poll._id}`} className='ml-auto flex flex-row justify-center items-center'>
                                             <p className='text-blue-600 underline rounded-full py-1 px-2 text-center'>More Details</p>
-                                            <Image src={'/assets/icons/arrow.svg'} alt='arrow' height={20} width={20}/>
+                                            <Image src={'/assets/icons/arrow.svg'} alt='arrow' height={20} width={20} />
                                         </Link>
                                     </div>
                                 </div>

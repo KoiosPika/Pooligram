@@ -15,9 +15,9 @@ export const Links = [
         route: '/profile/polls'
     },
     {
-        label: 'My Wallet',
-        icon: '/assets/icons/wallet.svg',
-        route: '/wallet'
+        label: 'Leaderboard',
+        icon: '/assets/icons/trophy.svg',
+        route: '/leaderboard'
     },
     {
         label: 'Contact Us',
@@ -38,3 +38,5 @@ export const pollDefaultValues = {
     openList: false,
     openComments: false,
 }
+
+const colors = ['13AACB v','EA6126 v','F8A037 v','57C411 v','9B47E6','CD35E8','E41C55 v','10CD8E v','9DB711 v']

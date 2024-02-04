@@ -207,7 +207,7 @@ export async function getLeaderboardPolls() {
     try {
         await connectToDatabase();
 
-        const polls = await populatePoll(Poll.find().sort({ nofVotes: -1 }))
+        const polls = await populatePoll(Poll.find().sort({ nofVotes: -1 }).limit(24))
 
         return JSON.parse(JSON.stringify(polls))
     } catch (error) {

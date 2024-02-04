@@ -2,6 +2,7 @@
 
 import { Email } from '@/components/shared/Email';
 import { Resend } from 'resend';
+import User from '../database/models/user.model';
 
 type EmailProps = {
     email: {

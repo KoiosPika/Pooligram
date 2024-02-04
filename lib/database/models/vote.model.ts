@@ -9,8 +9,9 @@ export interface IVote extends Document {
 
 const VoteSchema = new Schema({
     Poll: { type: Schema.Types.ObjectId, ref: 'Poll' },
-    Answer: {type:Schema.Types.ObjectId, ref:'Answer'},
+    Answer: { type: Schema.Types.ObjectId, ref: 'Answer' },
     Voter: { type: Schema.Types.ObjectId, ref: 'User' },
+    createdAt: { type: Date }
 })
 
 const Vote = models.Vote || model('Vote', VoteSchema);

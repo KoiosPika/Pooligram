@@ -22,7 +22,8 @@ export async function createVote({ pollId, answerId, userId }: CreateVoteParams)
         await Vote.create({
             Voter: userId,
             Poll: pollId,
-            Answer: answerId
+            Answer: answerId,
+            createdAt: new Date()
         })
     } catch (error) {
         console.log(error)

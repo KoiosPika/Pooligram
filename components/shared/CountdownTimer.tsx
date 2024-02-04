@@ -29,8 +29,8 @@ const CountdownTimer = ({ targetDate }: { targetDate: Date }) => {
     }, [targetDate]);
 
     return (
-        <div className='bg-white border-2 border-red-500 text-red-500 p-2 rounded-lg'>
-            <p className='font-bold text-[22px]'>{countdown}</p>
+        <div className='bg-white text-red-500 p-2 rounded-lg min-w-[250px] min-h-[50px]'>
+            <p className='font-bold text-[22px] text-center'>{countdown}</p>
         </div>
     );
 };

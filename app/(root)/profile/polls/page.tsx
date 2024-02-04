@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { getPollsByUser } from '@/lib/actions/poll.actions';
 import { getUserById } from '@/lib/actions/user.actions';
 import { IPoll } from '@/lib/database/models/poll.model';
+import { getNextLevelPoints } from '@/lib/utils';
 import { auth } from '@clerk/nextjs'
 import Image from 'next/image';
 import Link from 'next/link';
@@ -17,6 +18,14 @@ const page = async () => {
     const user = await getUserById(userId)
 
     const Polls = await getPollsByUser(userId)
+
+    const points = user.points + 260;
+
+    const upper = getNextLevelPoints(points)
+
+    const lower = upper - 500;
+
+    const earned = ((points - lower) / 500) * 100
 
 
     return (
@@ -31,16 +40,16 @@ const page = async () => {
                                         <Image className='ml-1' src={`/assets/levels/level_5.svg`} alt='verified' height={60} width={60} />
                                         <p className='font-bold text-white absolute z-10 text-[20px] flex items-center justify-center' style={{ top: '50%', left: '52%', transform: 'translate(-50%, -50%)' }}>125</p>
                                     </div>
-                                    <p className='text-[17px] font-semibold'>You need 24,690 Points to reach next level!</p>
+                                    <p className='text-[17px] font-bold'>You need {(upper - points).toLocaleString()} Points to reach next level!</p>
                                 </div>
                                 <div className='flex flex-col w-full'>
-                                    <p className='ml-auto text-gray-500 mb-1 text-[20px]'>23,560 / 25,000</p>
-                                    <div className='flex w-full rounded-full h-2 bg-green-400'>
-                                        <div className='flex w-2/3 bg-green-700 rounded-full'></div>
+                                    <p className='ml-auto font-bold text-gray-500 mb-1 text-[20px]'>{points.toLocaleString()} / {upper.toLocaleString()}</p>
+                                    <div className='flex w-full rounded-full h-3 bg-green-400'>
+                                        <div className='flex bg-green-700 rounded-full' style={{ width: `${earned}%` }}></div>
                                     </div>
                                 </div>
                                 <div className='flex flex-row mt-2 items-center gap-1'>
-                                    <Image src={'/assets/icons/info.svg'} alt='info' height={16} width={16}/>
+                                    <Image src={'/assets/icons/info.svg'} alt='info' height={16} width={16} />
                                     <p>You can earn points by voting on polls</p>
                                 </div>
                             </div>

@@ -40,7 +40,7 @@ const ListItem = ({ poll }: { poll: IPoll }) => {
                                 <Image src={'/assets/icons/stream.svg'} alt='live' height={25} width={25} />
                                 <p>Poll has Ended</p>
                             </Button>}
-                        <p className='w-full text-center py-1 px-2 rounded-lg inline-block font-semibold bg-purple-300 text-purple-800 text-[14px]'>Votes : {poll.nofVotes}</p>
+                        <p className='w-full text-center py-1 px-2 rounded-lg inline-block font-semibold bg-purple-300 text-purple-800 text-[14px]'>Votes : {(poll.nofVotes).toLocaleString()}</p>
                         {status && <p className='font-semibold text-red-600 bg-red-200 py-1 w-full rounded-lg text-center text-[14px]'>{timeUntil(poll.endDateTime.toString(), now)}</p>}
                     </div>
                 </div>

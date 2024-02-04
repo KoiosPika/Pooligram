@@ -25,7 +25,7 @@ export async function getUserById(id: string) {
     }
 }
 
-export async function updateUserBalance(id: string, days: number, sponsored: boolean, dailyCharge:number) {
+export async function updateUserBalance(id: string, days: number, sponsored: boolean, dailyCharge: number) {
     try {
         await connectToDatabase();
 

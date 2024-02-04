@@ -149,3 +149,19 @@ export function getLevelColor(level: number) {
     return 2;
   } else return 1;
 }
+
+export function getNextLevelPoints(points:number) {
+
+  let base = 500;
+  
+  if(points < 500){
+    return 500;
+  }
+
+  while(base < points){
+    base = base + 500;
+  }
+
+  return base;
+  
+}

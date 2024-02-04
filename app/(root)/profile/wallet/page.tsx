@@ -46,7 +46,9 @@ const page = async () => {
               </div>
               <div className='w-full flex justify-center items-center gap-3 px-4'>
                 <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 hover:bg-blue-600'>
-                  <p>My Polls</p>
+                <Link className='w-full h-full flex justify-center items-center' href={'/profile/polls'}>
+                    <p>My Polls</p>
+                  </Link>
                 </Button>
                 <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 border-b-4 border-b-blue-600 hover:bg-blue-600'>
                   <Link className='w-full h-full flex justify-center items-center' href={'/profile/votes'}>

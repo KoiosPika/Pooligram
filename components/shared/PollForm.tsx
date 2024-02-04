@@ -139,12 +139,12 @@ const PollForm = ({ userId, dates }: PollParams) => {
     }
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-1 flex-col gap-5 justify-center items-center px-3">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-1 flex-col gap-5 justify-center items-center px-3 max-w-[700px]">
                 <FormField
                     control={form.control}
                     name="title"
                     render={({ field }) => (
-                        <FormItem className="w-full p-5 max-w-[500px] bg-blue-800 rounded-lg">
+                        <FormItem className="w-full p-5 bg-blue-800 rounded-lg">
                             <FormControl>
                                 <>
                                     <div className='inline-flex flex-row flex-shrink gap-2 bg-blue-800 p-1 rounded-md'>
@@ -159,7 +159,7 @@ const PollForm = ({ userId, dates }: PollParams) => {
                     )}
                 />
 
-                <div className='w-full p-5 max-w-[500px] bg-blue-800 rounded-lg'>
+                <div className='w-full p-5 bg-blue-800 rounded-lg'>
                     <div className='inline-flex flex-row gap-1 bg-blue-800 p-1 rounded-md mb-3'>
                         <Image src={'/assets/icons/hashtag.svg'} alt='pen' height={25} width={25} />
                         <p className='text-[18px] font-bold text-white'>Poll Hashtags</p>
@@ -180,7 +180,7 @@ const PollForm = ({ userId, dates }: PollParams) => {
                     }
                     <div className='flex flex-col gap-2 justify-center md:justify-between items-center'>
                         <div className='flex flex-row justify-center items-center gap-2'>
-                            <Input placeholder='Add Hashtag (Max 8)' className='w-full px-5 max-w-[300px] border-2 border-black' onChange={(e) => setNewHashtag(e.target.value)} value={newHashtag} />
+                            <Input placeholder='Add Hashtag (Max 8)' className='w-full px-5 max-w-[500px] border-2 border-black' onChange={(e) => setNewHashtag(e.target.value)} value={newHashtag} />
                             <button disabled={hashtags.length == 8} className='bg-yellow-300 hover:bg-grey-400 w-11 h-9 text-blue-800 text-[18px] rounded-md border-2 border-black' type="button" onClick={AddHashtag}>+</button>
                         </div>
                     </div>
@@ -190,7 +190,7 @@ const PollForm = ({ userId, dates }: PollParams) => {
                     control={form.control}
                     name="imageUrl"
                     render={({ field }) => (
-                        <FormItem className="w-full p-5 max-w-[500px] bg-blue-800 rounded-lg">
+                        <FormItem className="w-full p-5 bg-blue-800 rounded-lg">
                             <FormControl className="h-72">
                                 <>
                                     <div className='inline-flex flex-row gap-2 bg-blue-800 p-1 rounded-md'>
@@ -206,7 +206,7 @@ const PollForm = ({ userId, dates }: PollParams) => {
                 />
 
 
-                <div className='w-full p-5 max-w-[500px] bg-blue-800 rounded-lg'>
+                <div className='w-full p-5 bg-blue-800 rounded-lg'>
                     <div className='inline-flex flex-row gap-2 bg-blue-800 p-1 rounded-md mb-2'>
                         <Image src={'/assets/icons/answers.svg'} alt='pen' height={25} width={25} />
                         <p className='text-[18px] font-bold text-white'>Poll Answers</p>
@@ -235,7 +235,7 @@ const PollForm = ({ userId, dates }: PollParams) => {
                     </div>
                 </div>
 
-                <div className='w-full p-5 max-w-[500px] bg-blue-800 rounded-lg'>
+                <div className='w-full p-5 bg-blue-800 rounded-lg'>
                     <div className='inline-flex flex-row gap-3 bg-blue-800 p-1 rounded-md items-center'>
                         <Image src={'/assets/icons/settings.svg'} alt='pen' height={25} width={25} />
                         <p className='text-[18px] font-bold text-white'>Poll Options</p>
@@ -308,7 +308,7 @@ const PollForm = ({ userId, dates }: PollParams) => {
                     control={form.control}
                     name="openComments"
                     render={({ field }) => (
-                        <FormItem className='w-full p-5 max-w-[500px] bg-blue-800 rounded-lg'>
+                        <FormItem className='w-full p-5 bg-blue-800 rounded-lg'>
                             <div className='inline-flex flex-row gap-2 items-center bg-blue-800 p-1 rounded-md'>
                                 <Image src={'/assets/icons/comments.svg'} alt='pen' height={28} width={28} />
                                 <p className='text-[18px] font-bold text-white'>Poll Comments</p>

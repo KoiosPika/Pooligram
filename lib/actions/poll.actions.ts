@@ -203,4 +203,18 @@ export async function getAllPolls({ postHashtags, userHashtags, page, limit = 6,
     }
 }
 
+export async function getLeaderboardPolls() {
+    try {
+        await connectToDatabase();
 
+        const polls = await populatePoll(Poll.find().sort({ nofVotes: -1 }))
+
+        return JSON.parse(JSON.stringify(polls))
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function getDate(){
+    return new Date('2024-02-11T08:17:12.733Z')
+}

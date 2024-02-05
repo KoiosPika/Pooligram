@@ -75,13 +75,24 @@ export async function handleVoting({ userId, answerId, pollId, hashtags }: { ans
             newHashtags.push(...hashtags);
         }
 
-        await User.updateOne(
+        const newUser = await User.findByIdAndUpdate(
             { _id: userId },
-            { 
+            {
                 '$push': { hiddenPolls: pollId },
-                '$set': { hashtags: newHashtags }
-            }
+                '$set': { hashtags: newHashtags },
+                '$inc': { points: 5 }
+            },
+            { new: true }
         )
+
+        if (newUser.points % 500 === 0) {
+            await User.updateOne(
+                { _id: userId },
+                {
+                    '$inc': { level: 1 }
+                }
+            )
+        }
 
         return result;
 

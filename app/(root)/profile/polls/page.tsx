@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { getPollsByUser } from '@/lib/actions/poll.actions';
 import { getUserById } from '@/lib/actions/user.actions';
 import { IPoll } from '@/lib/database/models/poll.model';
-import { getNextLevelPoints } from '@/lib/utils';
+import { getLevelColor, getNextLevelPoints } from '@/lib/utils';
 import { auth } from '@clerk/nextjs'
 import Image from 'next/image';
 import Link from 'next/link';
@@ -19,7 +19,7 @@ const page = async () => {
 
     const Polls = await getPollsByUser(userId)
 
-    const points = user.points + 260;
+    const points = user.points;
 
     const upper = getNextLevelPoints(points)
 
@@ -27,6 +27,7 @@ const page = async () => {
 
     const earned = ((points - lower) / 500) * 100
 
+    const color = getLevelColor(user.level)
 
     return (
         <div className='w-full flex justify-center items-center'>
@@ -37,10 +38,10 @@ const page = async () => {
                             <div className='flex flex-col bg-white m-3 rounded-lg p-2'>
                                 <div className='flex flex-row justify-center items-center gap-2'>
                                     <div className='relative flex items-center justify-center' style={{ height: '65px', width: '65px' }}>
-                                        <Image className='ml-1' src={`/assets/levels/level_5.svg`} alt='verified' height={60} width={60} />
-                                        <p className='font-bold text-white absolute z-10 text-[20px] flex items-center justify-center' style={{ top: '50%', left: '52%', transform: 'translate(-50%, -50%)' }}>125</p>
+                                        <Image className='ml-1' src={`/assets/levels/level_${color}.svg`} alt='verified' height={60} width={60} />
+                                        <p className='font-bold text-white absolute z-10 text-[20px] flex items-center justify-center' style={{ top: '50%', left: '52%', transform: 'translate(-50%, -50%)' }}>{user.level}</p>
                                     </div>
-                                    <p className='text-[17px] font-bold'>You need {(upper - points).toLocaleString()} Points to reach next level!</p>
+                                    <p className='text-[20px] font-bold'>You need {(upper - points).toLocaleString()} Points to reach next level!</p>
                                 </div>
                                 <div className='flex flex-col w-full'>
                                     <p className='ml-auto font-bold text-gray-500 mb-1 text-[20px]'>{points.toLocaleString()} / {upper.toLocaleString()}</p>

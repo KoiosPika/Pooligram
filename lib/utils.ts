@@ -150,18 +150,22 @@ export function getLevelColor(level: number) {
   } else return 1;
 }
 
-export function getNextLevelPoints(points:number) {
+export function getNextLevelPoints(points: number) {
 
   let base = 500;
-  
-  if(points < 500){
+
+  if (points < 500) {
     return 500;
   }
 
-  while(base < points){
+  while (base < points) {
     base = base + 500;
   }
 
+  if (base % 500 == 0) {
+    return base + 500;
+  }
+
   return base;
-  
+
 }

@@ -10,9 +10,8 @@ const ListItem = ({ poll }: { poll: IPoll }) => {
 
     const now = new Date().toISOString();
 
-    // const status = timeUntil(poll.endDateTime.toString(), now);
-
-    const status = true;
+    const status = timeUntil(poll.endDateTime.toString(), now);
+    
     return (
         <div className='w-full p-3 bg-white m-3 rounded-lg items-center'>
             <div className='flex flex-col gap-2'>

@@ -17,7 +17,7 @@ export const Links = [
     {
         label: 'Leaderboard',
         icon: '/assets/icons/trophy.svg',
-        route: '/leaderboard'
+        route: '/leaderboard/live-round'
     },
     {
         label: 'Contact Us',

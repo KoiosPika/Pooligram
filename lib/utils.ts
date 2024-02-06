@@ -162,7 +162,7 @@ export function getNextLevelPoints(points: number) {
     base = base + 500;
   }
 
-  if (base % 500 == 0) {
+  if (points % 500 == 0) {
     return base + 500;
   }
 

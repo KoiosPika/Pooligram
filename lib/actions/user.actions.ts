@@ -44,6 +44,19 @@ export async function updateUserBalance(id: string, days: number, sponsored: boo
     }
 }
 
+export async function getLeaderboardUsers() {
+    try {
+        await connectToDatabase();
+
+        const users = await User.find({}).sort({ level: -1, points:-1 })
+
+        return JSON.parse(JSON.stringify(users))
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export async function updateUser(id: string) {
     // try {
     //     await connectToDatabase();

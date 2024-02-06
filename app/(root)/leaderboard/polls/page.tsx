@@ -1,8 +1,8 @@
-import CountdownTimer from '@/components/shared/CountdownTimer'
 import { Button } from '@/components/ui/button'
-import { getDate, getLeaderboardPolls } from '@/lib/actions/poll.actions'
+import { getLeaderboardPolls } from '@/lib/actions/poll.actions'
 import { IPoll } from '@/lib/database/models/poll.model'
 import { getLevelColor } from '@/lib/utils'
+import { auth } from '@clerk/nextjs'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -11,7 +11,9 @@ const page = async () => {
 
   const polls = await getLeaderboardPolls();
 
-  const date = await getDate()
+  const { sessionClaims } = auth()
+
+  const userId = sessionClaims?.userId as string;
 
   return (
     <div className='w-full flex justify-center items-center'>
@@ -25,26 +27,26 @@ const page = async () => {
                 <Image src={'/assets/icons/trophy.svg'} alt='trophy' height={35} width={35} />
               </div>
               <div className='w-full flex justify-center items-center gap-3 px-4'>
-                <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 border-[3px] border-yellow-400 hover:bg-blue-600'>
-                  <p className='text-[17px] text-yellow-300'>Live Round</p>
-                </Button>
-                <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 border-b-4 border-b-blue-600 hover:bg-blue-600'>
-                  <Link className='w-full h-full flex justify-center items-center' href={'/profile/votes'}>
-                    <p className='text-[17px]'>Top Polls</p>
+                <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 hover:bg-blue-600'>
+                  <Link className='w-full h-full flex justify-center items-center' href={'/leaderboard/live-round'}>
+                    <p className='text-[16px]'>Live Round</p>
                   </Link>
                 </Button>
+                <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 border-[3px] border-yellow-400 hover:bg-blue-600'>
+                  <p className='text-[16px] text-yellow-300'>Top Polls</p>
+                </Button>
                 <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 border-b-4 border-b-blue-600 hover:bg-blue-600'>
-                  <Link className='w-full h-full flex justify-center items-center' href={'/profile/wallet'}>
-                    <p className='text-[17px]'>My Wallet</p>
+                  <Link className='w-full h-full flex justify-center items-center' href={'/leaderboard/users'}>
+                    <p className='text-[16px]'>Top Users</p>
                   </Link>
                 </Button>
               </div>
               <div className='flex flex-row items-center gap-3'>
                 <Image src={'/assets/icons/trophy-yellow.svg'} alt='trophy' height={25} width={25} />
-                <p className='text-[25px] font-bold text-yellow-400 my-3'>Round 34</p>
+                <p className='text-[25px] font-bold text-yellow-400 my-3'>Top Polls</p>
                 <Image src={'/assets/icons/trophy-yellow.svg'} alt='trophy' height={25} width={25} />
               </div>
-              <CountdownTimer targetDate={date} />
+
               <ul className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 my-5'>
                 {polls.length > 0 && polls.map((poll: IPoll, index: number) => {
                   const color = getLevelColor(poll.creator.level)
@@ -58,7 +60,7 @@ const page = async () => {
                           <p className='text-black font-bold'>{index + 1}</p>
                         </div>
                       </div>
-                      <div className='bg-white h-[150px] max-w-[300px] rounded-b-lg py-1 flex flex-col'>
+                      <div className='h-[150px] max-w-[300px] rounded-b-lg py-1 flex flex-col' style={{backgroundColor:poll.creator._id === userId ? 'yellow' : 'white'}}>
                         <p className='ml-2 mb-2 truncate-2-lines text-[15px] text-blue-800 font-bold'>{poll.title}</p>
                         <div className='mt-auto flex flex-row items-center ml-2 mb-2'>
                           <Image className='h-8 w-8 rounded-full' src={poll.creator.photo} alt='user' height={60} width={60} />

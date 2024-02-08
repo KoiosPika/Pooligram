@@ -70,13 +70,17 @@ const page = async () => {
                             </div>
                             {votes && votes.map((vote: IVote) => (
                                 <div className='bg-white flex flex-row m-2 p-2 rounded-md'>
-                                    <Image src={vote.Poll.imageUrl} className='h-[140px] w-[140px] bg-slate-200 rounded-md' alt='hero' height={250} width={250} />
+                                    <Image src={vote.Poll.imageUrl} className='h-[150px] w-[150px] md:h-[180px] md:w-[180px] bg-slate-200 rounded-md' alt='hero' height={250} width={250} />
                                     <div className='h-full w-full flex flex-col gap-2 p-3 overflow-hidden'>
                                         <p className='bg-blue-300 text-blue-700 rounded-full py-1 px-5 text-center truncate mr-auto'>{vote.Poll.title}</p>
                                         <p className='bg-green-300 text-green-700 rounded-full py-1 px-5 text-center mr-auto'>{vote.Answer.title}</p>
-                                        <Link href={`/poll/${vote.Poll._id}`} className='ml-auto flex flex-row justify-center items-center'>
-                                            <p className='text-blue-600 underline rounded-full py-1 px-2 text-center'>More Details</p>
-                                            <Image src={'/assets/icons/arrow.svg'} alt='arrow' height={20} width={20} />
+                                        <Link href={`/poll/${vote.Poll._id}`} className='ml-auto flex flex-row justify-center items-center bg-yellow-500 rounded-md px-2'>
+                                            <p className='text-white rounded-full py-1 px-2 text-center'>Copy Link</p>
+                                            <Image src={'/assets/icons/link.svg'} alt='arrow' height={20} width={20} />
+                                        </Link>
+                                        <Link href={`/poll/${vote.Poll._id}`} className='ml-auto flex flex-row justify-center items-center bg-blue-500 rounded-md px-2'>
+                                            <p className='text-white rounded-full py-1 px-2 text-center'>More Details</p>
+                                            <Image src={'/assets/icons/arrow-white.svg'} alt='arrow' height={20} width={20} />
                                         </Link>
                                     </div>
                                 </div>

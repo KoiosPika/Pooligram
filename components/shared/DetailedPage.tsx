@@ -153,7 +153,7 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                                 <div className='md:hidden'>
                                     {User && <MobileComments pollId={id} user={User} />}
                                 </div>
-                                <Button className='bg-white ml-auto hover:bg-slate-400' type="submit">
+                                <Button className='bg-white ml-auto hover:bg-slate-200' type="submit">
                                     <p className='text-blue-800'>{form.formState.isSubmitting ? 'Please wait..' : 'Save'}</p>
                                 </Button>
                             </div>

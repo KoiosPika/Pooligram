@@ -1,6 +1,13 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { Poppins } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
+
+const poppins = Poppins({ 
+  subsets: ['latin'],
+  weight : ['400','500','600','700'],
+  variable: '--font-popins'
+})
 
 export const metadata: Metadata = {
   title: 'Pooligram',
@@ -15,7 +22,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body>{children}</body>
+        <body className={poppins.variable}>{children}</body>
       </html>
     </ClerkProvider>
   )

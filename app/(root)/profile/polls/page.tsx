@@ -69,13 +69,15 @@ const page = async () => {
                                     </Link>
                                 </Button>
                             </div>
-                            {Polls.length > 0 && Polls.map((poll: IPoll) => {
-                                return (
-                                    <li key={poll._id} className='flex justify-center overflow-hidden'>
-                                        <ListItem poll={poll} />
-                                    </li>
-                                )
-                            })}
+                            <ul className='grid grid-cols-1 sm:grid-cols-2 gap-2 mt-3'>
+                                {Polls.length > 0 && Polls.map((poll: IPoll) => {
+                                    return (
+                                        <li key={poll._id}>
+                                            <ListItem poll={poll} />
+                                        </li>
+                                    )
+                                })}
+                            </ul>
                             {Polls.length == 0 &&
                                 <div className='w-full flex flex-col bg-white rounded-lg justify-center items-center p-3'>
                                     <Image

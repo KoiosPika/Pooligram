@@ -50,11 +50,8 @@ export const checkoutOrder = async (order: CheckoutOrderParams) => {
 
 export const createOrder = async (order: CreateOrderParams) => {
 
-    console.log('hello5')
     try {
         await connectToDatabase();
-
-        console.log('hello1')
 
         const newOrder = await Order.create({
             ...order,
@@ -68,15 +65,10 @@ export const createOrder = async (order: CreateOrderParams) => {
             '9.99': 40
         };
 
-        console.log('hello4')
 
         const user = await User.findById(order.buyerId);
 
-        console.log(user)
-
         const newTickets = user.tickets + ticketValue[(order.amount).toString()];
-
-        console.log(newTickets)
 
         await User.updateOne(
             { _id: order.buyerId },

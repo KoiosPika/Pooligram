@@ -19,11 +19,11 @@ import { useUploadThing } from '@/lib/uploadthing'
 import { createPoll } from '@/lib/actions/poll.actions'
 import { useRouter } from 'next/navigation'
 import { createAnswer } from '@/lib/actions/answer.actions'
-import { getUserById, updateUserBalance } from '@/lib/actions/user.actions'
+import { getUserById, updateUserTickets } from '@/lib/actions/user.actions'
 import { daysBetweenDates } from '@/lib/utils'
 import { createReport } from '@/lib/actions/report.actions'
 
-const DailyCharge = 0.25;
+const DailyCharge = 1;
 
 type PollParams = {
     userId: string,
@@ -52,14 +52,14 @@ const PollForm = ({ userId, dates }: PollParams) => {
     const [sponsored, setSponsored] = useState<boolean>(false);
 
     const [files, setFiles] = useState<File[]>([])
-    const [userBalance, setUserBalance] = useState(0);
+    const [userTickets, setUserTickets] = useState(0);
     const [selectedDate, setSelectedDate] = useState<Date>(MinDate);
     const [days, setDays] = useState(0);
 
     useEffect(() => {
         async function getUser() {
             const user = await getUserById(userId);
-            setUserBalance(user.balance);
+            setUserTickets(user.tickets);
         }
 
         getUser();
@@ -67,9 +67,9 @@ const PollForm = ({ userId, dates }: PollParams) => {
 
     useEffect(() => {
         if (sponsored == false) {
-            setUserBalance(userBalance + 0.75)
+            setUserTickets(userTickets + 2)
         } else {
-            setUserBalance(userBalance - 0.75)
+            setUserTickets(userTickets - 2)
         }
     }, [sponsored])
 
@@ -128,7 +128,7 @@ const PollForm = ({ userId, dates }: PollParams) => {
             await Promise.all(options.map(async (option) => {
                 await createAnswer({ pollId: newPoll._id, title: option });
             })).then((res) => {
-                updateUserBalance(userId, days, sponsored, DailyCharge)
+                updateUserTickets(userId, days, sponsored, DailyCharge)
                 form.reset();
                 router.push(`/poll/${newPoll._id}`);
             })
@@ -241,12 +241,12 @@ const PollForm = ({ userId, dates }: PollParams) => {
                         <p className='text-[18px] font-bold text-white'>Poll Options</p>
                     </div>
                     <div className='flex flex-col bg-white rounded-lg m-7 p-3'>
-                        <p className='ml-5 mt-3 mb-2 text-black font-bold'>For 1 ticket, you can enhance the visibility of your poll by ensuring it appears at the top of the poll list for 24 hours.</p>
+                        <p className='ml-5 mt-3 mb-2 text-black font-bold'>For 2 ticket, you can enhance the visibility of your poll by ensuring it appears at the top of the poll list for 24 hours.</p>
                         <div className="w-full px-5 max-w-[500px]">
                             <div className="flex mt-4 items-center">
                                 <Checkbox onCheckedChange={() => setSponsored(!sponsored)} checked={sponsored} id="openList" className="mr-2 h-7 w-7 border-2 border-blue-800" />
                                 <label htmlFor="openList" className="font-bold text-blue-800 text-[14px]">Enable Sponsorship</label>
-                                <div className='flex flex-row items-center justify-center gap-1 bg-green-500 ml-2 rounded-lg px-3 py-1'>
+                                <div className='flex flex-row items-center justify-center gap-1 ml-2 rounded-lg px-3 py-1' style={{ backgroundColor: '#21C126' }}>
                                     <p className='text-white rounded-md font-semibold ml-1 text-[20px]'>2x</p>
                                     <Image className='h-10 w-6' src={'/assets/images/ticket-1.png'} alt='ticket' height={100} width={100} />
                                 </div>
@@ -288,8 +288,8 @@ const PollForm = ({ userId, dates }: PollParams) => {
                             </div>
                             <div className="flex mb-3 items-center justify-center">
                                 <p className='text-black font-semibold mr-1 text-[14px]'>You're extending {days} days for</p>
-                                <div className='flex flex-row items-center justify-center gap-1 bg-green-500 ml-2 rounded-lg px-3 py-1'>
-                                    <p className='text-white rounded-md font-semibold ml-1 text-[20px]'>2x</p>
+                                <div className='flex flex-row items-center justify-center gap-1 ml-2 rounded-lg px-3 py-1' style={{ backgroundColor: '#21C126' }}>
+                                    <p className='text-white rounded-md font-semibold ml-1 text-[20px]'>{days}x</p>
                                     <Image className='h-10 w-6' src={'/assets/images/ticket-1.png'} alt='ticket' height={100} width={100} />
                                 </div>
                             </div>
@@ -297,8 +297,8 @@ const PollForm = ({ userId, dates }: PollParams) => {
                     </div>
                     <div className='flex flex-row bg-white rounded-lg m-7 py-3 justify-center items-center'>
                         <p className='text-[18px] font-semibold'>Your tickets:</p>
-                        <div className='flex flex-row items-center justify-center gap-1 bg-green-500 ml-2 rounded-lg px-3 py-1'>
-                            <p className='text-white rounded-md font-semibold ml-1 text-[20px]'>40x</p>
+                        <div className='flex flex-row items-center justify-center gap-1 ml-2 rounded-lg px-3 py-1' style={{ backgroundColor: userTickets - days >= 0 ? '#21C126' : '#EA2514' }}>
+                            <p className='text-white rounded-md font-semibold ml-1 text-[20px]'>{userTickets - days}x</p>
                             <Image className='h-10 w-6' src={'/assets/images/ticket-1.png'} alt='ticket' height={100} width={100} />
                         </div>
                     </div>
@@ -324,7 +324,7 @@ const PollForm = ({ userId, dates }: PollParams) => {
                 />
 
 
-                <Button disabled={form.formState.isSubmitting || (userBalance - days * DailyCharge < 0)} className="bg-blue-800 col-span-2 w-[155px] gap-1" type="submit">
+                <Button disabled={form.formState.isSubmitting || userTickets - days < 0} className="bg-blue-800 col-span-2 w-[155px] gap-1" type="submit">
                     <Image src={'/assets/icons/create.svg'} alt='create' height={20} width={20} />
                     <p>{form.formState.isSubmitting ? 'Please Wait...' : 'Create Poll Now!'}</p>
                 </Button>

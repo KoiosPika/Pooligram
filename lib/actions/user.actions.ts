@@ -25,19 +25,19 @@ export async function getUserById(id: string) {
     }
 }
 
-export async function updateUserBalance(id: string, days: number, sponsored: boolean, dailyCharge: number) {
+export async function updateUserTickets(id: string, days: number, sponsored: boolean, dailyCharge: number) {
     try {
         await connectToDatabase();
 
         const user = await User.findById(id);
 
-        const deduction = (sponsored ? 0.50 : 0) + (days * dailyCharge)
+        const deduction = (sponsored ? 2 : 0) + (days * dailyCharge)
 
-        const newBalance = user.balance - deduction;
+        const newTickets = user.tickets - deduction;
 
         await User.updateOne(
             { _id: id },
-            { $set: { balance: newBalance } }
+            { $set: { tickets: newTickets } }
         )
     } catch (error) {
         console.log(error)

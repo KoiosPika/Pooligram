@@ -13,11 +13,11 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { updatePoll } from '@/lib/actions/poll.actions'
 import { useRouter } from 'next/navigation'
-import { getUserById, updateUserBalance } from '@/lib/actions/user.actions'
+import { getUserById, updateUserTickets } from '@/lib/actions/user.actions'
 import { daysBetweenDates, timeUntil } from '@/lib/utils'
 import { IPoll } from '@/lib/database/models/poll.model'
 
-const DailyCharge = 0.50;
+const DailyCharge = 2;
 
 type EditPageParams = {
     poll: IPoll,
@@ -46,7 +46,7 @@ const EditPage = ({ poll, userId, dates }: EditPageParams) => {
 
     const router = useRouter()
     const [renderPage, setRenderPage] = useState(false)
-    const [userBalance, setUserBalance] = useState(0);
+    const [userTickets, setUserTickets] = useState(0);
     const [hashtags, setHashtags] = useState<string[]>(poll.hashtags);
     const [newHashtag, setNewHashtag] = useState<string>('');
     const [sponsored, setSponsored] = useState<boolean>(false);
@@ -66,7 +66,7 @@ const EditPage = ({ poll, userId, dates }: EditPageParams) => {
     useEffect(() => {
         async function getUser() {
             const user = await getUserById(userId);
-            setUserBalance(user.balance);
+            setUserTickets(user.tickets);
         }
 
         getUser();
@@ -79,9 +79,9 @@ const EditPage = ({ poll, userId, dates }: EditPageParams) => {
 
     useEffect(() => {
         if (sponsored == false) {
-            setUserBalance(userBalance + 1)
+            setUserTickets(userTickets + 2)
         } else {
-            setUserBalance(userBalance - 1)
+            setUserTickets(userTickets - 2)
         }
     }, [sponsored])
 
@@ -106,7 +106,7 @@ const EditPage = ({ poll, userId, dates }: EditPageParams) => {
                     openComments: values.openComments
                 }
             }).then((res) => {
-                updateUserBalance(userId, days, sponsored, DailyCharge)
+                updateUserTickets(userId, days, sponsored, DailyCharge)
                 form.reset();
                 router.push(`/poll/${poll._id}`);
             })
@@ -155,7 +155,7 @@ const EditPage = ({ poll, userId, dates }: EditPageParams) => {
                                 <p className='text-[18px] font-bold text-white'>Poll Options</p>
                             </div>
                             <div className='flex flex-col bg-white rounded-lg m-7 p-3'>
-                                <p className='ml-5 mt-3 mb-2 text-black font-bold'>For a $0.75 sponsorship fee, you can enhance the visibility of your poll by ensuring it appears at the top of the poll list for 24 hours.</p>
+                                <p className='ml-5 mt-3 mb-2 text-black font-bold'>For 2 ticket, you can enhance the visibility of your poll by ensuring it appears at the top of the poll list for 24 hours.</p>
                                 <div className="w-full px-5 max-w-[500px]">
                                     <div className="flex mt-4 items-center">
                                         <Checkbox
@@ -164,13 +164,16 @@ const EditPage = ({ poll, userId, dates }: EditPageParams) => {
                                             checked={sponsored}
                                             className="mr-2 h-7 w-7 border-2 border-blue-800" />
                                         <label className="font-bold text-blue-800 text-[16px]">Sponsor the poll for</label>
-                                        <p className='bg-green-200 text-green-800 p-1 rounded-md font-semibold ml-1'>$0.75</p>
+                                        <div className='flex flex-row items-center justify-center gap-1 ml-2 rounded-lg px-3 py-1' style={{ backgroundColor: '#21C126' }}>
+                                            <p className='text-white rounded-md font-semibold ml-1 text-[20px]'>{2}x</p>
+                                            <Image className='h-10 w-6' src={'/assets/images/ticket-1.png'} alt='ticket' height={100} width={100} />
+                                        </div>
                                     </div>
                                 </div>
                                 {allowSponsorship && <p className='p-1 ml-5 mt-3 bg-red-200 text-red-600 font-bold text-[14px] text-center rounded-lg'>Current Sponsorship {allowSponsorship}</p>}
                             </div>
                             <div className='flex flex-col bg-white rounded-lg m-7 p-3'>
-                                <p className='ml-5 mt-3 mb-2 text-black font-bold'>Extend the period now for $0.50</p>
+                                <p className='ml-5 mt-3 mb-2 text-black font-bold'>Extend the period now for 2 tickets</p>
                                 <div className='flex flex-row items-center ml-5 mb-2 gap-1'>
                                     <Image src={'/assets/icons/info.svg'} alt='info' height={15} width={15} />
                                     <p className='text-black text-[12px] font-semibold'>(Max is 30 days from the day you created the poll)</p>
@@ -207,22 +210,19 @@ const EditPage = ({ poll, userId, dates }: EditPageParams) => {
                                     </div>
                                     <div className="flex mb-3 items-center justify-center">
                                         <p className='text-black font-semibold mr-1'>You're extending {days} days for</p>
-                                        <p className='bg-green-200 text-green-800 p-1 rounded-md font-semibold'>${(days * DailyCharge).toFixed(2)}</p>
+                                        <div className='flex flex-row items-center justify-center gap-1 ml-2 rounded-lg px-3 py-1' style={{ backgroundColor: '#21C126' }}>
+                                            <p className='text-white rounded-md font-semibold ml-1 text-[20px]'>{days * DailyCharge}x</p>
+                                            <Image className='h-10 w-6' src={'/assets/images/ticket-1.png'} alt='ticket' height={100} width={100} />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className='flex flex-col bg-white rounded-lg m-7 py-3 justify-center items-center'>
-                                {(userBalance - days * DailyCharge >= 0) &&
-                                    <div className='flex flex-row items-center gap-2'>
-                                        <p className='text-[20px] font-semibold'>Your Balance: </p>
-                                        <p className='text-[20px] font-semibold border-2 bg-green-200 text-green-800 rounded-lg p-1'>${(userBalance - days * DailyCharge).toFixed(2)}</p>
-                                    </div>}
-                                {(userBalance - days * DailyCharge < 0) &&
-                                    <div className='flex flex-row items-center gap-2'>
-                                        <p className='text-[20px] font-semibold'>Your Balance: </p>
-                                        <p className='text-[20px] font-semibold border-2 bg-red-200 text-red-800 rounded-lg p-1'>${(userBalance - days * DailyCharge).toFixed(2)}</p>
-                                    </div>}
-                                {(userBalance - days * DailyCharge < 0) && <p className='bg-red-200 text-red-800 rounded-lg p-1 font-semibold mt-2 border-2 border-red-800'>Please refill your wallet first!</p>}
+                            <div className='flex flex-row bg-white rounded-lg m-7 py-3 justify-center items-center'>
+                                <p className='text-[18px] font-semibold'>Your tickets:</p>
+                                <div className='flex flex-row items-center justify-center gap-1 ml-2 rounded-lg px-3 py-1' style={{ backgroundColor: userTickets - days >= 0 ? '#21C126' : '#EA2514' }}>
+                                    <p className='text-white rounded-md font-semibold ml-1 text-[20px]'>{userTickets - days}x</p>
+                                    <Image className='h-10 w-6' src={'/assets/images/ticket-1.png'} alt='ticket' height={100} width={100} />
+                                </div>
                             </div>
                         </div>
 
@@ -246,7 +246,7 @@ const EditPage = ({ poll, userId, dates }: EditPageParams) => {
                         />
 
 
-                        <Button disabled={form.formState.isSubmitting || (userBalance - days * DailyCharge < 0)} className="bg-blue-800 col-span-2 w-[155px] gap-1" type='submit'>
+                        <Button disabled={form.formState.isSubmitting || userTickets - days < 0} className="bg-blue-800 col-span-2 w-[155px] gap-1" type='submit'>
                             <Image src={'/assets/icons/create.svg'} alt='create' height={20} width={20} />
                             <p>{form.formState.isSubmitting ? 'Please Wait...' : 'Update Poll Now!'}</p>
                         </Button>

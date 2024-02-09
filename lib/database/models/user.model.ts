@@ -8,7 +8,7 @@ export interface IUser extends Document {
     verified: boolean,
     hashtags: string[],
     hiddenPolls: string[]
-    balance: number
+    tickets: number
     level: number
     points: number
 }
@@ -21,7 +21,7 @@ const UserSchema = new Schema({
     hiddenPolls: { type: [String], required: true },
     photo: { type: String, required: true },
     verified: { type: Boolean, required: true },
-    balance: { type: Number, required: true },
+    tickets: { type: Number },
     level: { type: Number, default: 1 },
     points: { type: Number, default: 0 }
 })

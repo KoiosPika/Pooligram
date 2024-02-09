@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import { Button } from '../ui/button'
-import { eventFormSchema } from '@/lib/validator'
+import { pollFormSchema } from '@/lib/validator'
 import { Textarea } from '../ui/textarea'
 import { FileUploader } from './FileUploader'
 import { Input } from '../ui/input'
@@ -38,8 +38,8 @@ type PollParams = {
 const PollForm = ({ userId, dates }: PollParams) => {
 
     const { MaxDate, MinDate } = dates;
-    const form = useForm<z.infer<typeof eventFormSchema>>({
-        resolver: zodResolver(eventFormSchema),
+    const form = useForm<z.infer<typeof pollFormSchema>>({
+        resolver: zodResolver(pollFormSchema),
         defaultValues: pollDefaultValues
     })
 
@@ -98,7 +98,7 @@ const PollForm = ({ userId, dates }: PollParams) => {
 
     const { startUpload } = useUploadThing('imageUploader');
 
-    const onSubmit = async (values: z.infer<typeof eventFormSchema>) => {
+    const onSubmit = async (values: z.infer<typeof pollFormSchema>) => {
         let uploadedImageUrl = values.imageUrl;
 
         if (files.length > 0) {
@@ -241,17 +241,20 @@ const PollForm = ({ userId, dates }: PollParams) => {
                         <p className='text-[18px] font-bold text-white'>Poll Options</p>
                     </div>
                     <div className='flex flex-col bg-white rounded-lg m-7 p-3'>
-                        <p className='ml-5 mt-3 mb-2 text-black font-bold'>For a $0.75 sponsorship fee, you can enhance the visibility of your poll by ensuring it appears at the top of the poll list for 24 hours.</p>
+                        <p className='ml-5 mt-3 mb-2 text-black font-bold'>For 1 ticket, you can enhance the visibility of your poll by ensuring it appears at the top of the poll list for 24 hours.</p>
                         <div className="w-full px-5 max-w-[500px]">
                             <div className="flex mt-4 items-center">
                                 <Checkbox onCheckedChange={() => setSponsored(!sponsored)} checked={sponsored} id="openList" className="mr-2 h-7 w-7 border-2 border-blue-800" />
                                 <label htmlFor="openList" className="font-bold text-blue-800 text-[14px]">Enable Sponsorship</label>
-                                <p className='bg-green-200 text-green-800 p-1 rounded-md font-semibold ml-1 text-[14px]'>$0.75</p>
+                                <div className='flex flex-row items-center justify-center gap-1 bg-green-500 ml-2 rounded-lg px-3 py-1'>
+                                    <p className='text-white rounded-md font-semibold ml-1 text-[20px]'>2x</p>
+                                    <Image className='h-10 w-6' src={'/assets/images/ticket-1.png'} alt='ticket' height={100} width={100} />
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div className='flex flex-col bg-white rounded-lg m-7 p-3'>
-                        <p className='ml-5 mt-3 mb-2 text-black font-bold'>Polls expire within 5 days. But you can extend the period now for $0.25 per day or later for $0.50 per day. (Max is 30)</p>
+                        <p className='ml-5 mt-3 mb-2 text-black font-bold'>Polls expire within 5 days. But you can extend the period now for 1 ticket per day or later for 2 tickets per day. (Max is 30 days)</p>
                         <div className='w-full pl-5 pt-4 max-w-[500px]'>
                             <div className='w-full flex justify-center items-center'>
 
@@ -285,22 +288,19 @@ const PollForm = ({ userId, dates }: PollParams) => {
                             </div>
                             <div className="flex mb-3 items-center justify-center">
                                 <p className='text-black font-semibold mr-1 text-[14px]'>You're extending {days} days for</p>
-                                <p className='bg-green-200 text-green-800 p-1 rounded-md font-semibold text-[14px]'>${(days * DailyCharge).toFixed(2)}</p>
+                                <div className='flex flex-row items-center justify-center gap-1 bg-green-500 ml-2 rounded-lg px-3 py-1'>
+                                    <p className='text-white rounded-md font-semibold ml-1 text-[20px]'>2x</p>
+                                    <Image className='h-10 w-6' src={'/assets/images/ticket-1.png'} alt='ticket' height={100} width={100} />
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div className='flex flex-col bg-white rounded-lg m-7 py-3 justify-center items-center'>
-                        {(userBalance - days * DailyCharge >= 0) &&
-                            <div className='flex flex-row items-center gap-2'>
-                                <p className='text-[20px] font-semibold'>Your Balance: </p>
-                                <p className='text-[20px] font-semibold border-2 bg-green-200 text-green-800 rounded-lg p-1'>${(userBalance - days * DailyCharge).toFixed(2)}</p>
-                            </div>}
-                        {(userBalance - days * DailyCharge < 0) &&
-                            <div className='flex flex-row items-center gap-2'>
-                                <p className='text-[20px] font-semibold'>Your Balance: </p>
-                                <p className='text-[20px] font-semibold border-2 bg-red-200 text-red-800 rounded-lg p-1'>${(userBalance - days * DailyCharge).toFixed(2)}</p>
-                            </div>}
-                        {(userBalance - days * DailyCharge < 0) && <p className='bg-red-200 text-red-800 rounded-lg p-1 font-semibold mt-2 border-2 border-red-800'>Please refill your wallet first!</p>}
+                    <div className='flex flex-row bg-white rounded-lg m-7 py-3 justify-center items-center'>
+                        <p className='text-[18px] font-semibold'>Your tickets:</p>
+                        <div className='flex flex-row items-center justify-center gap-1 bg-green-500 ml-2 rounded-lg px-3 py-1'>
+                            <p className='text-white rounded-md font-semibold ml-1 text-[20px]'>40x</p>
+                            <Image className='h-10 w-6' src={'/assets/images/ticket-1.png'} alt='ticket' height={100} width={100} />
+                        </div>
                     </div>
                 </div>
 

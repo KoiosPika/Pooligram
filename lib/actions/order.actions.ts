@@ -12,9 +12,9 @@ export type CheckoutOrderParams = {
     buyerId: string
 }
 
-const populateOrder = (query:any) => {
+const populateOrder = (query: any) => {
     return query
-        .populate({path:'buyer', model:User, select:'_id username'})
+        .populate({ path: 'buyer', model: User, select: '_id username' })
 }
 
 export const checkoutOrder = async (order: CheckoutOrderParams) => {
@@ -38,7 +38,7 @@ export const checkoutOrder = async (order: CheckoutOrderParams) => {
                 buyerId: order.buyerId,
             },
             mode: 'payment',
-            success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/wallet`,
+            success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/profile/wallet`,
             cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/`,
         });
 
@@ -49,21 +49,38 @@ export const checkoutOrder = async (order: CheckoutOrderParams) => {
 }
 
 export const createOrder = async (order: CreateOrderParams) => {
+
+    console.log('hello5')
     try {
         await connectToDatabase();
+
+        console.log('hello1')
 
         const newOrder = await Order.create({
             ...order,
             buyer: order.buyerId,
         });
 
+        const ticketValue: { [key: string]: number } = {
+            '1.99': 8,
+            '3.99': 15,
+            '6.99': 26,
+            '9.99': 40
+        };
+
+        console.log('hello4')
+
         const user = await User.findById(order.buyerId);
 
-        const newBalance = user.balance + order.amount;
+        console.log(user)
+
+        const newTickets = user.tickets + ticketValue[(order.amount).toString()];
+
+        console.log(newTickets)
 
         await User.updateOne(
             { _id: order.buyerId },
-            { $set: { balance: newBalance } }
+            { $set: { tickets: newTickets } }
         )
 
         return JSON.parse(JSON.stringify(newOrder));

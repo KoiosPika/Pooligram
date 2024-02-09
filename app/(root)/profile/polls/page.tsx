@@ -69,7 +69,7 @@ const page = async () => {
                                     </Link>
                                 </Button>
                             </div>
-                            <ul className='grid grid-cols-1 sm:grid-cols-2 gap-2 mt-3'>
+                            <ul className='grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3'>
                                 {Polls.length > 0 && Polls.map((poll: IPoll) => {
                                     return (
                                         <li key={poll._id}>

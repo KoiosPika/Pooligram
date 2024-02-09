@@ -15,9 +15,9 @@ export const Links = [
         route: '/profile/polls'
     },
     {
-        label: 'My Collections',
+        label: 'Collections',
         icon: '/assets/icons/collection.svg',
-        route: '/contact-us'
+        route: '/collections'
     },
     {
         label: 'Leaderboard',

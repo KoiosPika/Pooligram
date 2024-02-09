@@ -67,27 +67,30 @@ const page = async () => {
                 </Button>
                 <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 border-[3px] border-yellow-400 hover:bg-blue-600'>
                   <Link className='w-full h-full flex justify-center items-center' href={'/profile/wallet'}>
-                    <p className='text-yellow-300'>My Wallet</p>
+                    <p className='text-yellow-300'>My Tickets</p>
                   </Link>
                 </Button>
               </div>
               <div className='w-full my-3 p-3'>
                 <div className='flex flex-row items-center gap-2 mb-3'>
                   <Image src={'/assets/icons/balance.svg'} alt='balance' height={32} width={32} />
-                  <p className='text-white text-[20px] font-semibold'>Current Balance</p>
+                  <p className='text-white text-[20px] font-semibold'>Your Tickets</p>
                 </div>
                 <div className='w-full flex-row flex justify-center'>
-                  <p className='bg-green-600 text-white p-1 rounded-md font-semibold text-[35px] text-center border-4 border-green-100 px-8'>${(user.balance).toFixed(2)}</p>
+                  <div className='bg-green-600 text-white border-green-100 border-4 flex flex-row items-center p-1 rounded-lg'>
+                    <p className=' p-1 rounded-md font-semibold text-[35px] text-center px-3'>{(user.tickets).toLocaleString()} x</p>
+                    <Image className='h-13 w-9' src={'/assets/images/ticket-1.png'} alt='ticket' height={100} width={100} />
+                  </div>
                 </div>
                 <div className='flex flex-row items-center gap-2 mt-5 mb-3'>
                   <Image src={'/assets/icons/recharge.svg'} alt='balance' height={30} width={30} />
                   <p className='text-white text-[20px] font-semibold'>Recharge with one click!</p>
                 </div>
                 <div className='grid w-full gap-3 grid-cols-2'>
-                  <Checkout userId={userId} amount={1.99} />
-                  <Checkout userId={userId} amount={3.99} />
-                  <Checkout userId={userId} amount={6.99} />
-                  <Checkout userId={userId} amount={9.99} />
+                  <Checkout userId={userId} amount={1.99} tickets={8} />
+                  <Checkout userId={userId} amount={3.99} tickets={15} />
+                  <Checkout userId={userId} amount={6.99} tickets={26} />
+                  <Checkout userId={userId} amount={9.99} tickets={40} />
                 </div>
                 <div className='flex flex-row items-center gap-2 mt-5 mb-3'>
                   <Image src={'/assets/icons/receipt.svg'} alt='balance' height={30} width={30} />

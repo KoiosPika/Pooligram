@@ -4,6 +4,7 @@ import React from 'react'
 import { Button } from '../ui/button'
 import { timeUntil } from '@/lib/utils'
 import Link from 'next/link'
+import CollectionDialog from './CollectionDialog'
 
 const ListItem = ({ poll }: { poll: IPoll }) => {
 
@@ -42,11 +43,7 @@ const ListItem = ({ poll }: { poll: IPoll }) => {
                             <Image src={'/assets/icons/pin.svg'} alt='live' height={12} width={12} />
                             <p>Request to pin</p>
                         </Button>}
-                        {status &&
-                            <Button className='bg-blue-600 flex flex-row items-center gap-2 hover:bg-blue-600'>
-                                <Image src={'/assets/icons/square-plus-solid.svg'} alt='live' height={20} width={20} />
-                                <p>Add to collection</p>
-                            </Button>}
+                        {status && <CollectionDialog pollId={poll._id} userId={poll.creator._id} />}
                         <p className='text-center py-[10px] px-5 rounded-lg inline-block font-semibold bg-purple-300 text-purple-800 text-[14px]'>Votes : {(poll.nofVotes).toLocaleString()}</p>
                         {status && <p className='font-semibold text-red-600 bg-red-200 py-[10px] px-5 rounded-lg text-center text-[14px]'>{timeUntil(poll.endDateTime.toString(), now)}</p>}
                     </div>

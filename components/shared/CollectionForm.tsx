@@ -16,6 +16,9 @@ import { getUserById, updateUserTickets } from '@/lib/actions/user.actions'
 import { daysBetweenDates } from '@/lib/utils'
 import { Checkbox } from '../ui/checkbox'
 import { createCollection } from '@/lib/actions/collection.actions'
+import { useRouter } from 'next/navigation'
+import { ICollection } from '@/lib/database/models/collection.model'
+import { useUploadThing } from '@/lib/uploadthing'
 
 type CollectionParams = {
     userId: string,
@@ -34,6 +37,8 @@ const CollectionForm = ({ dates, userId }: CollectionParams) => {
     const form = useForm<z.infer<typeof collectionFormSchema>>({
         resolver: zodResolver(collectionFormSchema)
     })
+
+    const router = useRouter();
 
     const [hashtags, setHashtags] = useState<string[]>([])
     const [newHashtag, setNewHashtag] = useState<string>('');
@@ -65,17 +70,34 @@ const CollectionForm = ({ dates, userId }: CollectionParams) => {
         setNewHashtag('')
     }
 
+    const { startUpload } = useUploadThing('imageUploader');
+
     const onSubmit = async (values: z.infer<typeof collectionFormSchema>) => {
+
+        let uploadedImageUrl = values.imageUrl;
+
+        if (files.length > 0) {
+            const uploadedImages = await startUpload(files)
+
+            if (!uploadedImages) {
+                return;
+            }
+
+            uploadedImageUrl = uploadedImages[0].url;
+        }
+
         try {
-            await createCollection({
+            const newCollection = await createCollection({
                 userId,
                 collection: {
                     ...values,
                     days,
                     hashtags,
+                    imageUrl: uploadedImageUrl
                 }
-            }).then((res) => {
+            }).then((res:ICollection) => {
                 updateUserTickets(userId, days, false, DailyCharge)
+                router.push(`/collections/${res._id}`)
             })
         } catch (error) {
             console.log(error)

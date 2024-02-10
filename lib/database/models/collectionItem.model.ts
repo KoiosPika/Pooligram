@@ -9,7 +9,8 @@ export interface ICollectionItem extends Document {
 
 const CollectionItemSchema = new Schema({
     poll: { type: Schema.Types.ObjectId, ref: "Poll" },
-    collection: { tye: Schema.Types.ObjectId, ref: "Collection" },
+    collection: { type: Schema.Types.ObjectId, ref: "Collection" },
+    creator: { type: Schema.Types.ObjectId, ref: "User" },
     createdAt: { type: Date, default: Date.now() }
 })
 

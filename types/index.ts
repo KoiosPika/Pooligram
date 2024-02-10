@@ -38,13 +38,19 @@ export type CreateCollectionParams = {
     userId: string,
     collection: {
         title: string
-        description:string
+        description: string
         hashtags: string[]
         imageUrl: string
         endDateTime: Date
         days: number
         visibility: boolean
     }
+}
+
+export type CreateCollectionItemParams = {
+    userId: string,
+    collectionId: string,
+    pollId: string
 }
 
 export type SearchParamsProps = {

@@ -25,13 +25,6 @@ export async function sendEmail({ email }: EmailProps) {
             react: Email({ firstName: "John" }) as React.ReactElement,
         });
 
-        await User.updateMany(
-            {}, // Filter condition - an empty document means match all documents
-            [{
-                $unset: "ticket"
-            }]
-        )
-
         if (error) {
             return console.log(error)
         }

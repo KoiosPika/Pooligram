@@ -9,17 +9,14 @@ const page = () => {
     const MaxDate = new Date(Today);
     const MinDate = new Date(Today);
     const PollMax = new Date(Today);
-    const SponsoredDate = new Date(Today);
-    PollMax.setDate(Today.getDate() + 5)
-    MinDate.setDate(Today.getDate() + 5);
+    PollMax.setDate(Today.getDate() + 10)
+    MinDate.setDate(Today.getDate() + 10);
     MaxDate.setDate(Today.getDate() + 30);
-    SponsoredDate.setDate(Today.getDate() + 1);
 
     const dates = {
         Today,
         MaxDate,
         MinDate,
-        SponsoredDate,
     }
 
     return (

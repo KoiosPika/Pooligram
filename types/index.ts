@@ -34,6 +34,19 @@ export type CreateCommentParams = {
     userId: string
 }
 
+export type CreateCollectionParams = {
+    userId: string,
+    collection: {
+        title: string
+        description:string
+        hashtags: string[]
+        imageUrl: string
+        endDateTime: Date
+        days: number
+        visibility: boolean
+    }
+}
+
 export type SearchParamsProps = {
     params: { id: string },
     searchParams: { [key: string]: string | string[] | undefined }

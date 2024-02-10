@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -12,6 +12,10 @@ import { Input } from '../ui/input'
 import { FileUploader } from './FileUploader'
 import DatePicker from "react-datepicker";
 import { Button } from '../ui/button'
+import { getUserById, updateUserTickets } from '@/lib/actions/user.actions'
+import { daysBetweenDates } from '@/lib/utils'
+import { Checkbox } from '../ui/checkbox'
+import { createCollection } from '@/lib/actions/collection.actions'
 
 type CollectionParams = {
     userId: string,
@@ -19,11 +23,12 @@ type CollectionParams = {
         Today: Date
         MaxDate: Date
         MinDate: Date
-        SponsoredDate: Date
     }
 }
 
-const CollectionForm = ({ dates }: CollectionParams) => {
+const DailyCharge = 2;
+
+const CollectionForm = ({ dates, userId }: CollectionParams) => {
 
     const { MaxDate, MinDate } = dates;
     const form = useForm<z.infer<typeof collectionFormSchema>>({
@@ -33,7 +38,23 @@ const CollectionForm = ({ dates }: CollectionParams) => {
     const [hashtags, setHashtags] = useState<string[]>([])
     const [newHashtag, setNewHashtag] = useState<string>('');
     const [selectedDate, setSelectedDate] = useState<Date>(MinDate);
+    const [userTickets, setUserTickets] = useState(0)
     const [files, setFiles] = useState<File[]>([])
+    const [days, setDays] = useState(0);
+
+    useEffect(() => {
+        async function getUser() {
+            const user = await getUserById(userId);
+            setUserTickets(user.tickets);
+        }
+
+        getUser();
+    }, [])
+
+    useEffect(() => {
+        const day = daysBetweenDates(selectedDate, dates.MinDate)
+        setDays(day);
+    }, [selectedDate])
 
     const handleDeleteHashtag = (index: any) => {
         setHashtags(prevHashtags => prevHashtags.filter((_, i) => i !== index));
@@ -44,8 +65,21 @@ const CollectionForm = ({ dates }: CollectionParams) => {
         setNewHashtag('')
     }
 
-    const onSubmit = () => {
-
+    const onSubmit = async (values: z.infer<typeof collectionFormSchema>) => {
+        try {
+            await createCollection({
+                userId,
+                collection: {
+                    ...values,
+                    days,
+                    hashtags,
+                }
+            }).then((res) => {
+                updateUserTickets(userId, days, false, DailyCharge)
+            })
+        } catch (error) {
+            console.log(error)
+        }
     }
     return (
         <Form {...form}>
@@ -59,9 +93,28 @@ const CollectionForm = ({ dates }: CollectionParams) => {
                                 <>
                                     <div className='inline-flex flex-row flex-shrink gap-2 bg-blue-800 p-1 rounded-md'>
                                         <Image src={'/assets/icons/pen.svg'} alt='pen' height={20} width={20} />
+                                        <p className='text-[18px] font-bold text-white'>Collection Title</p>
+                                    </div>
+                                    <Input placeholder="Collection description..." {...field} className='flex flex-row flex-1 border-2 border-black' />
+                                </>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                        <FormItem className="w-full p-5 bg-blue-800 rounded-lg">
+                            <FormControl>
+                                <>
+                                    <div className='inline-flex flex-row flex-shrink gap-2 bg-blue-800 p-1 rounded-md'>
+                                        <Image src={'/assets/icons/pen.svg'} alt='pen' height={20} width={20} />
                                         <p className='text-[18px] font-bold text-white'>Collection Description</p>
                                     </div>
-                                    <Textarea placeholder="Poll Title" {...field} className='flex flex-row flex-1 border-2 border-black' />
+                                    <Textarea placeholder="Collection description..." {...field} className='flex flex-row flex-1 border-2 border-black' />
                                 </>
                             </FormControl>
                             <FormMessage />
@@ -121,7 +174,7 @@ const CollectionForm = ({ dates }: CollectionParams) => {
                         <p className='text-[18px] font-bold text-white'>Collection Options</p>
                     </div>
                     <div className='flex flex-col bg-white rounded-lg m-7 p-3'>
-                        <p className='ml-5 mt-3 mb-2 text-black font-bold'>Polls expire within 5 days. But you can extend the period now for $0.25 per day or later for $0.50 per day. (Max is 30)</p>
+                        <p className='ml-5 mt-3 mb-2 text-black font-bold'>Collections last for 10 days. But you can extend the period now for 1 ticket per day or later for 2 tickets per day.</p>
                         <div className='w-full pl-5 pt-4 max-w-[500px]'>
                             <div className='w-full flex justify-center items-center'>
 
@@ -153,9 +206,43 @@ const CollectionForm = ({ dates }: CollectionParams) => {
                                 />
 
                             </div>
+                            <div className="flex mb-3 items-center justify-center">
+                                <p className='text-black font-semibold mr-1'>You're extending {days} days for</p>
+                                <div className='flex flex-row items-center justify-center gap-1 ml-2 rounded-lg px-3 py-1' style={{ backgroundColor: '#21C126' }}>
+                                    <p className='text-white rounded-md font-semibold ml-1 text-[20px]'>{days * DailyCharge}x</p>
+                                    <Image className='h-10 w-6' src={'/assets/images/ticket-1.png'} alt='ticket' height={100} width={100} />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div className='flex flex-row bg-white rounded-lg m-7 py-3 justify-center items-center'>
+                        <p className='text-[18px] font-semibold'>Your tickets:</p>
+                        <div className='flex flex-row items-center justify-center gap-1 ml-2 rounded-lg px-3 py-1' style={{ backgroundColor: userTickets - days >= 0 ? '#21C126' : '#EA2514' }}>
+                            <p className='text-white rounded-md font-semibold ml-1 text-[20px]'>{userTickets - days}x</p>
+                            <Image className='h-10 w-6' src={'/assets/images/ticket-1.png'} alt='ticket' height={100} width={100} />
                         </div>
                     </div>
                 </div>
+
+                <FormField
+                    control={form.control}
+                    name="visibility"
+                    render={({ field }) => (
+                        <FormItem className='w-full p-5 max-w-[900px] bg-blue-800 rounded-lg'>
+                            <div className='inline-flex flex-row gap-2 items-center bg-blue-800 p-1 rounded-md'>
+                                <Image src={'/assets/icons/comments.svg'} alt='pen' height={28} width={28} />
+                                <p className='text-[18px] font-bold text-white'>Collection Visibility</p>
+                            </div>
+                            <div className='w-full px-5 max-w-[900px]'>
+                                <div className="flex m-3 items-center">
+                                    <Checkbox onCheckedChange={field.onChange} checked={field.value} id='openComments' className="mr-2 h-7 w-7 border-2 border-white" />
+                                    <label htmlFor="openComments" className="font-semibold text-white">Check the box if you want to make it a private collection</label>
+                                </div>
+                            </div>
+                        </FormItem>
+                    )}
+                />
 
 
                 <Button className="bg-blue-800 col-span-2 w-[190px] gap-1" type="submit">

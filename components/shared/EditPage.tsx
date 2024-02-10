@@ -95,7 +95,6 @@ const EditPage = ({ poll, userId, dates }: EditPageParams) => {
     };
 
     const onSubmit = async (values: z.infer<typeof FormSchema>) => {
-        console.log('hello')
         try {
             const UpdatedPoll = await updatePoll({
                 poll: {

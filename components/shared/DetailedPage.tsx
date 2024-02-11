@@ -20,6 +20,8 @@ import { getUserById } from '@/lib/actions/user.actions'
 import { IUser } from '@/lib/database/models/user.model'
 import MobileComments from './MobileComments'
 import ReportMenu from './ReportMenu'
+import CollectionList from './CollectionList'
+import MobileCollections from './MobileCollections'
 
 const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
     const leftDivRef = useRef<HTMLDivElement>(null);
@@ -106,8 +108,22 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                 <div className='bg-slate-400 w-full max-w-[800px] h-[70px] m-2'></div>
             </div>
             <div className='flex flex-row justify-center md:justify-center xl:justify-center'>
+
+                {(showComments && User) &&
+                    <div className='hidden lg:block w-full max-w-[350px] h-[0px]'>
+                        {(vote || Poll?.creator._id === userId) && <CollectionList height={rightDivHeight} pollId={id} />}
+                        {(!vote && Poll?.creator._id != userId) &&
+                            <div style={{ height: rightDivHeight }} className='flex flex-col justify-center items-center bg-blue-800 my-5 rounded-l-lg gap-2'>
+                                <div className='flex flex-row gap-2 items-center'>
+                                    <Image src={'/assets/icons/lock.svg'} alt='lock' width={20} height={20} />
+                                    <p className='font-semibold text-[16px] text-white'>Collections are locked</p>
+                                </div>
+                                <p className='flex font-semibold text-[16px] mx-5 text-center text-white'>Please submit a vote to reveal the collection section.</p>
+                            </div>}
+                    </div>
+                }
                 <div ref={leftDivRef} className='flex flex-col justify-center items-center my-5'>
-                    <div className='flex flex-row items-center h-[50px] bg-blue-800 w-full rounded-tl-lg rounded-tr-lg md:rounded-tr-none'>
+                    <div className='flex flex-row items-center h-[50px] bg-blue-800 w-full rounded-tl-lg rounded-tr-lg md:rounded-tr-none lg:rounded-tl-none'>
                         <Image className='h-9 w-9 ml-3 rounded-full border-2 border-white' src={Poll?.creator.photo || '/assets/images/user.png'} alt='avatar' width={100} height={100} />
                         <p className='text-white text-[15px] font-semibold ml-2'>{Poll?.creator.username}</p>
                         <div className='ml-auto mr-2'>
@@ -118,7 +134,7 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                         <Image src={Poll?.imageUrl || '/assets/images/loading.png'} alt='hero' width={500} height={500} className='h-[350px] w-[350px]' />
                     </div>
                     {vote === undefined && <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 bg-blue-800 w-[350px] p-3 rounded-bl-lg rounded-br-lg md:rounded-br-none">
+                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 bg-blue-800 w-[350px] p-3 rounded-bl-lg rounded-br-lg md:rounded-br-none lg:rounded-bl-none ">
                             <FormField
                                 control={form.control}
                                 name="Answer"
@@ -149,19 +165,22 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                                     </FormItem>
                                 )}
                             />
-                            <div className='flex flex-row'>
+                            <div className='flex flex-row gap-2'>
                                 <div className='md:hidden'>
                                     {User && <MobileComments pollId={id} user={User} />}
                                 </div>
+                                <div className='lg:hidden'>
+                                    {User && <MobileCollections pollId={id} />}
+                                </div>
                                 <Button className='bg-white ml-auto hover:bg-slate-200' type="submit">
-                                    <p className='text-blue-800'>{form.formState.isSubmitting ? 'Please wait..' : 'Save'}</p>
+                                    <p className='text-blue-800'>{form.formState.isSubmitting ? 'Saving..' : 'Save'}</p>
                                 </Button>
                             </div>
                         </form>
                     </Form>}
 
                     {vote &&
-                        <div className="space-y-6 bg-blue-800 w-[350px] p-3 rounded-bl-lg rounded-br-lg md:rounded-br-none">
+                        <div className="space-y-6 bg-blue-800 w-[350px] p-3 rounded-bl-lg rounded-br-lg md:rounded-br-none lg:rounded-bl-none">
                             <div className="w-full space-y-3">
                                 <p className='font-semibold text-[18px] text-white'>{Poll?.title}</p>
                                 <div className="flex flex-col space-y-1 gap-2">
@@ -188,8 +207,8 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                                         </div>
                                     ))}
                                     <div className='md:hidden'>
-                                    {User && <MobileComments pollId={id} user={User} />}
-                                </div>
+                                        {User && <MobileComments pollId={id} user={User} />}
+                                    </div>
                                 </div>
                             </div>
                         </div>

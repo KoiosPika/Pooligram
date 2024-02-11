@@ -1,7 +1,7 @@
 import { Schema, model, models, Document } from "mongoose";
 import { IUser } from "./user.model";
 
-export interface ICollection extends Document {
+export interface ICollectionGroup extends Document {
     _id: string,
     title: string
     nofVotes: number,
@@ -15,7 +15,7 @@ export interface ICollection extends Document {
     creator: IUser
 }
 
-const CollectionSchema = new Schema({
+const CollectionGroupSchema = new Schema({
     title: { type: String, required: true },
     nofVotes: { type: Number, default: 0 },
     nofPolls: { type: Number, default: 0 },
@@ -28,6 +28,6 @@ const CollectionSchema = new Schema({
     creator: { type: Schema.Types.ObjectId, ref: "User" },
 })
 
-const Collection = models.Collection || model('Collection', CollectionSchema);
+const CollectionGroup = models.CollectionGroup || model('CollectionGroup', CollectionGroupSchema);
 
-export default Collection;
+export default CollectionGroup;

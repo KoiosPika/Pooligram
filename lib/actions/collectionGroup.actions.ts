@@ -1,16 +1,16 @@
 'use server'
 
 import { CreateCollectionParams } from "@/types";
-import Collection from "../database/models/collection.model";
 import { connectToDatabase } from "../database";
 import User from "../database/models/user.model";
+import CollectionGroup from "../database/models/collectionGroup.model";
 
 const populateCollection = (query: any) => {
     return query
         .populate({ path: "creator", model: User, select: "_id username photo" })
 }
 
-export async function createCollection({ userId, collection }: CreateCollectionParams) {
+export async function createCollectionGroup({ userId, collection }: CreateCollectionParams) {
     try {
         await connectToDatabase();
 
@@ -18,7 +18,7 @@ export async function createCollection({ userId, collection }: CreateCollectionP
         const EndDate = new Date(Today)
         EndDate.setDate(Today.getDate() + (10 + collection.days))
 
-        const newCollection = await Collection.create({
+        const newCollection = await CollectionGroup.create({
             title: collection.title,
             description: collection.description,
             imageUrl: collection.imageUrl,
@@ -38,11 +38,23 @@ export async function getCollectionsByUser(userId: string) {
     try {
         await connectToDatabase();
 
-        const collections = await populateCollection(Collection.find(
+        const collections = await populateCollection(CollectionGroup.find(
             { creator: userId }
         ).sort({ endDateTime: -1 }))
 
         return JSON.parse(JSON.stringify(collections))
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function getAllCollections() {
+    try {
+        await connectToDatabase()
+
+        const collectionGroups = await populateCollection(CollectionGroup.find({}))
+
+        return JSON.parse(JSON.stringify(collectionGroups))
     } catch (error) {
         console.log(error)
     }

@@ -49,7 +49,7 @@ export type CreateCollectionParams = {
 
 export type CreateCollectionItemParams = {
     userId: string,
-    collectionId: string,
+    collectionGroupId: string,
     pollId: string
 }
 

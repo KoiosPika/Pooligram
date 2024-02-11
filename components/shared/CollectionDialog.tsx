@@ -20,7 +20,7 @@ const CollectionDialog = ({ pollId, userId }: { pollId: string, userId: string }
 
     const [collectionID, setCollectionID] = useState('')
     const NewCollectionItem = async () => {
-        await createCollectionItem({ userId, pollId, collectionId: collectionID })
+        await createCollectionItem({ userId, pollId, collectionGroupId: collectionID })
     }
 
 

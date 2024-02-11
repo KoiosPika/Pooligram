@@ -1,5 +1,5 @@
-import { getCollectionsByUser } from '@/lib/actions/collection.actions';
-import { ICollection } from '@/lib/database/models/collection.model';
+import { getCollectionsByUser } from '@/lib/actions/collectionGroup.actions';
+import { ICollectionGroup } from '@/lib/database/models/collectionGroup.model';
 import { timeUntil } from '@/lib/utils';
 import { auth } from '@clerk/nextjs';
 import Image from 'next/image';
@@ -30,7 +30,7 @@ const page = async () => {
                 </Link>
               </div>
               <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 my-2'>
-                {collections && collections.map((collection: ICollection) => (
+                {collections && collections.map((collection: ICollectionGroup) => (
                   <div className='flex flex-col bg-white rounded-lg broder-2 w-[300px]'>
                     <div className='flex flex-row p-2 items-center gap-2 border-b-[2px] border-slate-300'>
                       <Image className='w-8 h-8 rounded-full' src={collection.creator.photo} alt='user' height={100} width={100} />

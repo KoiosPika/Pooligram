@@ -53,9 +53,9 @@ const MobileComments = ({ pollId, user }: { pollId: string, user: IUser }) => {
     return (
         <Drawer open={open} onOpenChange={setOpen}>
             <DrawerTrigger asChild>
-                <Button variant="outline" className='flex flex-row items-center gap-1 bg-blue-800'>
+                <Button variant="outline" className='flex flex-row items-center gap-1 bg-blue-800 hover:bg-blue-800'>
                     <Image src={'/assets/icons/comments.svg'} alt='comment' height={20} width={20} />
-                    <p className='text-white hover:text-blue-800'>Comments</p>
+                    <p className='text-white'>Comments</p>
                 </Button>
             </DrawerTrigger>
             <DrawerContent className='bg-blue-800 h-5/6'>

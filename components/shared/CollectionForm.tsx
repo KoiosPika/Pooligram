@@ -15,9 +15,9 @@ import { Button } from '../ui/button'
 import { getUserById, updateUserTickets } from '@/lib/actions/user.actions'
 import { daysBetweenDates } from '@/lib/utils'
 import { Checkbox } from '../ui/checkbox'
-import { createCollection } from '@/lib/actions/collection.actions'
+import { createCollectionGroup } from '@/lib/actions/collectionGroup.actions'
 import { useRouter } from 'next/navigation'
-import { ICollection } from '@/lib/database/models/collection.model'
+import { ICollectionGroup } from '@/lib/database/models/collectionGroup.model'
 import { useUploadThing } from '@/lib/uploadthing'
 
 type CollectionParams = {
@@ -87,7 +87,7 @@ const CollectionForm = ({ dates, userId }: CollectionParams) => {
         }
 
         try {
-            const newCollection = await createCollection({
+            const newCollection = await createCollectionGroup({
                 userId,
                 collection: {
                     ...values,
@@ -95,7 +95,7 @@ const CollectionForm = ({ dates, userId }: CollectionParams) => {
                     hashtags,
                     imageUrl: uploadedImageUrl
                 }
-            }).then((res:ICollection) => {
+            }).then((res:ICollectionGroup) => {
                 updateUserTickets(userId, days, false, DailyCharge)
                 router.push(`/collections/${res._id}`)
             })

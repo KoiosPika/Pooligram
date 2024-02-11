@@ -13,7 +13,7 @@ const ListItem = ({ poll }: { poll: IPoll }) => {
     const status = timeUntil(poll.endDateTime.toString(), now);
 
     return (
-        <div className='flex flex-col justify-center bg-white rounded-lg items-center'>
+        <div className='flex flex-col justify-center h-[550px] bg-white rounded-lg items-center'>
             <div className='flex flex-col gap-2 py-3 justify-center items-center'>
                 <p className='py-1 px-2 font-semibold text-[14px] rounded-lg bg-slate-300 text-slate-800 sm:w-[300px] truncate'>{poll.title}</p>
                 <div className='flex flex-col gap-1 justify-center items-center my-2'>

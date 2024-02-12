@@ -165,7 +165,7 @@ const PollForm = ({ userId, dates }: PollParams) => {
                         <p className='text-[18px] font-bold text-white'>Poll Hashtags</p>
                     </div>
                     {hashtags.length > 0 &&
-                        <div className='w-full flex flex-col max-w-[500px] justify-center items-center px-5 md:px-15'>
+                        <div className='w-full flex flex-col max-w-[900px] justify-center items-center px-5 md:px-15'>
                             <ul className="grid w-full grid-cols-2 gap-2">
                                 {hashtags.map((hashtag, index) => (
                                     <li key={index} className='w-full p-3 border-2 border-white bg-white rounded-md flex flex-row my-2 justify-between relative'>
@@ -180,8 +180,8 @@ const PollForm = ({ userId, dates }: PollParams) => {
                     }
                     <div className='flex flex-col gap-2 justify-center md:justify-between items-center'>
                         <div className='flex flex-row justify-center items-center gap-2'>
-                            <Input placeholder='Add Hashtag (Max 8)' className='w-full px-5 max-w-[500px] border-2 border-black' onChange={(e) => setNewHashtag(e.target.value)} value={newHashtag} />
-                            <button disabled={hashtags.length == 8} className='bg-yellow-300 hover:bg-grey-400 w-11 h-9 text-blue-800 text-[18px] rounded-md border-2 border-black' type="button" onClick={AddHashtag}>+</button>
+                            <Input placeholder='Add Hashtag (Max 16)' className='w-full px-5 max-w-[500px] border-2 border-black' onChange={(e) => setNewHashtag(e.target.value)} value={newHashtag} />
+                            <button disabled={hashtags.length == 16} className='bg-yellow-300 hover:bg-grey-400 w-11 h-9 text-blue-800 text-[18px] rounded-md border-2 border-black' type="button" onClick={AddHashtag}>+</button>
                         </div>
                     </div>
                 </div>
@@ -241,7 +241,7 @@ const PollForm = ({ userId, dates }: PollParams) => {
                         <p className='text-[18px] font-bold text-white'>Poll Options</p>
                     </div>
                     <div className='flex flex-col bg-white rounded-lg m-7 p-3'>
-                        <p className='ml-5 mt-3 mb-2 text-black font-bold'>For 2 ticket, you can enhance the visibility of your poll by ensuring it appears at the top of the poll list for 24 hours.</p>
+                        <p className='ml-5 mt-3 mb-2 text-black font-bold'>Enhance poll's visibilty for the next 24 hours.</p>
                         <div className="w-full px-5 max-w-[500px]">
                             <div className="flex mt-4 items-center">
                                 <Checkbox onCheckedChange={() => setSponsored(!sponsored)} checked={sponsored} id="openList" className="mr-2 h-7 w-7 border-2 border-blue-800" />
@@ -254,7 +254,7 @@ const PollForm = ({ userId, dates }: PollParams) => {
                         </div>
                     </div>
                     <div className='flex flex-col bg-white rounded-lg m-7 p-3'>
-                        <p className='ml-5 mt-3 mb-2 text-black font-bold'>Polls expire within 5 days. But you can extend the period now for 1 ticket per day or later for 2 tickets per day. (Max is 30 days)</p>
+                        <p className='ml-5 mt-3 mb-2 text-black font-bold'>Extend the poll's expiration date past 5 days for 1 ticket per day</p>
                         <div className='w-full pl-5 pt-4 max-w-[500px]'>
                             <div className='w-full flex justify-center items-center'>
 

@@ -215,7 +215,7 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                     }
                 </div>
 
-                {(showComments && User) &&
+                {(showComments && User && Poll?.openComments) &&
                     <div className='hidden md:block w-full max-w-[350px] h-[0px]'>
                         {(vote || Poll?.creator._id === userId) && <CommentList height={rightDivHeight} user={User} pollId={id} />}
                         {(!vote && Poll?.creator._id != userId) &&
@@ -228,6 +228,18 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                             </div>}
                     </div>
                 }
+
+                {(showComments && User && !Poll?.openComments) &&
+                    <div className='hidden md:block w-full max-w-[350px] h-[0px] ml-0.5'>
+                        <div style={{ height: rightDivHeight }} className='flex flex-col justify-center items-center bg-blue-800 my-5 rounded-r-lg gap-2'>
+                            <div className='flex flex-row gap-2 items-center'>
+                                <Image src={'/assets/icons/lock.svg'} alt='lock' width={20} height={20} />
+                                <p className='font-semibold text-[16px] text-white'>Comments are closed by the creator</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+
             </div>
             {(Poll && User) &&
                 <div className='w-full flex justify-center items-center'>

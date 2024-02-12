@@ -1,3 +1,4 @@
+import CopyLinkDialog from '@/components/shared/CopyLinkDialog'
 import Selection from '@/components/shared/Selection'
 import { Button } from '@/components/ui/button'
 import { getUserById } from '@/lib/actions/user.actions'
@@ -63,8 +64,8 @@ const page = async () => {
                                     <p className='text-yellow-300'>My Votes</p>
                                 </Button>
                                 <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 hover:bg-blue-600'>
-                                    <Link href={'/profile/wallet'} className='w-full h-full flex justify-center items-center'>
-                                        <p>My Wallet</p>
+                                    <Link href={'/profile/tickets'} className='w-full h-full flex justify-center items-center'>
+                                        <p>My Tickets</p>
                                     </Link>
                                 </Button>
                             </div>
@@ -74,10 +75,9 @@ const page = async () => {
                                     <div className='h-full w-full flex flex-col gap-2 p-3 overflow-hidden'>
                                         <p className='bg-blue-300 text-blue-700 rounded-full py-1 px-5 text-center truncate mr-auto'>{vote.Poll.title}</p>
                                         <p className='bg-green-300 text-green-700 rounded-full py-1 px-5 text-center mr-auto'>{vote.Answer.title}</p>
-                                        <Link href={`/poll/${vote.Poll._id}`} className='ml-auto flex flex-row justify-center items-center bg-yellow-500 rounded-md px-2'>
-                                            <p className='text-white rounded-full py-1 px-2 text-center'>Copy Link</p>
-                                            <Image src={'/assets/icons/link.svg'} alt='arrow' height={20} width={20} />
-                                        </Link>
+                                        <div className='ml-auto'>
+                                            <CopyLinkDialog link={`https://pooligram.vercel.app/poll/${vote.Poll._id}`} />
+                                        </div>
                                         <Link href={`/poll/${vote.Poll._id}`} className='ml-auto flex flex-row justify-center items-center bg-blue-500 rounded-md px-2'>
                                             <p className='text-white rounded-full py-1 px-2 text-center'>More Details</p>
                                             <Image src={'/assets/icons/arrow-white.svg'} alt='arrow' height={20} width={20} />

@@ -5,6 +5,7 @@ import { Button } from '../ui/button'
 import { timeUntil } from '@/lib/utils'
 import Link from 'next/link'
 import CollectionDialog from './CollectionDialog'
+import CopyLinkDialog from './CopyLinkDialog'
 
 const ListItem = ({ poll }: { poll: IPoll }) => {
 
@@ -31,14 +32,12 @@ const ListItem = ({ poll }: { poll: IPoll }) => {
                         </div>}
                     </div>
                     <div className='grid grid-cols-2 justify-center items-center px-2 mt-auto gap-2'>
-                        {status && <Link href={`/poll/${poll._id}/edit`} className='bg-green-700 flex flex-row items-center justify-center rounded-lg p-2 gap-1'>
+                        {status && 
+                        <Link href={`/poll/${poll._id}/edit`} className='bg-green-700 flex flex-row items-center justify-center rounded-lg p-2 gap-1'>
                             <Image src={'/assets/icons/create.svg'} alt='dollar' height={15} width={15} />
                             <p className='text-white'>Edit Poll</p>
                         </Link>}
-                        <Button className='bg-yellow-500 flex flex-row items-center gap-1 hover:bg-yellow-500'>
-                            <Image src={'/assets/icons/link.svg'} alt='live' height={22} width={22} />
-                            <p>Copy Link</p>
-                        </Button>
+                        <CopyLinkDialog link={`https://pooligram.vercel.app/poll/${poll._id}`} />
                         {status && <Button className='bg-pink-500 flex flex-row items-center gap-1 hover:bg-pink-500'>
                             <Image src={'/assets/icons/pin.svg'} alt='live' height={12} width={12} />
                             <p>Request to pin</p>

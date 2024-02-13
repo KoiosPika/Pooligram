@@ -49,7 +49,7 @@ const page = async () => {
 
               <ul className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 my-5'>
                 {polls.length > 0 && polls.map((poll: IPoll, index: number) => {
-                  const color = getLevelColor(poll.creator.level)
+                  const color = getLevelColor(poll.creator.UserData.level)
                   return (
                     <li key={poll._id} className='min-h-[380px] min-w-[300px] flex flex-col'>
                       <div className='relative'>
@@ -67,7 +67,7 @@ const page = async () => {
                           <p className='text-[18px] text-blue-800 font-semibold ml-1'>{poll.creator.username}</p>
                           <div className='relative flex items-center justify-center' style={{ height: '40px', width: '40px' }}>
                             <Image className='ml-1' src={`/assets/levels/level_${color}.svg`} alt='verified' height={32} width={32} />
-                            <p className='font-bold text-white absolute z-10 text-[13.5px] flex items-center justify-center' style={{ top: '50%', left: '52%', transform: 'translate(-50%, -50%)' }}>{poll.creator.level}</p>
+                            <p className='font-bold text-white absolute z-10 text-[13.5px] flex items-center justify-center' style={{ top: '50%', left: '52%', transform: 'translate(-50%, -50%)' }}>{poll.creator.UserData.level}</p>
                           </div>
                         </div>
                         <div className='flex w-full'>

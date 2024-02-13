@@ -4,10 +4,20 @@ import { CreateCommentParams } from "@/types"
 import { connectToDatabase } from "../database"
 import Comment from "../database/models/comment.model"
 import User from "../database/models/user.model"
+import UserData from "../database/models/userData.model"
 
 const populateComment = (query: any) => {
     return query
-        .populate({ path: 'creator', model: User, select: '_id username photo' })
+        .populate({ 
+            path: 'creator', 
+            model: User, 
+            select: '_id username photo',
+            populate: {
+                path: "UserData",
+                model: UserData,
+                select:'hashtags hiddenPolls tickets level points'
+            }
+         })
 }
 
 export async function createComment({ pollId, userId, text }: CreateCommentParams) {

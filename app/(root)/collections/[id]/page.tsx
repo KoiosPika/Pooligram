@@ -18,7 +18,7 @@ const page = async ({ params: { id } }: { params: { id: string } }) => {
             <div className='flex flex-col w-full bg-blue-800 rounded-xl p-2 justify-center items-center'>
               <ul className='grid w-full grid-cols-1 gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3'>
                 {polls && polls.map((item: ICollectionItem) => {
-                  const color = getLevelColor(item.creator.level)
+                  const color = getLevelColor(item.creator.UserData.level)
                   return (
                     <li key={item._id} className='flex justify-center overflow-hidden'>
                       <div className='flex flex-col min-h-[360px] bg-yellow-800 w-[350px] rounded-xl mx-1'>
@@ -32,7 +32,7 @@ const page = async ({ params: { id } }: { params: { id: string } }) => {
                             <p className='ml-2 font-semibold text-black text-[17px]'>{item.creator.username}</p>
                             <div className='relative flex items-center justify-center' style={{ height: '40px', width: '40px' }}>
                               <Image className='ml-1' src={`/assets/levels/level_${color}.svg`} alt='verified' height={32} width={32} />
-                              <p className='font-bold text-white absolute z-10 text-[13.5px] flex items-center justify-center' style={{ top: '50%', left: '52%', transform: 'translate(-50%, -50%)' }}>{item.creator.level}</p>
+                              <p className='font-bold text-white absolute z-10 text-[13.5px] flex items-center justify-center' style={{ top: '50%', left: '52%', transform: 'translate(-50%, -50%)' }}>{item.creator.UserData.level}</p>
                             </div>
                           </div>
                         </div>

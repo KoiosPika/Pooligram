@@ -24,7 +24,7 @@ const MobileComments = ({ pollId, user }: { pollId: string, user: IUser }) => {
     const [newComment, setNewComment] = useState('')
     const [Comments, setComments] = useState<IComment[]>([]);
 
-    const color = getLevelColor(user.level)
+    const color = getLevelColor(user.UserData.level)
 
     useEffect(() => {
         const getComments = async () => {

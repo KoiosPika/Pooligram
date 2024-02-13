@@ -17,7 +17,7 @@ type CommentListParams = {
 
 const CommentList = ({ height, user, pollId }: CommentListParams) => {
 
-    const color = getLevelColor(user.level)
+    const color = getLevelColor(user.UserData.level)
 
     useEffect(() => {
         const getComments = async () => {
@@ -63,7 +63,7 @@ const CommentList = ({ height, user, pollId }: CommentListParams) => {
                                     <p className='font-semibold text-[17px]'>{comment.creator.username}</p>
                                     <div className='relative flex items-center justify-center' style={{ height: '40px', width: '40px' }}>
                                         <Image className='ml-1' src={`/assets/levels/level_${color}.svg`} alt='verified' height={32} width={32} />
-                                        <p className='font-bold text-white absolute z-10 text-[13.5px] flex items-center justify-center' style={{ top: '50%', left: '52%', transform: 'translate(-50%, -50%)' }}>{user.level}</p>
+                                        <p className='font-bold text-white absolute z-10 text-[13.5px] flex items-center justify-center' style={{ top: '50%', left: '52%', transform: 'translate(-50%, -50%)' }}>{user.UserData.level}</p>
                                     </div>
                                     <p className='text-[14px] text-grey-500 font-semibold'>{formatTimeAgo(comment.createdAt)}</p>
                                 </div>

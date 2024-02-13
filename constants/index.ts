@@ -22,7 +22,7 @@ export const Links = [
     {
         label: 'Leaderboard',
         icon: '/assets/icons/trophy.svg',
-        route: '/leaderboard/live-round'
+        route: '/leaderboard/live-round/polls'
     },
     {
         label: 'Contact Us',

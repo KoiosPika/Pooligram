@@ -6,6 +6,7 @@ import Answer, { IAnswer } from "../database/models/answer.model"
 import Poll from "../database/models/poll.model"
 import User from "../database/models/user.model"
 import { getUserDataById } from "./userData.actions"
+import UserData from "../database/models/userData.model"
 
 const populateAnswer = (query: any) => {
     return query
@@ -75,8 +76,8 @@ export async function handleVoting({ userId, answerId, pollId, hashtags }: { ans
             newHashtags.push(...hashtags);
         }
 
-        const newUser = await User.findByIdAndUpdate(
-            { _id: userId },
+        const newUser = await UserData.findOneAndUpdate(
+            { User: userId },
             {
                 '$push': { hiddenPolls: pollId },
                 '$set': { hashtags: newHashtags },
@@ -86,7 +87,7 @@ export async function handleVoting({ userId, answerId, pollId, hashtags }: { ans
         )
 
         if (newUser.points % 500 === 0) {
-            await User.updateOne(
+            await UserData.updateOne(
                 { _id: userId },
                 {
                     '$inc': { level: 1 }

@@ -13,7 +13,7 @@ export async function getUserDataById(id: string) {
     try {
         await connectToDatabase()
 
-        const user = await UserData.findOne({ User: id })
+        const user = await populateUsers(UserData.findOne({ User: id }))
 
         return JSON.parse(JSON.stringify(user))
 

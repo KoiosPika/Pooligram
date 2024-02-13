@@ -3,6 +3,7 @@
 import { connectToDatabase } from "../database"
 import Report from "../database/models/report.model"
 import User from "../database/models/user.model";
+import UserData from "../database/models/userData.model";
 
 export async function createReport(id: string) {
     try {
@@ -31,7 +32,7 @@ export async function updateReport({ id, userId }: { id: string, userId: string 
             { new: true }
         );
 
-        await User.updateOne(
+        await UserData.updateOne(
             { _id: userId },
             { '$push': { hiddenPolls: id } }
         )

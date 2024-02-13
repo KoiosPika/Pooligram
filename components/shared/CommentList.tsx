@@ -35,7 +35,7 @@ const CommentList = ({ height, user, pollId }: CommentListParams) => {
     const handleSubmit = async () => {
         await createComment({
             text: newComment,
-            userId: user._id,
+            userId: user.User._id,
             pollId,
         }).then((res) => {
             let comment: any = {

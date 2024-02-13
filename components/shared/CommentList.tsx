@@ -54,10 +54,10 @@ const CommentList = ({ height, user, pollId }: CommentListParams) => {
                 <p className='text-[16px] font-semibold ml-3 text-white'>0</p>
             </div>
             {Comments.length > 0 && <ScrollArea style={{ height: height - 110 }} className='flex flex-1 px-3 h-0'>
-                {Comments.map((comment) => (
+                {Comments.map((comment: IComment) => (
                     <div className='flex flex-col p-2 bg-white mb-3 rounded-xl'>
                         <div className='flex flex-row items-center'>
-                            <Image src={comment.creator.photo} alt='user' width={75} height={75} className='rounded-full w-9 h-9' />
+                            <Image src={comment.creator.photo || '/assets/images/user.png'} alt='user' width={75} height={75} className='rounded-full w-9 h-9' />
                             <div className='flex flex-col ml-2 w-full'>
                                 <div className='flex flex-row gap-1 items-center'>
                                     <p className='font-semibold text-[17px]'>{comment.creator.username}</p>

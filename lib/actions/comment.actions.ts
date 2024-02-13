@@ -13,7 +13,7 @@ const populateComment = (query: any) => {
             model: User, 
             select: '_id username photo',
             populate: {
-                path: "UserData",
+                path: 'UserData',
                 model: UserData,
                 select:'hashtags hiddenPolls tickets level points'
             }

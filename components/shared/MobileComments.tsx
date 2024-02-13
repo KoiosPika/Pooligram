@@ -29,6 +29,7 @@ const MobileComments = ({ pollId, user }: { pollId: string, user: IUserData }) =
     useEffect(() => {
         const getComments = async () => {
             const comments = await getCommentsByPoll({ id: pollId, page: 1 });
+            console.log(comments)
             setComments(comments);
         }
 
@@ -66,7 +67,7 @@ const MobileComments = ({ pollId, user }: { pollId: string, user: IUserData }) =
                 </DrawerHeader>
                 {Comments && Comments.length > 0 &&
                     <ScrollArea className='flex flex-1 px-3 h-0'>
-                        {Comments.map((comment) => (
+                        {Comments.map((comment : IComment) => (
                             <div className='flex flex-row p-2 bg-white mb-3 rounded-xl'>
                                 <Image src={comment.creator.photo} alt='user' width={70} height={70} className='rounded-full w-7 h-7' />
                                 <div className='flex flex-col ml-2 w-full'>

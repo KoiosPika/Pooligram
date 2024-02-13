@@ -16,15 +16,15 @@ import { createComment, getCommentsByPoll } from '@/lib/actions/comment.actions'
 import { IComment } from '@/lib/database/models/comment.model'
 import { ScrollArea } from '../ui/scroll-area'
 import { formatTimeAgo, getLevelColor } from '@/lib/utils'
-import { IUser } from '@/lib/database/models/user.model'
 import LoadMoreComments from './LoadMoreComments'
+import { IUserData } from '@/lib/database/models/userData.model'
 
-const MobileComments = ({ pollId, user }: { pollId: string, user: IUser }) => {
+const MobileComments = ({ pollId, user }: { pollId: string, user: IUserData }) => {
     const [open, setOpen] = React.useState(false)
     const [newComment, setNewComment] = useState('')
     const [Comments, setComments] = useState<IComment[]>([]);
 
-    const color = getLevelColor(user.UserData.level)
+    const color = getLevelColor(user.level)
 
     useEffect(() => {
         const getComments = async () => {

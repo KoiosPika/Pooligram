@@ -22,6 +22,7 @@ import MobileComments from './MobileComments'
 import ReportMenu from './ReportMenu'
 import CollectionList from './CollectionList'
 import MobileCollections from './MobileCollections'
+import { IUserData } from '@/lib/database/models/userData.model'
 
 const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
     const leftDivRef = useRef<HTMLDivElement>(null);
@@ -31,7 +32,7 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
     const [vote, setVote] = useState<IVote>()
     const [showComments, setShowComments] = useState(false);
     const [newAnswer, setNewAnswer] = useState<string>('');
-    const [User, setUser] = useState<IUser>();
+    const [User, setUser] = useState<IUserData>();
 
     useEffect(() => {
         if (leftDivRef.current) {

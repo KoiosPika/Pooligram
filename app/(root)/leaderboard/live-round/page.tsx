@@ -41,8 +41,23 @@ const page = async () => {
               </div>
               <div className='flex flex-row items-center gap-3'>
                 <Image src={'/assets/icons/trophy-yellow.svg'} alt='trophy' height={25} width={25} />
-                <p className='text-[25px] font-bold text-yellow-400 my-3'>Round 34</p>
+                <p className='text-[25px] font-bold text-yellow-400 my-3'>Weekly Round #34</p>
                 <Image src={'/assets/icons/trophy-yellow.svg'} alt='trophy' height={25} width={25} />
+              </div>
+              <div className='w-full flex justify-center items-center gap-3 px-4 mb-3'>
+                <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 border-[3px] border-yellow-400 hover:bg-blue-600'>
+                  <p className='text-[13px] md:text-[16px] text-yellow-300 font-semibold'>Polls Voted</p>
+                </Button>
+                <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 border-b-4 border-b-blue-600 hover:bg-blue-600'>
+                  <Link className='w-full h-full flex justify-center items-center' href={'/leaderboard/polls'}>
+                    <p className='text-[13px] md:text-[16px] font-semibold'>Votes Received</p>
+                  </Link>
+                </Button>
+                <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 border-b-4 border-b-blue-600 hover:bg-blue-600'>
+                  <Link className='w-full h-full flex justify-center items-center' href={'/leaderboard/users'}>
+                    <p className='text-[13px] md:text-[16px] font-semibold'>Votes Submitted</p>
+                  </Link>
+                </Button>
               </div>
               <CountdownTimer targetDate={date} />
               <ul className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 my-5'>

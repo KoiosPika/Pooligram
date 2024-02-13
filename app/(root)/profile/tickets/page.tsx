@@ -2,7 +2,7 @@ import Checkout from '@/components/shared/Checkout';
 import Selection from '@/components/shared/Selection';
 import { Button } from '@/components/ui/button';
 import { getOrdersById } from '@/lib/actions/order.actions';
-import { getUserById } from '@/lib/actions/user.actions';
+import { getUserDataById } from '@/lib/actions/userData.actions';
 import { IOrder } from '@/lib/database/models/order.model';
 import { formatDate, getLevelColor, getNextLevelPoints } from '@/lib/utils';
 import { auth } from '@clerk/nextjs';
@@ -15,7 +15,7 @@ const page = async () => {
   const { sessionClaims } = auth()
   const userId = sessionClaims?.userId as string;
 
-  const user = await getUserById(userId);
+  const user = await getUserDataById(userId);
 
   const orders = await getOrdersById(userId)
 

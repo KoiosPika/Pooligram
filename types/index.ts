@@ -4,8 +4,6 @@ export type CreateUserParams = {
     username: string
     email: string
     photo: string
-    verified: boolean
-    balance: number
 }
 
 export type CreatePollParams = {

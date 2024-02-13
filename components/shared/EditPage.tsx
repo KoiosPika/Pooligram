@@ -13,7 +13,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { updatePoll } from '@/lib/actions/poll.actions'
 import { useRouter } from 'next/navigation'
-import { getUserById, updateUserTickets } from '@/lib/actions/user.actions'
+import { getUserDataById, updateUserTickets } from '@/lib/actions/userData.actions'
 import { daysBetweenDates, timeUntil } from '@/lib/utils'
 import { IPoll } from '@/lib/database/models/poll.model'
 
@@ -65,7 +65,7 @@ const EditPage = ({ poll, userId, dates }: EditPageParams) => {
 
     useEffect(() => {
         async function getUser() {
-            const user = await getUserById(userId);
+            const user = await getUserDataById(userId);
             setUserTickets(user.tickets);
         }
 

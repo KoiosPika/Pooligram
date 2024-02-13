@@ -16,7 +16,7 @@ import { getAnswersByPoll, handleVoting } from '@/lib/actions/answer.actions'
 import { IAnswer } from '@/lib/database/models/answer.model'
 import { createVote, getVoteByPoll } from '@/lib/actions/vote.actions'
 import { IVote } from '@/lib/database/models/vote.model'
-import { getUserById } from '@/lib/actions/user.actions'
+import { getUserDataById } from '@/lib/actions/userData.actions'
 import { IUser } from '@/lib/database/models/user.model'
 import MobileComments from './MobileComments'
 import ReportMenu from './ReportMenu'
@@ -57,7 +57,7 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
         }
 
         const getUser = async () => {
-            const user = await getUserById(userId);
+            const user = await getUserDataById(userId);
             return user;
         }
 

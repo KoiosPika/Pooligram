@@ -1,6 +1,6 @@
 import ContactFrom from "@/components/shared/ContactFrom"
 import Selection from "@/components/shared/Selection";
-import { getUserById } from "@/lib/actions/user.actions";
+import { getUserDataById } from "@/lib/actions/userData.actions";
 import { auth } from "@clerk/nextjs";
 import Image from "next/image";
 
@@ -8,7 +8,7 @@ const page = async () => {
   const { sessionClaims } = auth()
   const userId = sessionClaims?.userId as string;
 
-  const user = await getUserById(userId)
+  const user = await getUserDataById(userId)
 
   return (
     <div className="w-full flex flex-col justify-center items-center">

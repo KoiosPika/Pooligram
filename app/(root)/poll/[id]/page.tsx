@@ -1,5 +1,4 @@
 import DetailedPage from "@/components/shared/DetailedPage";
-import { getUserById } from "@/lib/actions/user.actions";
 import { SearchParamsProps } from "@/types"
 import { auth } from "@clerk/nextjs";
 

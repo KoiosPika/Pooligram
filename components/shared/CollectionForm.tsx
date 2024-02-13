@@ -12,7 +12,7 @@ import { Input } from '../ui/input'
 import { FileUploader } from './FileUploader'
 import DatePicker from "react-datepicker";
 import { Button } from '../ui/button'
-import { getUserById, updateUserTickets } from '@/lib/actions/user.actions'
+import { getUserDataById, updateUserTickets } from '@/lib/actions/userData.actions'
 import { daysBetweenDates } from '@/lib/utils'
 import { Checkbox } from '../ui/checkbox'
 import { createCollectionGroup } from '@/lib/actions/collectionGroup.actions'
@@ -49,7 +49,7 @@ const CollectionForm = ({ dates, userId }: CollectionParams) => {
 
     useEffect(() => {
         async function getUser() {
-            const user = await getUserById(userId);
+            const user = await getUserDataById(userId);
             setUserTickets(user.tickets);
         }
 

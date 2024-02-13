@@ -5,7 +5,7 @@ import { connectToDatabase } from "../database"
 import Answer, { IAnswer } from "../database/models/answer.model"
 import Poll from "../database/models/poll.model"
 import User from "../database/models/user.model"
-import { getUserById } from "./user.actions"
+import { getUserDataById } from "./userData.actions"
 
 const populateAnswer = (query: any) => {
     return query
@@ -63,7 +63,7 @@ export async function handleVoting({ userId, answerId, pollId, hashtags }: { ans
             { $inc: { nofVotes: 1 } }
         )
 
-        const user = await getUserById(userId);
+        const user = await getUserDataById(userId);
 
         let newHashtags: string[] = []
 

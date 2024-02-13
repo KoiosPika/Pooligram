@@ -6,6 +6,7 @@ import { connectToDatabase } from '../database';
 import Order from '../database/models/order.model';
 import { CreateOrderParams } from '@/types';
 import User from '../database/models/user.model';
+import UserData from '../database/models/userData.model';
 
 export type CheckoutOrderParams = {
     amount: number,
@@ -38,7 +39,7 @@ export const checkoutOrder = async (order: CheckoutOrderParams) => {
                 buyerId: order.buyerId,
             },
             mode: 'payment',
-            success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/profile/wallet`,
+            success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/profile/tickets`,
             cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/`,
         });
 
@@ -66,12 +67,12 @@ export const createOrder = async (order: CreateOrderParams) => {
         };
 
 
-        const user = await User.findById(order.buyerId);
+        const user = await UserData.findOne({ User: order.buyerId });
 
         const newTickets = user.tickets + ticketValue[(order.amount).toString()];
 
-        await User.updateOne(
-            { _id: order.buyerId },
+        await UserData.updateOne(
+            { User: order.buyerId },
             { $set: { tickets: newTickets } }
         )
 

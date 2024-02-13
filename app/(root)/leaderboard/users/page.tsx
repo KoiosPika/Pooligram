@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
-import { getLeaderboardUsers } from '@/lib/actions/user.actions'
-import { IUser } from '@/lib/database/models/user.model'
+import { getLeaderboardUsers } from '@/lib/actions/userData.actions'
+import { IUserData } from '@/lib/database/models/userData.model'
 import { getLevelColor } from '@/lib/utils'
 import { auth } from '@clerk/nextjs'
 import Image from 'next/image'
@@ -46,16 +46,16 @@ const page = async () => {
                 <p className='text-[25px] font-bold text-yellow-400 my-3'>Top Users</p>
                 <Image src={'/assets/icons/trophy-yellow.svg'} alt='trophy' height={25} width={25} />
               </div>
-              {users && users.map((user: IUser, index: number) => {
+              {users && users.map((user: IUserData, index: number) => {
                 const color = getLevelColor(user.level)
                 return (
                   <div key={user._id} className='w-full md:w-5/6 flex flex-row items-center justify-around py-1 my-1 rounded-lg' style={{ backgroundColor: user._id === userId ? 'yellow' : 'white' }}>
                     <div className='bg-blue-700 p-2 rounded-full flex items-center justify-center w-9 h-9 border-2 border-black'>
                       <p className='text-yellow-200 font-semibold'>{index + 1}</p>
                     </div>
-                    <Image src={user.photo} alt='user' width={100} height={100} className='rounded-full h-10 w-10' />
+                    <Image src={user.User.photo} alt='user' width={100} height={100} className='rounded-full h-10 w-10' />
                     <div className='w-1/4'>
-                      <p className='font-semibold text-grey-600'>{user.username}</p>
+                      <p className='font-semibold text-grey-600'>{user.User.username}</p>
                       <p className='font-semibold text-grey-600'>{(user.points).toLocaleString()}</p>
                     </div>
                     <div className='w-1/4 relative flex items-center justify-center' style={{ height: '42px', width: '42px' }}>

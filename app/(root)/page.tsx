@@ -1,6 +1,6 @@
 import Search from '@/components/shared/Search'
 import Selection from '@/components/shared/Selection'
-import { getUserById } from '@/lib/actions/user.actions'
+import { getUserDataById } from '@/lib/actions/userData.actions'
 import { SearchParamsProps } from '@/types'
 import { SignedIn, SignedOut, auth } from '@clerk/nextjs'
 import Image from 'next/image'
@@ -11,7 +11,7 @@ const page = async ({ searchParams }: SearchParamsProps) => {
   const { sessionClaims } = auth()
   const userId = sessionClaims?.userId as string;
 
-  const user = await getUserById(userId)
+  const user = await getUserDataById(userId)
 
   const userHashtags = user?.hashtags
 

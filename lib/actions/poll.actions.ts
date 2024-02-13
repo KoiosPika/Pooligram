@@ -7,10 +7,20 @@ import Poll, { IPoll } from '../database/models/poll.model'
 import { CreatePollParams, GetPollsParams, UpdatePollParams } from '@/types'
 import User from '../database/models/user.model'
 import { ObjectId } from 'mongodb';
+import UserData from '../database/models/userData.model'
 
 const populatePoll = (query: any) => {
     return query
-        .populate({ path: 'creator', model: User, select: '_id username photo verified level' })
+        .populate({
+            path: 'creator',
+            model: User,
+            select: '_id username photo',
+            populate: {
+                path: "UserData",
+                model: UserData,
+                select:'hashtags hiddenPolls tickets level points'
+            }
+        })
 }
 
 export async function createPoll({ userId, poll }: CreatePollParams) {
@@ -222,7 +232,7 @@ export async function getLeaderboardPolls() {
         const polls = await populatePoll(Poll.find().sort({ nofVotes: -1 }).limit(100))
 
         return JSON.parse(JSON.stringify(polls))
-        
+
     } catch (error) {
         console.log(error)
     }

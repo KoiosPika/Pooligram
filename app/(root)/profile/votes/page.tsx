@@ -1,7 +1,7 @@
 import CopyLinkDialog from '@/components/shared/CopyLinkDialog'
 import Selection from '@/components/shared/Selection'
 import { Button } from '@/components/ui/button'
-import { getUserById } from '@/lib/actions/user.actions'
+import { getUserDataById } from '@/lib/actions/userData.actions'
 import { getVotesByUserId } from '@/lib/actions/vote.actions'
 import { IVote } from '@/lib/database/models/vote.model'
 import { getLevelColor, getNextLevelPoints } from '@/lib/utils'
@@ -15,7 +15,7 @@ const page = async () => {
     const { sessionClaims } = auth()
     const userId = sessionClaims?.userId as string;
 
-    const user = await getUserById(userId)
+    const user = await getUserDataById(userId)
 
     const votes = await getVotesByUserId(userId)
 

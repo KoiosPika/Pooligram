@@ -19,7 +19,7 @@ import { useUploadThing } from '@/lib/uploadthing'
 import { createPoll } from '@/lib/actions/poll.actions'
 import { useRouter } from 'next/navigation'
 import { createAnswer } from '@/lib/actions/answer.actions'
-import { getUserById, updateUserTickets } from '@/lib/actions/user.actions'
+import { getUserDataById, updateUserTickets } from '@/lib/actions/userData.actions'
 import { daysBetweenDates } from '@/lib/utils'
 import { createReport } from '@/lib/actions/report.actions'
 
@@ -58,7 +58,7 @@ const PollForm = ({ userId, dates }: PollParams) => {
 
     useEffect(() => {
         async function getUser() {
-            const user = await getUserById(userId);
+            const user = await getUserDataById(userId);
             setUserTickets(user.tickets);
         }
 

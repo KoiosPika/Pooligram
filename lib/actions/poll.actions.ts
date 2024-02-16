@@ -111,6 +111,19 @@ export async function getPollsByUser(userId: string) {
     }
 }
 
+export async function getPollsByProfile(userId: string) {
+    try {
+        await connectToDatabase();
+
+        const polls = await populatePoll(Poll.find({ creator: userId })).sort({ createdAt: -1 })
+
+        return JSON.parse(JSON.stringify(polls))
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export async function getAllPolls({ postHashtags, userHashtags, page, limit = 6, query, hiddenPolls }: GetPollsParams) {
 
 

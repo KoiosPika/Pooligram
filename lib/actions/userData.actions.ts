@@ -22,6 +22,21 @@ export async function getUserDataById(id: string) {
     }
 }
 
+export async function getUserDataByUsername(username: string) {
+    try {
+        await connectToDatabase()
+
+        const userId = await User.findOne({ username })
+
+        const userData = await populateUsers(UserData.findOne({ User: userId }))
+
+        return JSON.parse(JSON.stringify(userData))
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export async function updateUserTickets(id: string, days: number, sponsored: boolean, dailyCharge: number) {
     try {
         await connectToDatabase();

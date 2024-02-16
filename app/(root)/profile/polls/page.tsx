@@ -55,9 +55,9 @@ const page = async () => {
                                     <p>You can earn points by voting on polls</p>
                                 </div>
                                 <div className='flex w-full mt-3'>
-                                    <Link href={'/'} className='flex flex-row items-center gap-2 ml-auto rounded-lg text-white px-3 py-1 bg-blue-700'>
-                                        <Image className='rounded-full border-[2px] border-white' src={user.User.photo} alt='photo' height={35} width={35}/>
-                                        <p className='font-semibold'>Go To Profile</p>
+                                    <Link href={`/profile/${user.User.username}`} className='flex flex-row items-center gap-2 ml-auto rounded-lg text-white px-3 py-1 bg-blue-700'>
+                                        <Image className='rounded-full border-[2px] border-white h-[30px] w-[30px]' src={user.User.photo} alt='photo' height={100} width={100}/>
+                                        <p className='font-semibold text-[15px]'>Go To Profile</p>
                                     </Link>
                                 </div>
                             </div>

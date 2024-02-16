@@ -35,6 +35,9 @@ const Today = new Date();
 const MaxDate = new Date(Today);
 MaxDate.setDate(Today.getDate() + 7);
 
+const collectionMaxDate = new Date(Today);
+collectionMaxDate.setDate(Today.getDate() + 10);
+
 export const pollDefaultValues = {
     startDateTime: new Date(),
     endDateTime: MaxDate,
@@ -44,4 +47,7 @@ export const pollDefaultValues = {
     openComments: false,
 }
 
-const colors = ['13AACB v','EA6126 v','F8A037 v','57C411 v','9B47E6','CD35E8','E41C55 v','10CD8E v','9DB711 v']
+export const collectionDefaultValues = {
+    endDateTime: collectionMaxDate,
+    visibility: true
+}

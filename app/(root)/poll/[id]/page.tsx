@@ -6,9 +6,11 @@ const page = async ({ params: { id }, searchParams }: SearchParamsProps) => {
 
   const { sessionClaims } = auth();
   const userId = sessionClaims?.userId as string;
+  
+  const Today = new Date();
 
   return (
-    <DetailedPage id={id} userId={userId} />
+    <DetailedPage id={id} userId={userId} today={Today} />
   )
 }
 

@@ -24,7 +24,7 @@ import CollectionList from './CollectionList'
 import MobileCollections from './MobileCollections'
 import { IUserData } from '@/lib/database/models/userData.model'
 
-const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
+const DetailedPage = ({ id, userId, today }: { id: string, userId: string, today: Date }) => {
     const leftDivRef = useRef<HTMLDivElement>(null);
     const [rightDivHeight, setRightDivHeight] = useState<number>(0);
     const [Poll, setPoll] = useState<IPoll>()
@@ -134,7 +134,7 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                     <div className='flex h-[350px] justify-center items-center overflow-hidden bg-slate-300 relative'>
                         <Image src={Poll?.imageUrl || '/assets/images/loading.png'} alt='hero' width={500} height={500} className='h-[350px] w-[350px]' />
                     </div>
-                    {vote === undefined && <Form {...form}>
+                    {(vote === undefined && (Poll && today < new Date(Poll?.endDateTime))) && <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 bg-blue-800 w-[350px] p-3 rounded-bl-lg rounded-br-lg md:rounded-br-none lg:rounded-bl-none ">
                             <FormField
                                 control={form.control}
@@ -213,6 +213,40 @@ const DetailedPage = ({ id, userId }: { id: string, userId: string }) => {
                                 </div>
                             </div>
                         </div>
+                    }
+
+                    {(vote === undefined && (Poll && today > new Date(Poll?.endDateTime))) && 
+                        <div className="space-y-6 bg-blue-800 w-[350px] p-3 rounded-bl-lg rounded-br-lg md:rounded-br-none lg:rounded-bl-none">
+                        <div className="w-full space-y-3">
+                            <p className='font-semibold text-[18px] text-white'>{Poll?.title}</p>
+                            <div className="flex flex-col space-y-1 gap-2">
+                                {Answers && Answers.map((answer) => (
+                                    <div className="font-semibold px-2 py-1 rounded-md bg-white">
+                                        <div className='w-full flex flex-row justify-between items-center'>
+                                            <div className='gap-2 items-center flex flex-row'>
+                                                <p>{answer.title}</p>
+                                            </div>
+                                            <p>{answer.votePercentage ? `${answer.votePercentage}%` : '0%'}</p>
+                                        </div>
+                                        <div className="flex w-full my-2">
+                                            <div
+                                                style={{ width: answer.votePercentage ? `${answer.votePercentage}%` : '0%' }}
+                                                className='h-3 bg-blue-800 rounded-l-sm'
+                                            ></div>
+                                            <div
+                                                style={{ flexGrow: 1 }}
+                                                className='h-3 bg-gray-300'
+                                            ></div>
+                                        </div>
+                                        <p className='text-[13px]'>{answer.nofVotes} Votes</p>
+                                    </div>
+                                ))}
+                                <div className='md:hidden'>
+                                    {User && <MobileComments pollId={id} user={User} />}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     }
                 </div>
 

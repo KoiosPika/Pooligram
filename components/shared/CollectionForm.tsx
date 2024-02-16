@@ -19,6 +19,7 @@ import { createCollectionGroup } from '@/lib/actions/collectionGroup.actions'
 import { useRouter } from 'next/navigation'
 import { ICollectionGroup } from '@/lib/database/models/collectionGroup.model'
 import { useUploadThing } from '@/lib/uploadthing'
+import { collectionDefaultValues } from '@/constants'
 
 type CollectionParams = {
     userId: string,
@@ -35,7 +36,8 @@ const CollectionForm = ({ dates, userId }: CollectionParams) => {
 
     const { MaxDate, MinDate } = dates;
     const form = useForm<z.infer<typeof collectionFormSchema>>({
-        resolver: zodResolver(collectionFormSchema)
+        resolver: zodResolver(collectionFormSchema),
+        defaultValues: collectionDefaultValues
     })
 
     const router = useRouter();
@@ -95,7 +97,7 @@ const CollectionForm = ({ dates, userId }: CollectionParams) => {
                     hashtags,
                     imageUrl: uploadedImageUrl
                 }
-            }).then((res:ICollectionGroup) => {
+            }).then((res: ICollectionGroup) => {
                 updateUserTickets(userId, days, false, DailyCharge)
                 router.push(`/collections/${res._id}`)
             })
@@ -117,26 +119,7 @@ const CollectionForm = ({ dates, userId }: CollectionParams) => {
                                         <Image src={'/assets/icons/pen.svg'} alt='pen' height={20} width={20} />
                                         <p className='text-[18px] font-bold text-white'>Collection Title</p>
                                     </div>
-                                    <Input placeholder="Collection description..." {...field} className='flex flex-row flex-1 border-2 border-black' />
-                                </>
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
-                <FormField
-                    control={form.control}
-                    name="description"
-                    render={({ field }) => (
-                        <FormItem className="w-full p-5 bg-blue-800 rounded-lg">
-                            <FormControl>
-                                <>
-                                    <div className='inline-flex flex-row flex-shrink gap-2 bg-blue-800 p-1 rounded-md'>
-                                        <Image src={'/assets/icons/pen.svg'} alt='pen' height={20} width={20} />
-                                        <p className='text-[18px] font-bold text-white'>Collection Description</p>
-                                    </div>
-                                    <Textarea placeholder="Collection description..." {...field} className='flex flex-row flex-1 border-2 border-black' />
+                                    <Input placeholder="Collection title..." {...field} className='flex flex-row flex-1 border-2 border-black' />
                                 </>
                             </FormControl>
                             <FormMessage />
@@ -150,10 +133,10 @@ const CollectionForm = ({ dates, userId }: CollectionParams) => {
                         <p className='text-[18px] font-bold text-white'>Collection Hashtags</p>
                     </div>
                     {hashtags.length > 0 &&
-                        <div className='w-full flex flex-col max-w-[500px] justify-center items-center px-5 md:px-15'>
+                        <div className='w-full flex flex-col max-w-[800px] justify-center items-center px-5 md:px-15'>
                             <ul className="grid w-full grid-cols-2 gap-2">
                                 {hashtags.map((hashtag, index) => (
-                                    <li key={index} className='w-full p-3 border-2 border-white bg-white rounded-md flex flex-row my-2 justify-between relative'>
+                                    <li key={index} className='w-full p-3 bg-white rounded-md flex flex-row my-2 justify-between relative'>
                                         <p className='text-[16px] text-black font-semibold'>#{hashtag}</p>
                                         <button type="button" onClick={() => handleDeleteHashtag(index)} className='absolute right-2'>
                                             <Image src={'/assets/icons/minus.svg'} alt='minus' width={20} height={30} />
@@ -165,8 +148,8 @@ const CollectionForm = ({ dates, userId }: CollectionParams) => {
                     }
                     <div className='flex flex-col gap-2 justify-center md:justify-between items-center'>
                         <div className='flex flex-row justify-center items-center gap-2'>
-                            <Input placeholder='Add Hashtag (Max 8)' className='w-full px-5 max-w-[500px] border-2 border-black' onChange={(e) => setNewHashtag(e.target.value)} value={newHashtag} />
-                            <button disabled={hashtags.length == 8} className='bg-yellow-300 hover:bg-grey-400 w-11 h-9 text-blue-800 text-[18px] rounded-md border-2 border-black' type="button" onClick={AddHashtag}>+</button>
+                            <Input placeholder='Add Hashtag (Max 16)' className='w-full px-5 max-w-[500px] border-2 border-black' onChange={(e) => setNewHashtag(e.target.value)} value={newHashtag} />
+                            <button disabled={hashtags.length == 16} className='bg-yellow-300 hover:bg-grey-400 w-11 h-9 text-blue-800 text-[18px] rounded-md border-2 border-black' type="button" onClick={AddHashtag}>+</button>
                         </div>
                     </div>
                 </div>

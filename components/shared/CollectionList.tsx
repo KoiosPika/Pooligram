@@ -39,10 +39,10 @@ const CollectionList = ({ height, pollId }: CollectionListParams) => {
                                 <Link href={`/collections/${collection.collectionGroup._id}`}>
                                     <Image className='rounded-lg' src={collection.collectionGroup.imageUrl} alt='hero' height={100} width={100} />
                                 </Link>
-                                <div className='ml-2 flex flex-col gap-1'>
-                                    <p className='font-semibold truncate bg-slate-400 text-white py-1 px-3 rounded-lg'>{collection.collectionGroup.title}</p>
-                                    <p className='font-semibold bg-blue-400 text-blue-800 py-1 px-3 rounded-lg'>Polls: {collection.collectionGroup.nofPolls}</p>
-                                    <p className='font-semibold bg-green-300 text-green-800 py-1 px-3 rounded-lg'>Votes: {collection.collectionGroup.nofVotes.toLocaleString()}</p>
+                                <div className='ml-2 flex flex-1 flex-col gap-1'>
+                                    <p className='text-[14px] font-semibold truncate bg-red-300 text-red-800 py-1 px-3 rounded-lg'>{collection.collectionGroup.title}</p>
+                                    <p className='text-[14px] font-semibold bg-blue-400 text-blue-800 py-1 px-3 rounded-lg'>Polls: {collection.collectionGroup.nofPolls}</p>
+                                    <p className='text-[14px] font-semibold bg-green-300 text-green-800 py-1 px-3 rounded-lg'>Votes: {collection.collectionGroup.nofVotes.toLocaleString()}</p>
                                 </div>
                             </div>
                         </div>

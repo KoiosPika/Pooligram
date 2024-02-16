@@ -8,9 +8,9 @@ const Card = ({ poll }: { poll: IPoll }) => {
 
     const color = getLevelColor(poll.creator.UserData.level)
     return (
-        <div className='flex flex-col min-h-[360px] bg-yellow-800 w-[350px] rounded-xl mx-1'>
-            <Link href={`/poll/${poll._id}`} className='flex flex-center h-[250px] bg-slate-300 text-grey-500 rounded-t-lg'>
-                <Image src={poll.imageUrl} alt='hero' height={400} width={400} className='w-[350px] h-[300px] overflow-hidden' />
+        <div className='flex flex-col min-h-[400px] bg-yellow-800 w-[350px] rounded-xl mx-1'>
+            <Link href={`/poll/${poll._id}`} className='flex flex-center h-[280px] bg-slate-300 text-grey-500 rounded-t-lg'>
+                <Image src={poll.imageUrl} alt='hero' height={400} width={400} className='w-[350px] h-[280px] overflow-hidden rounded-t-lg' />
             </Link>
             <div className='flex-1 w-full p-2 flex flex-col justify-between bg-blue-800 border-white border-t-2 rounded-b-lg'>
                 <p className='truncate-2-lines text-white text-[14px] font-semibold'>{poll.title}</p>

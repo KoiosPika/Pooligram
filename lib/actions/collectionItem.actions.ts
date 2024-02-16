@@ -6,12 +6,22 @@ import CollectionItem from "../database/models/collectionItem.model";
 import Poll from "../database/models/poll.model";
 import User from "../database/models/user.model";
 import CollectionGroup from "../database/models/collectionGroup.model";
+import UserData from "../database/models/userData.model";
 
 const populateCollectionItem = (query: any) => {
     return query
         .populate({ path: "poll", model: Poll, select: "_id imageUrl title" })
-        .populate({ path: "creator", model: User, select: "_id username level photo" })
-        .populate({path:"collectionGroup", model:CollectionGroup, select:"_id title imageUrl nofVotes nofPolls"})
+        .populate({
+            path: "creator",
+            model: User,
+            select: "_id username level photo",
+            populate:{
+                path:"UserData",
+                model:UserData,
+                select:"_id level photo"
+            }
+        })
+        .populate({ path: "collectionGroup", model: CollectionGroup, select: "_id title imageUrl nofVotes nofPolls" })
 }
 
 export async function createCollectionItem({ collectionGroupId, pollId, userId }: CreateCollectionItemParams) {

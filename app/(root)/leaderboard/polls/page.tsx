@@ -36,7 +36,7 @@ const page = async () => {
                   <p className='text-[16px] text-yellow-300'>Top Polls</p>
                 </Button>
                 <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 border-b-4 border-b-blue-600 hover:bg-blue-600'>
-                  <Link className='w-full h-full flex justify-center items-center' href={'/leaderboard/users'}>
+                  <Link className='w-full h-full flex justify-center items-center' href={'/leaderboard/users/points'}>
                     <p className='text-[16px]'>Top Users</p>
                   </Link>
                 </Button>

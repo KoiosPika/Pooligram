@@ -36,7 +36,6 @@ export type CreateCollectionParams = {
     userId: string,
     collection: {
         title: string
-        description: string
         hashtags: string[]
         imageUrl: string
         endDateTime: Date
@@ -97,4 +96,10 @@ export type CreateOrderParams = {
     buyerId: string
     amount: number
     createdAt: Date
+}
+
+export type GetAllCollectionsParams = {
+    userHashtags: string[],
+    query: string,
+    page: number
 }

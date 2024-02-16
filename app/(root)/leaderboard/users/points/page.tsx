@@ -1,8 +1,5 @@
-import CountdownTimer from '@/components/shared/CountdownTimer'
 import { Button } from '@/components/ui/button'
-import { getDate, getCurrentRoundPolls } from '@/lib/actions/poll.actions'
-import { getLeaderboardVotesSubmitted } from '@/lib/actions/userData.actions'
-import { IPoll } from '@/lib/database/models/poll.model'
+import { getLeaderboardUsers } from '@/lib/actions/userData.actions'
 import { IUserData } from '@/lib/database/models/userData.model'
 import { getLevelColor } from '@/lib/utils'
 import { auth } from '@clerk/nextjs'
@@ -12,15 +9,11 @@ import React from 'react'
 
 const page = async () => {
 
+  const users = await getLeaderboardUsers()
+
   const { sessionClaims } = auth()
 
   const userId = sessionClaims?.userId as string;
-
-  const polls = await getCurrentRoundPolls();
-
-  const date = await getDate()
-
-  const users = await getLeaderboardVotesSubmitted()
 
   return (
     <div className='w-full flex justify-center items-center'>
@@ -34,50 +27,49 @@ const page = async () => {
                 <Image src={'/assets/icons/trophy.svg'} alt='trophy' height={35} width={35} />
               </div>
               <div className='w-full flex justify-center items-center gap-3 px-4'>
-                <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 border-[3px] border-yellow-400 hover:bg-blue-600'>
-                  <p className='text-[16px] text-yellow-300 font-semibold'>Live Round</p>
+                <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 hover:bg-blue-600'>
+                  <Link className='w-full h-full flex justify-center items-center' href={'/leaderboard/live-round/polls'}>
+                    <p className='text-[16px]'>Live Round</p>
+                  </Link>
                 </Button>
-                <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 border-b-4 border-b-blue-600 hover:bg-blue-600'>
+                <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 hover:bg-blue-600'>
                   <Link className='w-full h-full flex justify-center items-center' href={'/leaderboard/polls'}>
-                    <p className='text-[16px] font-semibold'>Top Polls</p>
+                    <p className='text-[16px]'>Top Polls</p>
                   </Link>
                 </Button>
-                <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 border-b-4 border-b-blue-600 hover:bg-blue-600'>
-                  <Link className='w-full h-full flex justify-center items-center' href={'/leaderboard/users/points'}>
-                    <p className='text-[16px] font-semibold'>Top Users</p>
-                  </Link>
+                <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 border-[3px] border-yellow-400 hover:bg-blue-600'>
+                  <p className='text-[16px] text-yellow-300'>Top Users</p>
                 </Button>
               </div>
               <div className='flex flex-row items-center gap-3'>
                 <Image src={'/assets/icons/trophy-yellow.svg'} alt='trophy' height={25} width={25} />
-                <p className='text-[25px] font-bold text-yellow-400 my-3'>Weekly Round #34</p>
+                <p className='text-[25px] font-bold text-yellow-400 my-3'>Top Users</p>
                 <Image src={'/assets/icons/trophy-yellow.svg'} alt='trophy' height={25} width={25} />
               </div>
               <div className='w-full flex justify-center items-center gap-3 px-4 mb-3'>
-                <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 border-b-4 border-b-blue-600 hover:bg-blue-600'>
-                  <Link className='w-full h-full flex justify-center items-center' href={'/leaderboard/live-round/polls'}>
-                    <p className='text-[13px] md:text-[16px] font-semibold'>Polls Voted</p>
+                <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 border-[3px] border-yellow-400 hover:bg-blue-600'>
+                  <Link className='w-full h-full flex justify-center items-center' href={'/leaderboard/users/points'}>
+                    <p className='text-[13px] md:text-[16px] text-yellow-300 font-semibold'>Points Earned</p>
                   </Link>
                 </Button>
                 <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 border-b-4 border-b-blue-600 hover:bg-blue-600'>
-                  <Link className='w-full h-full flex justify-center items-center' href={'/leaderboard/live-round/votes-received'}>
+                  <Link className='w-full h-full flex justify-center items-center' href={'/leaderboard/users/votes-received'}>
                     <p className='text-[13px] md:text-[16px] font-semibold'>Votes Received</p>
                   </Link>
                 </Button>
-                <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 border-[3px] border-yellow-400 hover:bg-blue-600'>
-                  <Link className='w-full h-full flex justify-center items-center' href={'/leaderboard/live-round/votes-submitted'}>
-                    <p className='text-[13px] md:text-[16px] text-yellow-300 font-semibold'>Votes Submitted</p>
+                <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 border-b-4 border-b-blue-600 hover:bg-blue-600'>
+                  <Link className='w-full h-full flex justify-center items-center' href={'/leaderboard/users/votes-submitted'}>
+                    <p className='text-[13px] md:text-[16px] font-semibold'>Votes Submitted</p>
                   </Link>
                 </Button>
               </div>
-              <CountdownTimer targetDate={date} />
-              <div className='w-full md:w-5/6 flex flex-row items-center justify-around py-1 mt-3 rounded-lg bg-blue-800'>
+              <div className='w-full md:w-5/6 flex flex-row items-center justify-around py-1 rounded-lg bg-blue-800'>
                 <div className=' p-2 flex items-center justify-center w-9 h-9'>
                   <p className='font-semibold text-white'>Rank</p>
                 </div>
                 <p className='font-semibold text-white'>User</p>
                 <div className='w-1/4'>
-                  <p className='font-semibold text-white'>Votes Submitted</p>
+                  <p className='font-semibold text-white'>Points</p>
                 </div>
                 <div className='w-1/4 relative flex items-center justify-center' style={{ height: '42px', width: '42px' }}>
                   <p className='font-semibold text-white'>Level</p>
@@ -93,7 +85,7 @@ const page = async () => {
                     <Image src={user.User.photo} alt='user' width={100} height={100} className='rounded-full h-10 w-10' />
                     <div className='w-1/4'>
                       <p className='font-semibold text-grey-600'>{user.User.username}</p>
-                      <p className='font-semibold text-grey-600'>{(user.weeklyVotesSubmitted).toLocaleString()}</p>
+                      <p className='font-semibold text-grey-600'>{(user.points).toLocaleString()}</p>
                     </div>
                     <div className='w-1/4 relative flex items-center justify-center' style={{ height: '42px', width: '42px' }}>
                       <Image className='ml-1' src={`/assets/levels/level_${color}.svg`} alt='verified' height={38} width={38} />

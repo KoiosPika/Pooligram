@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { getPollsByUser } from '@/lib/actions/poll.actions';
 import { getUserDataById } from '@/lib/actions/userData.actions';
 import { IPoll } from '@/lib/database/models/poll.model';
+import { IUserData } from '@/lib/database/models/userData.model';
 import { getLevelColor, getNextLevelPoints } from '@/lib/utils';
 import { auth } from '@clerk/nextjs'
 import Image from 'next/image';
@@ -15,7 +16,7 @@ const page = async () => {
     const { sessionClaims } = auth()
     const userId = sessionClaims?.userId as string;
 
-    const user = await getUserDataById(userId)
+    const user : IUserData = await getUserDataById(userId)
 
     const Polls = await getPollsByUser(userId)
 
@@ -53,17 +54,23 @@ const page = async () => {
                                     <Image src={'/assets/icons/info.svg'} alt='info' height={16} width={16} />
                                     <p>You can earn points by voting on polls</p>
                                 </div>
+                                <div className='flex w-full mt-3'>
+                                    <Link href={'/'} className='flex flex-row items-center gap-2 ml-auto rounded-lg text-white px-3 py-1 bg-blue-700'>
+                                        <Image className='rounded-full border-[2px] border-white' src={user.User.photo} alt='photo' height={35} width={35}/>
+                                        <p className='font-semibold'>Go To Profile</p>
+                                    </Link>
+                                </div>
                             </div>
                             <div className='w-full flex justify-center items-center gap-3 px-4'>
-                                <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 border-[3px] border-yellow-400 hover:bg-blue-600'>
+                                <Button className='w-full h-[40px] rounded-sm bg-blue-600 border-[3px] border-yellow-400 hover:bg-blue-600'>
                                     <p className='text-yellow-300'>My Polls</p>
                                 </Button>
-                                <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 border-b-4 border-b-blue-600 hover:bg-blue-600'>
+                                <Button className='w-full h-[40px] rounded-sm bg-blue-600 border-b-4 border-b-blue-600 hover:bg-blue-600'>
                                     <Link className='w-full h-full flex justify-center items-center' href={'/profile/votes'}>
                                         <p>My Votes</p>
                                     </Link>
                                 </Button>
-                                <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 border-b-4 border-b-blue-600 hover:bg-blue-600'>
+                                <Button className='w-full h-[40px] rounded-sm bg-blue-600 border-b-4 border-b-blue-600 hover:bg-blue-600'>
                                     <Link className='w-full h-full flex justify-center items-center' href={'/profile/tickets'}>
                                         <p>My Tickets</p>
                                     </Link>

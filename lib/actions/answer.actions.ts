@@ -59,7 +59,7 @@ export async function handleVoting({ userId, answerId, pollId, hashtags }: { ans
             { $inc: { nofVotes: 1 } }
         )
 
-        await Poll.updateOne(
+        const poll = await Poll.findOneAndUpdate(
             { _id: pollId },
             { $inc: { nofVotes: 1 } }
         )
@@ -81,9 +81,16 @@ export async function handleVoting({ userId, answerId, pollId, hashtags }: { ans
             {
                 '$push': { hiddenPolls: pollId },
                 '$set': { hashtags: newHashtags },
-                '$inc': { points: 5 }
+                '$inc': { points: 5, weeklyVotesSubmitted: 1, totalVotesSubmitted: 1 },
             },
             { new: true }
+        )
+
+        await UserData.updateOne(
+            { User: poll.creator._id },
+            {
+                '$inc': { weeklyVotesReceived: 1, totalVotesReceived: 1 }
+            }
         )
 
         if (newUser.points % 500 === 0) {

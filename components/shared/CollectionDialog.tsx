@@ -38,7 +38,7 @@ const CollectionDialog = ({ pollId, userId }: { pollId: string, userId: string }
                         <p className="text-white">Add to collection</p>
                         <AlertDialogCancel className="rounded-full bg-white text-black">X</AlertDialogCancel>
                     </AlertDialogTitle>
-                    <Input placeholder="Collection ID" value={collectionID} onChange={(e) => setCollectionID(e.target.value)} className="border-[1px] border-black" />
+                    <Input placeholder="Collection Code" value={collectionID} onChange={(e) => setCollectionID(e.target.value)} className="border-[1px] border-black" />
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogAction className="bg-blue-600 text-yellow-300" onClick={NewCollectionItem}>Add</AlertDialogAction>

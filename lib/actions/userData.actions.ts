@@ -53,3 +53,55 @@ export async function getLeaderboardUsers() {
         console.log(error)
     }
 }
+
+export async function getLeaderboardVotesReceived() {
+    try {
+        await connectToDatabase();
+
+        const users = await populateUsers(UserData.find({}).sort({ weeklyVotesReceived: -1 }).limit(100))
+
+        return JSON.parse(JSON.stringify(users))
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function getLeaderboardVotesSubmitted() {
+    try {
+        await connectToDatabase();
+
+        const users = await populateUsers(UserData.find({}).sort({ weeklyVotesSubmitted: -1 }).limit(100))
+
+        return JSON.parse(JSON.stringify(users))
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function getLeaderboardTotalVotesReceived() {
+    try {
+        await connectToDatabase();
+
+        const users = await populateUsers(UserData.find({}).sort({ totalVotesReceived: -1 }).limit(100))
+
+        return JSON.parse(JSON.stringify(users))
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function getLeaderboardTotalVotesSubmitted() {
+    try {
+        await connectToDatabase();
+
+        const users = await populateUsers(UserData.find({}).sort({ totalVotesSubmitted: -1 }).limit(100))
+
+        return JSON.parse(JSON.stringify(users))
+
+    } catch (error) {
+        console.log(error)
+    }
+}

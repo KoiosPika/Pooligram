@@ -79,7 +79,7 @@ const page = async () => {
                                             <CopyLinkDialog link={`https://pooligram.vercel.app/poll/${vote.Poll._id}`} />
                                         </div>
                                         <Link href={`/poll/${vote.Poll._id}`} className='ml-auto flex flex-row justify-center items-center bg-blue-500 rounded-md px-2'>
-                                            <p className='text-white rounded-full py-1 px-2 text-center'>More Details</p>
+                                            <p className='text-white rounded-full py-2 px-2 text-center text-[13px]'>More Details</p>
                                             <Image src={'/assets/icons/arrow-white.svg'} alt='arrow' height={20} width={20} />
                                         </Link>
                                     </div>

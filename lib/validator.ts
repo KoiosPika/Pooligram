@@ -12,7 +12,6 @@ export const pollFormSchema = z.object({
 
 export const collectionFormSchema = z.object({
     title: z.string().min(3, 'Title must be at least 3 characters').max(100, "Title can't be more then 100 characters"),
-    description: z.string().min(3, 'Title must be at least 3 characters'),
     imageUrl: z.string(),
     endDateTime: z.date(),
     visibility: z.boolean(),

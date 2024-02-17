@@ -1,4 +1,5 @@
 import SocialsDialog from '@/components/shared/SocialsDialog'
+import SocialsDrawer from '@/components/shared/SocialsDrawer'
 import { getPollsByProfile } from '@/lib/actions/poll.actions'
 import { getUserDataByUsername } from '@/lib/actions/userData.actions'
 import { IPoll } from '@/lib/database/models/poll.model'
@@ -42,8 +43,11 @@ const page = async ({ params: { username } }: { params: { username: string } }) 
                                         <Image className='ml-1' src={`/assets/levels/level_${color}.svg`} alt='verified' height={32} width={32} />
                                         <p className='font-bold text-white absolute z-10 text-[13.5px] flex items-center justify-center' style={{ top: '50%', left: '52%', transform: 'translate(-50%, -50%)' }}>{user.level}</p>
                                     </div>
-                                    <div className='ml-auto'>
+                                    <div className='ml-auto hidden sm:block'>
                                         <SocialsDialog />
+                                    </div>
+                                    <div className='ml-auto sm:hidden'>
+                                        <SocialsDrawer />
                                     </div>
                                 </div>
                             </div>

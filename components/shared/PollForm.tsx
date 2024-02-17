@@ -241,19 +241,6 @@ const PollForm = ({ userId, dates }: PollParams) => {
                         <p className='text-[18px] font-bold text-white'>Poll Options</p>
                     </div>
                     <div className='flex flex-col bg-white rounded-lg m-7 p-3'>
-                        <p className='ml-5 mt-3 mb-2 text-black font-bold'>Enhance poll's visibilty for the next 24 hours.</p>
-                        <div className="w-full px-5 max-w-[500px]">
-                            <div className="flex mt-4 items-center">
-                                <Checkbox onCheckedChange={() => setSponsored(!sponsored)} checked={sponsored} id="openList" className="mr-2 h-7 w-7 border-2 border-blue-800" />
-                                <label htmlFor="openList" className="font-bold text-blue-800 text-[14px]">Enable Sponsorship</label>
-                                <div className='flex flex-row items-center justify-center gap-1 ml-2 rounded-lg px-3 py-1' style={{ backgroundColor: '#21C126' }}>
-                                    <p className='text-white rounded-md font-semibold ml-1 text-[20px]'>2x</p>
-                                    <Image className='h-10 w-6' src={'/assets/images/ticket-1.png'} alt='ticket' height={100} width={100} />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='flex flex-col bg-white rounded-lg m-7 p-3'>
                         <p className='ml-5 mt-3 mb-2 text-black font-bold'>Extend the poll's expiration date past 5 days for 1 ticket per day</p>
                         <div className='w-full pl-5 pt-4 max-w-[500px]'>
                             <div className='w-full flex justify-center items-center'>

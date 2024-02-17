@@ -41,16 +41,16 @@ const SocialsDialog = () => {
                         </div>
                     </div>
 
-                    <div className="flex items-center w-2/3 h-[45px] overflow-hidden border-2 border-purple-600 rounded-lg">
-                        <div className="bg-white flex justify-center items-center rounded-l-md px-[6px] h-full">
-                            <Image alt="x" src={'/assets/socials/instagram.webp'} height={40} width={40} />
+                    <div className="flex items-center w-2/3 h-[45px] overflow-hidden border-2 border-red-600 rounded-lg">
+                        <div className="bg-white flex justify-center items-center rounded-l-md px-[4px] h-full">
+                            <Image alt="x" src={'/assets/socials/instagram.PNG'} height={50} width={50} />
                         </div>
-                        <Link href={'https://www.instagram.com'} className="flex items-center px-2 text-[16px] text-purple-700 bg-white w-full h-full font-semibold">
+                        <Link href={'https://www.instagram.com'} className="flex items-center px-2 text-[16px] text-red-700 bg-white w-full h-full font-semibold">
                             <p>
                                 www.instgram.com
                             </p>
                         </Link>
-                        <div className="bg-white flex justify-center items-center rounded-r-sm px-2 text-purple-700 h-full font-semibold">
+                        <div className="bg-white flex justify-center items-center rounded-r-sm px-2 text-red-700 h-full font-semibold">
                             Copy
                         </div>
                     </div>
@@ -69,16 +69,30 @@ const SocialsDialog = () => {
                         </div>
                     </div>
 
-                    <div className="flex items-center w-2/3 h-[45px] overflow-hidden border-2 border-[#5865f2] rounded-lg">
-                        <div className="bg-white flex justify-center items-center rounded-l-md px-[5px] h-full">
-                            <Image alt="x" src={'/assets/socials/discord.png'} height={45} width={45} />
+                    <div className="flex items-center w-2/3 h-[45px] overflow-hidden border-2 border-white rounded-lg">
+                        <div className="bg-[#5865f2] flex justify-center items-center rounded-l-sm px-[5px] h-full">
+                            <Image alt="x" src={'/assets/socials/discord-1.png'} height={45} width={45} />
                         </div>
-                        <Link href={'https://www.snapchat.com'} className="flex items-center px-2 text-[16px] text-[#5865f2] bg-white w-full h-full font-semibold">
+                        <Link href={'https://www.discord.com'} className="flex items-center px-2 text-[16px] text-white bg-[#5865f2] w-full h-full font-semibold">
                             <p>
-                                www.snapchat.com
+                                www.discord.com
                             </p>
                         </Link>
-                        <div className="bg-white flex justify-center items-center rounded-r-sm px-2 text-[#5865f2] h-full font-semibold">
+                        <div className="bg-[#5865f2] flex justify-center items-center rounded-r-sm px-2 text-white h-full font-semibold">
+                            Copy
+                        </div>
+                    </div>
+
+                    <div className="flex items-center w-2/3 h-[45px] overflow-hidden border-2 border-blue-700 rounded-lg">
+                        <div className="bg-white flex justify-center items-center rounded-l-md px-[6px] h-full">
+                            <Image alt="x" src={'/assets/socials/facebook.svg'} height={40} width={40} />
+                        </div>
+                        <Link href={'https://www.facebook.com'} className="flex items-center px-2 text-[16px] text-blue-700 bg-white w-full h-full font-semibold">
+                            <p>
+                                www.facebook.com
+                            </p>
+                        </Link>
+                        <div className="bg-white flex justify-center items-center rounded-r-sm px-2 text-blue-700 h-full font-semibold">
                             Copy
                         </div>
                     </div>
@@ -98,6 +112,8 @@ const SocialsDialog = () => {
                         </div>
                     </div>
 
+                    
+
                     <div className="flex items-center w-2/3 h-[45px] overflow-hidden border-2 border-white rounded-lg">
                         <div className="bg-black flex justify-center items-center rounded-l-md px-[5px] h-full">
                             <Image alt="x" src={'/assets/socials/tiktok.PNG'} height={45} width={45} />
@@ -112,16 +128,16 @@ const SocialsDialog = () => {
                         </div>
                     </div>
 
-                    <div className="flex items-center w-2/3 h-[45px] overflow-hidden border-2 border-blue-700 rounded-lg">
-                        <div className="bg-white flex justify-center items-center rounded-l-md px-[6px] h-full">
-                            <Image alt="x" src={'/assets/socials/facebook.svg'} height={40} width={40} />
+                    <div className="flex items-center w-2/3 h-[45px] overflow-hidden border-2 border-white rounded-lg">
+                        <div className="bg-orange-600 flex justify-center items-center rounded-l-md px-[6px] h-full">
+                            <Image alt="x" src={'/assets/socials/envelope.svg'} height={40} width={40} />
                         </div>
-                        <Link href={'https://www.facebook.com'} className="flex items-center px-2 text-[16px] text-blue-700 bg-white w-full h-full font-semibold">
+                        <Link href={'https://www.facebook.com'} className="flex items-center px-2 text-[16px] text-white bg-orange-600 w-full h-full font-semibold">
                             <p>
-                                www.facebook.com
+                                personal@gmail.com
                             </p>
                         </Link>
-                        <div className="bg-white flex justify-center items-center rounded-r-sm px-2 text-blue-700 h-full font-semibold">
+                        <div className="bg-orange-600 flex justify-center items-center rounded-r-sm px-2 text-white h-full font-semibold">
                             Copy
                         </div>
                     </div>

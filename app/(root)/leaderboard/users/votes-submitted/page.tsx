@@ -47,7 +47,7 @@ const page = async () => {
                 <Image src={'/assets/icons/trophy-yellow.svg'} alt='trophy' height={25} width={25} />
               </div>
               <div className='w-full flex justify-center items-center gap-3 px-4 mb-3'>
-              <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 border-b-4 border-b-blue-600 hover:bg-blue-600'>
+                <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 border-b-4 border-b-blue-600 hover:bg-blue-600'>
                   <Link className='w-full h-full flex justify-center items-center' href={'/leaderboard/users/points'}>
                     <p className='text-[13px] md:text-[16px] font-semibold'>Points Earned</p>
                   </Link>
@@ -82,7 +82,9 @@ const page = async () => {
                     <div className='bg-blue-700 p-2 rounded-full flex items-center justify-center w-9 h-9 border-2 border-black'>
                       <p className='text-yellow-200 font-semibold'>{index + 1}</p>
                     </div>
-                    <Image src={user.User.photo} alt='user' width={100} height={100} className='rounded-full h-10 w-10' />
+                    <Link href={`/profile/${user.User.username}`}>
+                      <Image src={user.User.photo} alt='user' width={100} height={100} className='rounded-full h-10 w-10' />
+                    </Link>
                     <div className='w-1/4'>
                       <p className='font-semibold text-grey-600'>{user.User.username}</p>
                       <p className='font-semibold text-grey-600'>{(user.totalVotesSubmitted).toLocaleString()}</p>

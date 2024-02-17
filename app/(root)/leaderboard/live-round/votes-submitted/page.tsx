@@ -90,7 +90,9 @@ const page = async () => {
                     <div className='bg-blue-700 p-2 rounded-full flex items-center justify-center w-9 h-9 border-2 border-black'>
                       <p className='text-yellow-200 font-semibold'>{index + 1}</p>
                     </div>
-                    <Image src={user.User.photo} alt='user' width={100} height={100} className='rounded-full h-10 w-10' />
+                    <Link href={`/profile/${user.User.username}`}>
+                      <Image src={user.User.photo} alt='user' width={100} height={100} className='rounded-full h-10 w-10' />
+                    </Link>
                     <div className='w-1/4'>
                       <p className='font-semibold text-grey-600'>{user.User.username}</p>
                       <p className='font-semibold text-grey-600'>{(user.weeklyVotesSubmitted).toLocaleString()}</p>

@@ -60,10 +60,12 @@ const page = async () => {
                           <p className='text-black font-bold'>{index + 1}</p>
                         </div>
                       </div>
-                      <div className='h-[150px] max-w-[300px] rounded-b-lg py-1 flex flex-col' style={{backgroundColor:poll.creator._id === userId ? 'yellow' : 'white'}}>
+                      <div className='h-[150px] max-w-[300px] rounded-b-lg py-1 flex flex-col' style={{ backgroundColor: poll.creator._id === userId ? 'yellow' : 'white' }}>
                         <p className='ml-2 mb-2 truncate-2-lines text-[15px] text-blue-800 font-bold'>{poll.title}</p>
                         <div className='mt-auto flex flex-row items-center ml-2 mb-2'>
-                          <Image className='h-8 w-8 rounded-full' src={poll.creator.photo} alt='user' height={60} width={60} />
+                          <Link href={`/profile/${poll.creator.username}`}>
+                            <Image className='h-8 w-8 rounded-full' src={poll.creator.photo} alt='user' height={60} width={60} />
+                          </Link>
                           <p className='text-[18px] text-blue-800 font-semibold ml-1'>{poll.creator.username}</p>
                           <div className='relative flex items-center justify-center' style={{ height: '40px', width: '40px' }}>
                             <Image className='ml-1' src={`/assets/levels/level_${color}.svg`} alt='verified' height={32} width={32} />

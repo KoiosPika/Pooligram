@@ -1,5 +1,6 @@
 
 import ListItem from '@/components/shared/ListItem';
+import ProfileMenuButton from '@/components/shared/ProfileMenuButton';
 import Selection from '@/components/shared/Selection';
 import { Button } from '@/components/ui/button';
 import { getPollsByUser } from '@/lib/actions/poll.actions';
@@ -16,7 +17,7 @@ const page = async () => {
     const { sessionClaims } = auth()
     const userId = sessionClaims?.userId as string;
 
-    const user : IUserData = await getUserDataById(userId)
+    const user: IUserData = await getUserDataById(userId)
 
     const Polls = await getPollsByUser(userId)
 
@@ -56,25 +57,16 @@ const page = async () => {
                                 </div>
                                 <div className='flex w-full mt-3'>
                                     <Link href={`/profile/${user.User.username}`} className='flex flex-row items-center gap-2 ml-auto rounded-lg text-white px-3 py-1 bg-blue-700'>
-                                        <Image className='rounded-full border-[2px] border-white h-[30px] w-[30px]' src={user.User.photo} alt='photo' height={100} width={100}/>
+                                        <Image className='rounded-full border-[2px] border-white h-[30px] w-[30px]' src={user.User.photo} alt='photo' height={100} width={100} />
                                         <p className='font-semibold text-[15px]'>Go To Profile</p>
                                     </Link>
                                 </div>
                             </div>
-                            <div className='w-full flex justify-center items-center gap-3 px-4'>
-                                <Button className='w-full h-[40px] rounded-sm bg-blue-600 border-[3px] border-yellow-400 hover:bg-blue-600'>
-                                    <p className='text-yellow-300'>My Polls</p>
-                                </Button>
-                                <Button className='w-full h-[40px] rounded-sm bg-blue-600 border-b-4 border-b-blue-600 hover:bg-blue-600'>
-                                    <Link className='w-full h-full flex justify-center items-center' href={'/profile/votes'}>
-                                        <p>My Votes</p>
-                                    </Link>
-                                </Button>
-                                <Button className='w-full h-[40px] rounded-sm bg-blue-600 border-b-4 border-b-blue-600 hover:bg-blue-600'>
-                                    <Link className='w-full h-full flex justify-center items-center' href={'/profile/tickets'}>
-                                        <p>My Tickets</p>
-                                    </Link>
-                                </Button>
+                            <div className='w-full grid grid-cols-2 justify-center items-center gap-3 px-4'>
+                                <ProfileMenuButton title="My Polls" href="/profile/polls" active="My Polls" />
+                                <ProfileMenuButton title="My Votes" href="/profile/votes" active="My Polls" />
+                                <ProfileMenuButton title="My Tickets" href="/profile/tickets" active="My Polls" />
+                                <ProfileMenuButton title="Saved Polls" href="/profile/saved" active="My Polls" />
                             </div>
                             <ul className='grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3'>
                                 {Polls.length > 0 && Polls.map((poll: IPoll) => {

@@ -1,4 +1,5 @@
 import CopyLinkDialog from '@/components/shared/CopyLinkDialog'
+import ProfileMenuButton from '@/components/shared/ProfileMenuButton'
 import Selection from '@/components/shared/Selection'
 import { Button } from '@/components/ui/button'
 import { getUserDataById } from '@/lib/actions/userData.actions'
@@ -55,25 +56,16 @@ const page = async () => {
                                 </div>
                                 <div className='flex w-full mt-3'>
                                     <Link href={`/profile/${user.User.username}`} className='flex flex-row items-center gap-2 ml-auto rounded-lg text-white px-3 py-1 bg-blue-700'>
-                                        <Image className='rounded-full border-[2px] border-white h-[30px] w-[30px]' src={user.User.photo} alt='photo' height={100} width={100}/>
+                                        <Image className='rounded-full border-[2px] border-white h-[30px] w-[30px]' src={user.User.photo} alt='photo' height={100} width={100} />
                                         <p className='font-semibold text-[15px]'>Go To Profile</p>
                                     </Link>
                                 </div>
                             </div>
-                            <div className='w-full flex justify-center items-center gap-3 px-4'>
-                                <Button className='w-1/3 h-[40px] rounded-sm bg-blue-600 border-b-4 border-b-blue-600 hover:bg-blue-600'>
-                                    <Link href={'/profile/polls'} className='w-full h-full flex justify-center items-center'>
-                                        <p>My Polls</p>
-                                    </Link>
-                                </Button>
-                                <Button className='w-1/3 h-[40px] rounded-sm bg-blue-600 border-[3px] border-yellow-400 hover:bg-blue-600'>
-                                    <p className='text-yellow-300'>My Votes</p>
-                                </Button>
-                                <Button className='w-1/3 h-[40px] rounded-sm bg-blue-600 hover:bg-blue-600'>
-                                    <Link href={'/profile/tickets'} className='w-full h-full flex justify-center items-center'>
-                                        <p>My Tickets</p>
-                                    </Link>
-                                </Button>
+                            <div className='w-full grid grid-cols-2 justify-center items-center gap-3 px-4'>
+                                <ProfileMenuButton title="My Polls" href="/profile/polls" active="My Votes" />
+                                <ProfileMenuButton title="My Votes" href="/profile/votes" active="My Votes" />
+                                <ProfileMenuButton title="My Tickets" href="/profile/tickets" active="My Votes" />
+                                <ProfileMenuButton title="Saved Polls" href="/profile/saved" active="My Votes" />
                             </div>
                             {votes && votes.map((vote: IVote) => (
                                 <div className='bg-white flex flex-row m-2 p-2 rounded-md'>

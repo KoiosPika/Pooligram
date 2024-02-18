@@ -1,4 +1,5 @@
 import Checkout from '@/components/shared/Checkout';
+import ProfileMenuButton from '@/components/shared/ProfileMenuButton';
 import Selection from '@/components/shared/Selection';
 import { Button } from '@/components/ui/button';
 import { getOrdersById } from '@/lib/actions/order.actions';
@@ -60,22 +61,11 @@ const page = async () => {
                   </Link>
                 </div>
               </div>
-              <div className='w-full flex justify-center items-center gap-3 px-4'>
-                <Button className='w-1/3 h-[40px] rounded-sm bg-blue-600 hover:bg-blue-600'>
-                  <Link className='w-full h-full flex justify-center items-center' href={'/profile/polls'}>
-                    <p>My Polls</p>
-                  </Link>
-                </Button>
-                <Button className='w-1/3 h-[40px] rounded-sm bg-blue-600 border-b-4 border-b-blue-600 hover:bg-blue-600'>
-                  <Link className='w-full h-full flex justify-center items-center' href={'/profile/votes'}>
-                    <p>My Votes</p>
-                  </Link>
-                </Button>
-                <Button className='w-1/3 h-[40px] rounded-sm bg-blue-600 border-[3px] border-yellow-400 hover:bg-blue-600'>
-                  <Link className='w-full h-full flex justify-center items-center' href={'/profile/tickets'}>
-                    <p className='text-yellow-300'>My Tickets</p>
-                  </Link>
-                </Button>
+              <div className='w-full grid grid-cols-2 justify-center items-center gap-3 px-4'>
+                <ProfileMenuButton title="My Polls" href="/profile/polls" active="My Tickets" />
+                <ProfileMenuButton title="My Votes" href="/profile/votes" active="My Tickets" />
+                <ProfileMenuButton title="My Tickets" href="/profile/tickets" active="My Tickets" />
+                <ProfileMenuButton title="Saved Polls" href="/profile/saved" active="My Tickets" />
               </div>
               <div className='w-full my-3 p-3'>
                 <div className='flex flex-row items-center gap-2 mb-3'>

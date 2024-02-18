@@ -28,10 +28,6 @@ const page = async ({ searchParams }: SearchParamsProps) => {
           <Search />
         </div>
         <div className='flex flex-col justify-center items-center w-full'>
-          <div className='flex w-full flex-row justify-start'>
-            <p className='text-[20px] font-semibold my-5 ml-5 mr-2'>Popular Polls</p>
-            <Image src={'/assets/icons/trend-solid.svg'} alt='trend' height={30} width={30} />
-          </div>
           <SignedIn>
             <Selection postHashtags={['']} userHashtags={userHashtags} query={searchText} hiddenPolls={user?.hiddenPolls} />
           </SignedIn>

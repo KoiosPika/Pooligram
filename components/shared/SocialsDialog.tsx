@@ -71,7 +71,7 @@ const SocialsDialog = () => {
 
                     <div className="flex items-center w-2/3 h-[45px] overflow-hidden border-2 border-white rounded-lg">
                         <div className="bg-[#5865f2] flex justify-center items-center rounded-l-sm px-[5px] h-full">
-                            <Image alt="x" src={'/assets/socials/discord-1.png'} height={45} width={45} />
+                            <Image alt="x" src={'/assets/socials/discord-1.PNG'} height={45} width={45} />
                         </div>
                         <Link href={'https://www.discord.com'} className="flex items-center px-2 text-[16px] text-white bg-[#5865f2] w-full h-full font-semibold">
                             <p>

@@ -12,6 +12,7 @@ export interface IPoll extends Document {
     endSponsoredTime: Date
     openComments: boolean
     nofVotes: number
+    pinned: false
     creator: IUser
 }
 
@@ -25,6 +26,7 @@ const PollSchema = new Schema({
     endSponsoredTime: { type: Date, default: Date.now },
     openComments: { type: Boolean, default: true },
     nofVotes: { type: Number, default: 0 },
+    pinned: { type: Boolean, default: false },
     creator: { type: Schema.Types.ObjectId, ref: 'User' },
 })
 

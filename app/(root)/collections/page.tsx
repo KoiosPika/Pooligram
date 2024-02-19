@@ -72,10 +72,6 @@ const page = async ({ searchParams }: SearchParamsProps) => {
                             <LoadMoreCollections query={searchText} userHashtags={user.hashtags} />
                         </div>
                         <div className='flex flex-col w-full justify-center items-center my-3'>
-                            <div className='flex flex-row items-center mr-auto ml-2 my-2'>
-                                <Image src={'/assets/icons/poll-2.svg'} alt='poll' height={25} width={25} />
-                                <p className='font-semibold text-[22px] ml-2'>More Polls For You:</p>
-                            </div>
                             <Selection postHashtags={['']} userHashtags={user.hashtags} query='' hiddenPolls={user.hiddenPolls} />
                         </div>
                     </div>

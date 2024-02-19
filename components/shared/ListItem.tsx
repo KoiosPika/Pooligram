@@ -6,6 +6,7 @@ import { timeUntil } from '@/lib/utils'
 import Link from 'next/link'
 import CollectionDialog from './CollectionDialog'
 import CopyLinkDialog from './CopyLinkDialog'
+import PinningDialog from './PinningDialog'
 
 const ListItem = ({ poll }: { poll: IPoll }) => {
 
@@ -32,16 +33,13 @@ const ListItem = ({ poll }: { poll: IPoll }) => {
                         </div>}
                     </div>
                     <div className='grid grid-cols-2 justify-center items-center px-2 mt-auto gap-2'>
-                        {status && 
-                        <Link href={`/poll/${poll._id}/edit`} className='bg-green-700 flex flex-row items-center justify-center rounded-lg p-2 gap-1'>
-                            <Image src={'/assets/icons/create.svg'} alt='dollar' height={15} width={15} />
-                            <p className='text-white'>Edit Poll</p>
-                        </Link>}
+                        {status &&
+                            <Link href={`/poll/${poll._id}/edit`} className='bg-green-700 flex flex-row items-center justify-center rounded-lg p-2 gap-1'>
+                                <Image src={'/assets/icons/create.svg'} alt='dollar' height={15} width={15} />
+                                <p className='text-white'>Edit Poll</p>
+                            </Link>}
                         <CopyLinkDialog link={`https://pooligram.vercel.app/poll/${poll._id}`} />
-                        {status && <Button className='bg-pink-500 flex flex-row items-center gap-1 hover:bg-pink-500'>
-                            <Image src={'/assets/icons/pin.svg'} alt='live' height={12} width={12} />
-                            <p>Request to pin</p>
-                        </Button>}
+                        {status && <PinningDialog userId={poll.creator._id} id={poll._id} />}
                         {status && <CollectionDialog pollId={poll._id} userId={poll.creator._id} />}
                         <p className='text-center py-[10px] px-5 rounded-lg inline-block font-semibold bg-purple-300 text-purple-800 text-[14px]'>Votes : {(poll.nofVotes).toLocaleString()}</p>
                         {status && <p className='font-semibold text-red-600 bg-red-200 py-[10px] px-5 rounded-lg text-center text-[14px]'>{timeUntil(poll.endDateTime.toString(), now)}</p>}

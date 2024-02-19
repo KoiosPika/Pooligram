@@ -63,3 +63,15 @@ export async function getSavedPollsByUser(userId: string) {
         console.log(error)
     }
 }
+
+export async function deleteSavedPoll(id: string) {
+    try {
+        await connectToDatabase();
+
+        await SavedPoll.findOneAndDelete({ _id: id })
+
+        return true;
+    } catch (error) {
+        console.log(error)
+    }
+}

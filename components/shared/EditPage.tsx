@@ -120,13 +120,13 @@ const EditPage = ({ poll, userId, dates }: EditPageParams) => {
             {renderPage &&
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-1 flex-col gap-5 justify-center items-center px-3">
-                        <div className='w-full p-5 max-w-[500px] bg-blue-800 border-2 border-black rounded-lg'>
+                        <div className='w-full p-5 max-w-[700px] bg-blue-800 border-2 border-black rounded-lg'>
                             <div className='inline-flex flex-row gap-1 bg-blue-800 p-1 rounded-md mb-3'>
                                 <Image src={'/assets/icons/hashtag.svg'} alt='pen' height={25} width={25} />
                                 <p className='text-[18px] font-bold text-white'>Poll Hashtags</p>
                             </div>
                             {hashtags.length > 0 &&
-                                <div className='w-full flex flex-col max-w-[500px] justify-center items-center px-5 md:px-15'>
+                                <div className='w-full flex flex-col max-w-[700px] justify-center items-center px-5 md:px-15'>
                                     <ul className="grid w-full grid-cols-2 gap-2">
                                         {hashtags.map((hashtag, index) => (
                                             <li key={index} className='w-full p-3 border-2 border-white bg-white rounded-md flex flex-row my-2 justify-between relative'>
@@ -141,35 +141,17 @@ const EditPage = ({ poll, userId, dates }: EditPageParams) => {
                             }
                             <div className='flex flex-col gap-2 justify-center md:justify-between items-center'>
                                 <div className='flex flex-row justify-center items-center gap-2'>
-                                    <Input placeholder='Add Hashtag (Max 8)' className='w-full px-5 max-w-[300px] border-2 border-black' onChange={(e) => setNewHashtag(e.target.value)} value={newHashtag} />
-                                    <button disabled={hashtags.length == 8} className='bg-yellow-300 hover:bg-grey-400 w-11 h-9 text-blue-800 text-[18px] rounded-md border-2 border-black' type="button" onClick={AddHashtag}>+</button>
+                                    <Input placeholder='Add Hashtag (Max 16)' className='w-full px-5 max-w-[300px] border-2 border-black' onChange={(e) => setNewHashtag(e.target.value)} value={newHashtag} />
+                                    <button disabled={hashtags.length == 16} className='bg-yellow-300 hover:bg-grey-400 w-11 h-9 text-blue-800 text-[18px] rounded-md border-2 border-black' type="button" onClick={AddHashtag}>+</button>
                                 </div>
                             </div>
                         </div>
 
 
-                        <div className='w-full p-5 max-w-[500px] bg-blue-800 border-2 border-black rounded-lg'>
+                        <div className='w-full p-5 max-w-[700px] bg-blue-800 border-2 border-black rounded-lg'>
                             <div className='inline-flex flex-row gap-3 bg-blue-800 p-1 rounded-md items-center'>
                                 <Image src={'/assets/icons/settings.svg'} alt='pen' height={25} width={25} />
                                 <p className='text-[18px] font-bold text-white'>Poll Options</p>
-                            </div>
-                            <div className='flex flex-col bg-white rounded-lg m-7 p-3'>
-                                <p className='ml-5 mt-3 mb-2 text-black font-bold'>For 2 ticket, you can enhance the visibility of your poll by ensuring it appears at the top of the poll list for 24 hours.</p>
-                                <div className="w-full px-5 max-w-[500px]">
-                                    <div className="flex mt-4 items-center">
-                                        <Checkbox
-                                            disabled={allowSponsorship != false}
-                                            onCheckedChange={() => setSponsored(!sponsored)}
-                                            checked={sponsored}
-                                            className="mr-2 h-7 w-7 border-2 border-blue-800" />
-                                        <label className="font-bold text-blue-800 text-[16px]">Sponsor the poll for</label>
-                                        <div className='flex flex-row items-center justify-center gap-1 ml-2 rounded-lg px-3 py-1' style={{ backgroundColor: '#21C126' }}>
-                                            <p className='text-white rounded-md font-semibold ml-1 text-[20px]'>{2}x</p>
-                                            <Image className='h-10 w-6' src={'/assets/images/ticket-1.png'} alt='ticket' height={100} width={100} />
-                                        </div>
-                                    </div>
-                                </div>
-                                {allowSponsorship && <p className='p-1 ml-5 mt-3 bg-red-200 text-red-600 font-bold text-[14px] text-center rounded-lg'>Current Sponsorship {allowSponsorship}</p>}
                             </div>
                             <div className='flex flex-col bg-white rounded-lg m-7 p-3'>
                                 <p className='ml-5 mt-3 mb-2 text-black font-bold'>Extend the period now for 2 tickets</p>
@@ -177,7 +159,7 @@ const EditPage = ({ poll, userId, dates }: EditPageParams) => {
                                     <Image src={'/assets/icons/info.svg'} alt='info' height={15} width={15} />
                                     <p className='text-black text-[12px] font-semibold'>(Max is 30 days from the day you created the poll)</p>
                                 </div>
-                                <div className='w-full pl-5 pt-4 max-w-[500px]'>
+                                <div className='w-full pl-5 pt-4 max-w-[700px]'>
                                     <div className='w-full flex justify-center items-center'>
                                         <FormField
                                             control={form.control}
@@ -229,7 +211,7 @@ const EditPage = ({ poll, userId, dates }: EditPageParams) => {
                             control={form.control}
                             name="openComments"
                             render={({ field }) => (
-                                <FormItem className='w-full p-5 max-w-[500px] bg-blue-800 border-2 border-black rounded-lg'>
+                                <FormItem className='w-full p-5 max-w-[700px] bg-blue-800 border-2 border-black rounded-lg'>
                                     <div className='inline-flex flex-row gap-2 items-center bg-blue-800 p-1 rounded-md'>
                                         <Image src={'/assets/icons/comments.svg'} alt='pen' height={28} width={28} />
                                         <p className='text-[18px] font-bold text-white'>Poll Comments</p>

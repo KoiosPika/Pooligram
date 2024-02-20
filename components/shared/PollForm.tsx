@@ -277,7 +277,7 @@ const PollForm = ({ userId, dates }: PollParams) => {
                                 <p className='text-black font-semibold mr-1 text-[14px]'>You're extending {days} days for</p>
                                 <div className='flex flex-row items-center justify-center gap-1 ml-2 rounded-lg px-3 py-1' style={{ backgroundColor: '#21C126' }}>
                                     <p className='text-white rounded-md font-semibold ml-1 text-[20px]'>{days}x</p>
-                                    <Image className='h-10 w-6' src={'/assets/images/ticket-1.png'} alt='ticket' height={100} width={100} />
+                                    <Image className='h-10 w-8' src={'/assets/images/ticket-1.png'} alt='ticket' height={100} width={100} />
                                 </div>
                             </div>
                         </div>
@@ -286,7 +286,7 @@ const PollForm = ({ userId, dates }: PollParams) => {
                         <p className='text-[18px] font-semibold'>Your tickets:</p>
                         <div className='flex flex-row items-center justify-center gap-1 ml-2 rounded-lg px-3 py-1' style={{ backgroundColor: userTickets - days >= 0 ? '#21C126' : '#EA2514' }}>
                             <p className='text-white rounded-md font-semibold ml-1 text-[20px]'>{userTickets - days}x</p>
-                            <Image className='h-10 w-6' src={'/assets/images/ticket-1.png'} alt='ticket' height={100} width={100} />
+                            <Image className='h-10 w-8' src={'/assets/images/ticket-1.png'} alt='ticket' height={100} width={100} />
                         </div>
                     </div>
                 </div>

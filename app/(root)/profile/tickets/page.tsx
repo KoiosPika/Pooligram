@@ -75,7 +75,7 @@ const page = async () => {
                 <div className='w-full flex-row flex justify-center'>
                   <div className='bg-green-600 text-white border-green-100 border-4 flex flex-row items-center p-1 rounded-lg'>
                     <p className=' p-1 rounded-md font-semibold text-[35px] text-center px-3'>{(user.tickets).toLocaleString()} x</p>
-                    <Image className='h-13 w-9' src={'/assets/images/ticket-1.png'} alt='ticket' height={100} width={100} />
+                    <Image className='h-13 w-10' src={'/assets/images/ticket-1.png'} alt='ticket' height={100} width={100} />
                   </div>
                 </div>
                 <div className='flex flex-row items-center gap-2 mt-5 mb-3'>
@@ -119,10 +119,6 @@ const page = async () => {
               </div>
             </ul>
           </div>
-        </div>
-        <div className='flex flex-row gap-1 items-center my-3 mr-auto ml-3'>
-          <Image src={'/assets/icons/poll-2.svg'} alt='poll' height={29} width={29} />
-          <p className='font-bold text-[20px]'>More Polls For You:</p>
         </div>
         <Selection userHashtags={user.hashtags} postHashtags={['']} hiddenPolls={user.hiddenPolls} />
       </div>

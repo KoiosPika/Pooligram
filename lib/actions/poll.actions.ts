@@ -47,6 +47,11 @@ export async function createPoll({ userId, poll }: CreatePollParams) {
         }
         const newPoll = await Poll.create({ ...verifiedPoll, creator: userId })
 
+        await UserData.updateOne(
+            { User: userId },
+            { '$inc': { nofPolls: 1 } }
+        )
+
         return JSON.parse(JSON.stringify(newPoll))
     } catch (error) {
         console.log(error)
@@ -124,187 +129,98 @@ export async function getPollsByProfile(userId: string) {
     }
 }
 
-export async function getPinnedPolls({ postHashtags, userHashtags, page, limit = 6, query, hiddenPolls }: GetPollsParams) {
-    try {
-        await connectToDatabase();
-
-        const titleCondition = query ? { title: { $regex: query, $options: 'i' } } : {};
-
-        const hiddenPollsObjectIds = hiddenPolls.map((id) => new ObjectId(id))
-
-        const hiddenPollsCondition = { _id: { $nin: hiddenPollsObjectIds } }
-
-        const pinnedPollsCondition = { pinned: true }
-
-        const visibilityCondition = { endDateTime: { '$gt': new Date() } }
-
-        const userHashtagsCondition = userHashtags && userHashtags.length > 0
-            ? { hashtags: { $in: userHashtags, $nin: postHashtags } }
-            : {};
-
-        const otherCondition = { hashtags: { $nin: [...postHashtags || null, ...userHashtags || null] } };
-
-        const totalUserHashtagsCount = await Poll.countDocuments({
-            ...userHashtagsCondition,
-            ...titleCondition,
-            ...hiddenPollsCondition,
-            ...pinnedPollsCondition,
-            ...visibilityCondition
-        });
-
-        const totalOtherCount = await Poll.countDocuments({ ...otherCondition, ...titleCondition, ...hiddenPollsCondition, ...pinnedPollsCondition });
-
-        const skipAmount = (page - 1) * limit;
-
-        let combinedPolls: IPoll[] = [];
-
-        if (skipAmount < totalUserHashtagsCount) {
-            const matchingUserHashtagsPolls = await populatePoll(Poll.find({
-                ...userHashtagsCondition,
-                ...titleCondition,
-                ...pinnedPollsCondition,
-                ...visibilityCondition,
-                _id: {
-                    $nin: [
-                        ...hiddenPollsObjectIds,
-                        ...combinedPolls.map(poll => poll._id)
-                    ]
-                }
-            })
-                .sort({ startDateTime: -1 })
-                .skip(skipAmount)
-                .limit(limit));
-
-            combinedPolls.push(...matchingUserHashtagsPolls);
-        }
-
-        let remainingLimit = limit - combinedPolls.length;
-
-        if (remainingLimit > 0) {
-            const skipRemaining = Math.max(0, skipAmount - totalUserHashtagsCount);
-            const remainingPolls = await populatePoll(Poll.find({
-                ...otherCondition,
-                ...titleCondition,
-                ...pinnedPollsCondition,
-                ...visibilityCondition,
-                _id: {
-                    $nin: [
-                        ...hiddenPollsObjectIds,
-                        ...combinedPolls.map(poll => poll._id)
-                    ]
-                }
-            })
-                .sort({ startDateTime: -1 })
-                .skip(skipRemaining)
-                .limit(remainingLimit));
-
-            combinedPolls.push(...remainingPolls);
-        }
-
-        return JSON.parse(JSON.stringify(combinedPolls))
-
-
-    } catch (error) {
-        console.log(error)
-    }
-}
-
 export async function getAllPolls({ postHashtags, userHashtags, page, limit = 6, query, hiddenPolls }: GetPollsParams) {
 
-
     try {
         await connectToDatabase();
 
-        const titleCondition = query ? { title: { $regex: query, $options: 'i' } } : {};
-
-        const hiddenPollsObjectIds = hiddenPolls.map((id) => new ObjectId(id))
-
-        const hiddenPollsCondition = { _id: { $nin: hiddenPollsObjectIds } }
-
-        const postHashtagsCondition = postHashtags && postHashtags.length > 0
-            ? { hashtags: { $in: postHashtags } }
-            : {};
-
-        const userHashtagsCondition = userHashtags && userHashtags.length > 0
-            ? { hashtags: { $in: userHashtags, $nin: postHashtags } }
-            : {};
-
-        const otherCondition = { hashtags: { $nin: [...postHashtags || null, ...userHashtags || null] } };
-
-        const totalPostHashtagsCount = await Poll.countDocuments({ ...postHashtagsCondition, ...titleCondition, ...hiddenPollsCondition });
-        const totalUserHashtagsCount = await Poll.countDocuments({ ...userHashtagsCondition, ...titleCondition, ...hiddenPollsCondition });
-        const totalOtherCount = await Poll.countDocuments({ ...otherCondition, ...titleCondition, ...hiddenPollsCondition });
-
-        const totalCount = totalPostHashtagsCount + totalUserHashtagsCount + totalOtherCount;
-        const skipAmount = (page - 1) * limit;
-        let combinedPolls: IPoll[] = [];
-
-        if (skipAmount < totalPostHashtagsCount) {
-            const matchingPostHashtagsPolls = await populatePoll(Poll.find({
-                ...postHashtagsCondition,
-                ...titleCondition,
-                endDateTime: { '$gt': new Date() },
-                _id: {
-                    $nin: [
-                        ...hiddenPollsObjectIds,
-                        ...combinedPolls.map(poll => poll._id)
-                    ]
+        const currentDate = new Date();
+        const pipeline: any[] = [
+            {
+                $match: {
+                    _id: { $nin: hiddenPolls.map(id => new ObjectId(id)) },
+                    $or: [
+                        { title: { $regex: query || '', $options: 'i' } }, // Case-insensitive search in title
+                        { hashtags: { $in: [new RegExp(query || '', 'i')] } } // Case-insensitive search in hashtags array
+                    ],
+                    endDateTime: { $gt: currentDate }
                 }
-            })
-                .sort({ startDateTime: -1 })
-                .skip(skipAmount)
-                .limit(limit));
-
-            combinedPolls.push(...matchingPostHashtagsPolls);
-        }
-
-        let remainingLimit = limit - combinedPolls.length;
-
-        if (remainingLimit > 0 && skipAmount + combinedPolls.length < totalPostHashtagsCount + totalUserHashtagsCount) {
-            const skipUserHashtags = Math.max(0, skipAmount - totalPostHashtagsCount);
-            const matchingUserHashtagsPolls = await populatePoll(Poll.find({
-                ...userHashtagsCondition,
-                ...titleCondition,
-                endDateTime: { '$gt': new Date() },
-                _id: {
-                    $nin: [
-                        ...hiddenPollsObjectIds,
-                        ...combinedPolls.map(poll => poll._id)
-                    ]
+            },
+            {
+                $addFields: {
+                    isSponsored: { $gt: ["$endSponsoredTime", currentDate] },
+                    matchesPostHashtags: { $in: ["$hashtags", postHashtags] },
+                    matchesUserHashtags: { $in: ["$hashtags", userHashtags] }
                 }
-            })
-                .sort({ startDateTime: -1 })
-                .skip(skipUserHashtags)
-                .limit(remainingLimit));
-
-            combinedPolls.push(...matchingUserHashtagsPolls);
-        }
-
-        remainingLimit = limit - combinedPolls.length;
-        if (remainingLimit > 0) {
-            const skipRemaining = Math.max(0, skipAmount - totalPostHashtagsCount - totalUserHashtagsCount);
-            const remainingPolls = await populatePoll(Poll.find({
-                ...otherCondition,
-                ...titleCondition,
-                endDateTime: { '$gt': new Date() },
-                _id: {
-                    $nin: [
-                        ...hiddenPollsObjectIds,
-                        ...combinedPolls.map(poll => poll._id)
-                    ]
+            },
+            {
+                $addFields: {
+                    relevance: {
+                        $cond: {
+                            if: { $eq: ["$isSponsored", true] },
+                            then: {
+                                $cond: {
+                                    if: { $eq: ["$matchesPostHashtags", true] },
+                                    then: 1, // Highest priority: Sponsored + Matches Post Hashtags
+                                    else: {
+                                        $cond: {
+                                            if: { $eq: ["$matchesUserHashtags", true] },
+                                            then: 3, // Third priority: Sponsored + Matches User Hashtags
+                                            else: 5 // Fallback for sponsored without matching hashtags
+                                        }
+                                    }
+                                }
+                            },
+                            else: {
+                                $cond: {
+                                    if: { $eq: ["$matchesPostHashtags", true] },
+                                    then: 2, // Second priority: Non-Sponsored + Matches Post Hashtags
+                                    else: {
+                                        $cond: {
+                                            if: { $eq: ["$matchesUserHashtags", true] },
+                                            then: 4, // Fourth priority: Non-Sponsored + Matches User Hashtags
+                                            else: 6 // Fallback for non-sponsored without matching hashtags
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-            })
-                .sort({ startDateTime: -1 })
-                .skip(skipRemaining)
-                .limit(remainingLimit));
+            },
+            { $sort: { relevance: 1, startDateTime: -1 } }, // Sort by relevance, then by startDateTime
+            { $skip: (page - 1) * limit },
+            { $limit: limit },
+            {
+                $lookup: {
+                    from: 'users',
+                    localField: 'creator',
+                    foreignField: '_id',
+                    as: 'creator'
+                }
+            },
+            {
+                $unwind: '$creator'
+            },
+            {
+                $lookup: {
+                    from: 'userdatas',
+                    localField: 'creator._id',
+                    foreignField: 'User',
+                    as: 'creator.UserData'
+                }
+            },
+            {
+                $unwind: {
+                    path: '$creator.UserData',
+                }
+            }
+        ];
 
-            combinedPolls.push(...remainingPolls);
-        }
+        const polls = await Poll.aggregate(pipeline);
 
-        return {
-            data: JSON.parse(JSON.stringify(combinedPolls)),
-            totalPages: Math.ceil(totalCount / limit),
-        };
+        return JSON.parse(JSON.stringify(polls));
+
     } catch (error) {
         console.log(error);
         throw error;
@@ -330,6 +246,29 @@ export async function getLeaderboardPolls() {
         const polls = await populatePoll(Poll.find().sort({ nofVotes: -1 }).limit(100))
 
         return JSON.parse(JSON.stringify(polls))
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function sponsorPoll({ id, userId }: { id: string, userId: string }) {
+    try {
+        await connectToDatabase();
+
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(today.getDate() + 1)
+
+        await Poll.updateOne(
+            { _id: id },
+            { '$set': { endSponsoredTime: tomorrow } }
+        )
+
+        await UserData.updateOne(
+            { User: userId },
+            { '$inc': { tickets: -2 } }
+        )
 
     } catch (error) {
         console.log(error)

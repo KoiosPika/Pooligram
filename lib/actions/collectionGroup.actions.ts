@@ -37,6 +37,11 @@ export async function createCollectionGroup({ userId, collection }: CreateCollec
             creator: userId,
         })
 
+        await UserData.updateOne(
+            { User: userId },
+            { '$inc': { nofCollections: 1 } }
+        )
+
         return JSON.parse(JSON.stringify(newCollection));
     } catch (error) {
         console.log(error)

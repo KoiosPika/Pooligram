@@ -29,11 +29,11 @@ const page = async ({ params: { username } }: { params: { username: string } }) 
                                     <div className='ml-auto flex flex-row justify-center items-center gap-5'>
                                         <div className='flex flex-col items-center'>
                                             <p className='text-gray-500 text-[14px] sm:text-[16px]'>Votes Submitted</p>
-                                            <p className='font-semibold text-[14px] sm:text-[16px]'>3.4K</p>
+                                            <p className='font-semibold text-[14px] sm:text-[16px]'>{user.totalVotesSubmitted}</p>
                                         </div>
                                         <div className='flex flex-col items-center'>
                                             <p className='text-gray-500 text-[14px] sm:text-[16px]'>Votes Received</p>
-                                            <p className='font-semibold text-[14px] sm:text-[16px]'>4.5M</p>
+                                            <p className='font-semibold text-[14px] sm:text-[16px]'>{user.totalVotesReceived}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -53,13 +53,13 @@ const page = async ({ params: { username } }: { params: { username: string } }) 
                             </div>
                             <div className='flex flex-row w-full gap-2 my-3 px-1'>
                                 <Link href={`/profile/${user.User.username}`} className='flex flex-1 justify-center items-center py-2 bg-blue-500 rounded-lg border-[3px] border-yellow-400'>
-                                    <p className='font-semibold text-[12px] md:text-[17px] text-yellow-300'>Polls (3)</p>
+                                    <p className='font-semibold text-[12px] md:text-[17px] text-yellow-300'>Polls ({user.nofPolls})</p>
                                 </Link>
                                 <Link href={`/profile/${user.User.username}/collections`} className='flex flex-1 justify-center items-center py-2 bg-blue-500 rounded-lg'>
-                                    <p className='font-semibold text-[12px] md:text-[17px] text-white'>Collections (20.3k)</p>
+                                    <p className='font-semibold text-[12px] md:text-[17px] text-white'>Collections ({user.nofCollections})</p>
                                 </Link>
                                 <Link href={`/profile/${user.User.username}/collections`} className='flex flex-1 justify-center items-center py-2 bg-blue-500 rounded-lg'>
-                                    <p className='font-semibold text-[12px] md:text-[17px] text-white'>Titles (20.4m)</p>
+                                    <p className='font-semibold text-[12px] md:text-[17px] text-white'>Titles ({user.nofTitles})</p>
                                 </Link>
                             </div>
                             <ul className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2'>

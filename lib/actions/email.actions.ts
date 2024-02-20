@@ -27,19 +27,6 @@ export async function sendEmail({ email }: EmailProps) {
             react: Email({ firstName: "John" }) as React.ReactElement,
         });
 
-        const userDataDocuments = await UserData.find();
-
-        for (const userData of userDataDocuments) {
-            // Since UserData.User should already contain the ObjectId of the User,
-            // use it to update the corresponding User document with the UserData reference.
-            if (userData.User) {
-                await User.findByIdAndUpdate(userData.User, { $set: { UserData: userData._id } });
-                console.log(`Linked UserData ${userData._id} to User ${userData.User}`);
-            } else {
-                console.log(`UserData ${userData._id} does not have a corresponding User ObjectId`);
-            }
-        }
-
         if (error) {
             return console.log(error)
         }

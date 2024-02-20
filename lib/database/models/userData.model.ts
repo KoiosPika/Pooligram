@@ -3,7 +3,7 @@ import { IUser } from "./user.model";
 
 export interface IUserData extends Document {
     _id: string,
-    User:IUser
+    User: IUser
     hashtags: string[],
     hiddenPolls: string[]
     tickets: number
@@ -13,6 +13,9 @@ export interface IUserData extends Document {
     weeklyVotesSubmitted: number
     totalVotesReceived: number
     totalVotesSubmitted: number
+    nofPolls: number,
+    nofCollections: number,
+    nofTitles: number
 }
 
 const UserDataSchema = new Schema({
@@ -25,7 +28,10 @@ const UserDataSchema = new Schema({
     weeklyVotesReceived: { type: Number, default: 0 },
     weeklyVotesSubmitted: { type: Number, default: 0 },
     totalVotesReceived: { type: Number, default: 0 },
-    totalVotesSubmitted: { type: Number, default: 0 }
+    totalVotesSubmitted: { type: Number, default: 0 },
+    nofPolls: { type: Number, default: 0 },
+    nofCollections: { type: Number, default: 0 },
+    nofTitles: { type: Number, default: 0 },
 })
 
 const UserData = models.UserData || model('UserData', UserDataSchema);

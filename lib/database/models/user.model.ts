@@ -15,17 +15,6 @@ const UserSchema = new Schema({
     username: { type: String, required: true, unique: true },
     photo: { type: String, required: true },
     UserData: { type: Schema.Types.ObjectId, ref: "UserData" },
-    contact: { type: String },
-    facebook: { type: String },
-    instagram: { type: String },
-    tiktok: { type: String },
-    x: { type: String },
-    snapchat: { type: String },
-    youtube: { type: String },
-    links: [{
-        label: { type: String },
-        link: { type: String }
-    }]
 })
 
 const User = models.User || model('User', UserSchema);

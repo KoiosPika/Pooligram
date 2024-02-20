@@ -32,9 +32,9 @@ const Checkout = ({ userId, amount, tickets }: { userId: string, amount: number,
     return (
         <form action={onCheckout}>
             <Button type="submit" role="link" size="lg" className="w-full p-7 flex flex-row justify-center items-center gap-2 bg-green-600 border-2 border-white hover:bg-green-800">
-                <p className='font-bold text-[20px] text-white'>{tickets} x</p>
-                <img className='h-12 w-7' src={'/assets/images/ticket-1.png'} alt='ticket' height={100} width={100} />
-                <p className='font-bold text-[20px] text-white'>For ${amount}</p>
+                <p className='font-bold text-[15px] md:text-[20px] text-white'>{tickets} x</p>
+                <img className='h-10 w-8' src={'/assets/images/ticket-1.png'} alt='ticket' height={100} width={100} />
+                <p className='font-bold text-[15px] md:text-[20px] text-white'>For ${amount}</p>
             </Button>
         </form>
     )

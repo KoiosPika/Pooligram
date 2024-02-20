@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import Card from './Card'
-import { getAllPolls, getPinnedPolls } from '@/lib/actions/poll.actions'
+import { getAllPolls } from '@/lib/actions/poll.actions'
 import { IPoll } from '@/lib/database/models/poll.model'
 import LoadMore from './LoadMore'
 import Image from 'next/image'

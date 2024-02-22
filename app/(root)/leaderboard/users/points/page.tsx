@@ -83,7 +83,7 @@ const page = async () => {
                       <p className='text-yellow-200 font-semibold'>{index + 1}</p>
                     </div>
                     <Link className='relative h-[80px] w-[80px] flex justify-center items-center' href={`/profile/${user.User.username}`}>
-                      <Image className='absolute h-[80px] w-[80px]' src={`/assets/borders/Border-1.png`} alt='border' height={150} width={150} />
+                      <Image className='absolute h-[80px] w-[80px]' src={`/assets/borders/Border-2.png`} alt='border' height={150} width={150} />
                       <Image src={user.User.photo} alt='user' width={150} height={150} className='h-[57px] w-[57px] mb-1' />
                     </Link>
                     <div className='w-1/4'>

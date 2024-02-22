@@ -24,7 +24,7 @@ const page = async () => {
                 <p className='text-[30px] font-bold text-white my-3'>Leaderboard</p>
                 <Image src={'/assets/icons/trophy.svg'} alt='trophy' height={35} width={35} />
               </div>
-              <div className='w-full flex justify-center items-center gap-3 px-4'>
+              <div className='w-full flex justify-center items-center gap-3'>
                 <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 border-[3px] border-yellow-400 hover:bg-blue-600'>
                   <p className='text-[16px] text-yellow-300 font-semibold'>Live Round</p>
                 </Button>
@@ -44,7 +44,7 @@ const page = async () => {
                 <p className='text-[25px] font-bold text-yellow-400 my-3'>Weekly Round #34</p>
                 <Image src={'/assets/icons/trophy-yellow.svg'} alt='trophy' height={25} width={25} />
               </div>
-              <div className='w-full flex justify-center items-center gap-3 px-4 mb-3'>
+              <div className='w-full flex justify-center items-center gap-3 mb-3'>
                 <Button className='w-1/3 h-[50px] rounded-sm bg-blue-600 border-[3px] border-yellow-400 hover:bg-blue-600'>
                   <p className='text-[13px] md:text-[16px] text-yellow-300 font-semibold'>Polls Voted</p>
                 </Button>

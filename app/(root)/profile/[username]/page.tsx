@@ -25,7 +25,10 @@ const page = async ({ params: { username } }: { params: { username: string } }) 
                         <div className='flex flex-col w-full bg-blue-800 rounded-xl p-2 justify-center items-center'>
                             <div className='flex flex-col w-full md:w-8/12 justify-center items-center bg-slate-100 rounded-md p-3'>
                                 <div className='flex flex-row w-full items-center p-2'>
-                                    <Image className='h-[80px] w-[80px] rounded-full' src={user.User.photo} alt='photo' height={200} width={200} />
+                                    <div className='relative h-[120px] w-[120px] flex justify-center items-center'>
+                                        <Image className='absolute h-[120px] w-[120px]' src={`/assets/borders/Border-5.png`} alt='border' height={500} width={500} />
+                                        <Image src={user.User.photo} alt='user' width={150} height={150} className='h-[78px] w-[78px] mb-2' />
+                                    </div>
                                     <div className='ml-auto flex flex-row justify-center items-center gap-5'>
                                         <div className='flex flex-col items-center'>
                                             <p className='text-gray-500 text-[14px] sm:text-[16px]'>Votes Submitted</p>

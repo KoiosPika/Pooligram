@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button'
 import { getUserDataById } from '@/lib/actions/userData.actions'
 import { IUserData } from '@/lib/database/models/userData.model'
 import { getLevelColor, getNextLevelPoints } from '@/lib/utils'
@@ -13,44 +14,124 @@ const page = async () => {
 
     const user: IUserData = await getUserDataById(userId)
 
-    const points = user.points;
 
-    const upper = getNextLevelPoints(points)
-
-    const lower = upper - 500;
-
-    const earned = ((points - lower) / 500) * 100
-
-    const color = getLevelColor(user.level)
     return (
         <div className='w-full flex justify-center items-center'>
             <div className='w-full flex flex-col max-w-[900px] justify-center items-center bg-white'>
                 <div className='my-3 justify-center items-center flex flex-col w-full'>
                     <div className='w-full my-3 px-3'>
                         <div className='flex flex-col w-full bg-blue-800 rounded-xl p-2'>
-                            <div className='flex flex-col bg-white m-3 rounded-lg p-2'>
-                                <div className='flex flex-row justify-center items-center gap-2'>
-                                    <div className='relative flex items-center justify-center' style={{ height: '65px', width: '65px' }}>
-                                        <Image className='ml-1' src={`/assets/levels/level_${color}.svg`} alt='verified' height={60} width={60} />
-                                        <p className='font-bold text-white absolute z-10 text-[20px] flex items-center justify-center' style={{ top: '50%', left: '52%', transform: 'translate(-50%, -50%)' }}>{user.level}</p>
+                            <div className='flex flex-row w-full gap-3 my-3'>
+                                <Link href={'/shop/borders'} className='flex flex-1 justify-center items-center bg-blue-600 py-1 text-white rounded-lg border-2 border-white'>
+                                    <p>Borders</p>
+                                </Link>
+                                <Link href={'/shop/souvenirs'} className='flex flex-1 justify-center items-center bg-blue-600 py-1 text-white rounded-lg border-2 border-white'>
+                                    <p>Souvenirs</p>
+                                </Link>
+                                <Link href={'/shop/borders'} className='flex flex-1 justify-center items-center bg-blue-600 py-1 text-white rounded-lg border-2 border-white'>
+                                    <p>Redeem</p>
+                                </Link>
+                            </div>
+                            <div className='grid grid-cols-2 md:grid-cols-4 gap-3'>
+                                <div className='flex flex-col justify-center items-center p-2 bg-blue-600 rounded-lg border-2 border-yellow-400'>
+                                    <Image src={'/assets/borders/Border-1.png'} height={500} width={500} className='h-full w-full' alt='border'/>
+                                    <p className='text-white font-semibold'>Summer Theme</p>
+                                    <div className='relative justify-center items-center flex mr-5'>
+                                        <Image src={'/assets/images/diamond.png'} alt='ticket' className='h-[50px] w-[50px] z-10' height={200} width={200}/>
+                                        <div className=' absolute left-4 bg-white w-[60px] flex justify-end pr-2 rounded-lg'>
+                                            <p className='font-semibold'>20</p>
+                                        </div>
                                     </div>
-                                    <p className='text-[20px] font-bold'>You need {(upper - points).toLocaleString()} Points to reach next level!</p>
                                 </div>
-                                <div className='flex flex-col w-full'>
-                                    <p className='ml-auto font-bold text-gray-500 mb-1 text-[20px]'>{points.toLocaleString()} / {upper.toLocaleString()}</p>
-                                    <div className='flex w-full rounded-full h-3 bg-green-400'>
-                                        <div className='flex bg-green-700 rounded-full' style={{ width: `${earned}%` }}></div>
+                                <div className='flex flex-col justify-center items-center p-2 bg-blue-600 rounded-lg border-2 border-yellow-400'>
+                                    <Image src={'/assets/borders/Border-2.png'} height={500} width={500} className='h-full w-full' alt='border'/>
+                                    <p className='text-white font-semibold'>Fall Theme</p>
+                                    <div className='relative justify-center items-center flex mr-5'>
+                                        <Image src={'/assets/images/diamond.png'} alt='ticket' className='h-[50px] w-[50px] z-10' height={200} width={200}/>
+                                        <div className=' absolute left-4 bg-white w-[60px] flex justify-end pr-2 rounded-lg'>
+                                            <p className='font-semibold'>20</p>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className='flex flex-row mt-2 items-center gap-1'>
-                                    <Image src={'/assets/icons/info.svg'} alt='info' height={16} width={16} />
-                                    <p>You can earn points by voting on polls</p>
+                                <div className='flex flex-col justify-center items-center p-2 bg-blue-600 rounded-lg border-2 border-yellow-400'>
+                                    <Image src={'/assets/borders/Border-3.png'} height={500} width={500} className='h-full w-full' alt='border'/>
+                                    <p className='text-white font-semibold'>Beach Theme</p>
+                                    <div className='relative justify-center items-center flex mr-5'>
+                                        <Image src={'/assets/images/diamond.png'} alt='ticket' className='h-[50px] w-[50px] z-10' height={200} width={200}/>
+                                        <div className=' absolute left-4 bg-white w-[60px] flex justify-end pr-2 rounded-lg'>
+                                            <p className='font-semibold'>20</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className='flex w-full mt-3'>
-                                    <Link href={`/profile/${user.User.username}`} className='flex flex-row items-center gap-2 ml-auto rounded-lg text-white px-3 py-1 bg-blue-700'>
-                                        <Image className='rounded-full border-[2px] border-white h-[30px] w-[30px]' src={user.User.photo} alt='photo' height={100} width={100} />
-                                        <p className='font-semibold text-[13px] md:text-[15px]'>Go To Profile</p>
-                                    </Link>
+                                <div className='flex flex-col justify-center items-center p-2 bg-blue-600 rounded-lg border-2 border-yellow-400'>
+                                    <Image src={'/assets/borders/Border-4.png'} height={500} width={500} className='h-full w-full' alt='border'/>
+                                    <p className='text-white font-semibold'>Beach Theme</p>
+                                    <div className='relative justify-center items-center flex mr-5'>
+                                        <Image src={'/assets/images/diamond.png'} alt='ticket' className='h-[50px] w-[50px] z-10' height={200} width={200}/>
+                                        <div className=' absolute left-4 bg-white w-[60px] flex justify-end pr-2 rounded-lg'>
+                                            <p className='font-semibold'>20</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='flex flex-col justify-center items-center p-2 bg-blue-600 rounded-lg border-2 border-yellow-400'>
+                                    <Image src={'/assets/borders/Border-5.png'} height={500} width={500} className='h-full w-full' alt='border'/>
+                                    <p className='text-white font-semibold'>Beach Theme</p>
+                                    <div className='relative justify-center items-center flex mr-5'>
+                                        <Image src={'/assets/images/diamond.png'} alt='ticket' className='h-[50px] w-[50px] z-10' height={200} width={200}/>
+                                        <div className=' absolute left-4 bg-white w-[60px] flex justify-end pr-2 rounded-lg'>
+                                            <p className='font-semibold'>20</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='flex flex-col justify-center items-center p-2 bg-blue-600 rounded-lg border-2 border-yellow-400'>
+                                    <Image src={'/assets/borders/Border-1.png'} height={500} width={500} className='h-full w-full' alt='border'/>
+                                    <p className='text-white font-semibold'>Summer Theme</p>
+                                    <div className='relative justify-center items-center flex mr-5'>
+                                        <Image src={'/assets/images/diamond.png'} alt='ticket' className='h-[50px] w-[50px] z-10' height={200} width={200}/>
+                                        <div className=' absolute left-4 bg-white w-[60px] flex justify-end pr-2 rounded-lg'>
+                                            <p className='font-semibold'>20</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='flex flex-col justify-center items-center p-2 bg-blue-600 rounded-lg border-2 border-yellow-400'>
+                                    <Image src={'/assets/borders/Border-2.png'} height={500} width={500} className='h-full w-full' alt='border'/>
+                                    <p className='text-white font-semibold'>Fall Theme</p>
+                                    <div className='relative justify-center items-center flex mr-5'>
+                                        <Image src={'/assets/images/diamond.png'} alt='ticket' className='h-[50px] w-[50px] z-10' height={200} width={200}/>
+                                        <div className=' absolute left-4 bg-white w-[60px] flex justify-end pr-2 rounded-lg'>
+                                            <p className='font-semibold'>20</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='flex flex-col justify-center items-center p-2 bg-blue-600 rounded-lg border-2 border-yellow-400'>
+                                    <Image src={'/assets/borders/Border-3.png'} height={500} width={500} className='h-full w-full' alt='border'/>
+                                    <p className='text-white font-semibold'>Beach Theme</p>
+                                    <div className='relative justify-center items-center flex mr-5'>
+                                        <Image src={'/assets/images/diamond.png'} alt='ticket' className='h-[50px] w-[50px] z-10' height={200} width={200}/>
+                                        <div className=' absolute left-4 bg-white w-[60px] flex justify-end pr-2 rounded-lg'>
+                                            <p className='font-semibold'>20</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='flex flex-col justify-center items-center p-2 bg-blue-600 rounded-lg border-2 border-yellow-400'>
+                                    <Image src={'/assets/borders/Border-4.png'} height={500} width={500} className='h-full w-full' alt='border'/>
+                                    <p className='text-white font-semibold'>Beach Theme</p>
+                                    <div className='relative justify-center items-center flex mr-5'>
+                                        <Image src={'/assets/images/diamond.png'} alt='ticket' className='h-[50px] w-[50px] z-10' height={200} width={200}/>
+                                        <div className=' absolute left-4 bg-white w-[60px] flex justify-end pr-2 rounded-lg'>
+                                            <p className='font-semibold'>20</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='flex flex-col justify-center items-center p-2 bg-blue-600 rounded-lg border-2 border-yellow-400'>
+                                    <Image src={'/assets/borders/Border-5.png'} height={500} width={500} className='h-full w-full' alt='border'/>
+                                    <p className='text-white font-semibold'>Beach Theme</p>
+                                    <div className='relative justify-center items-center flex mr-5'>
+                                        <Image src={'/assets/images/diamond.png'} alt='ticket' className='h-[50px] w-[50px] z-10' height={200} width={200}/>
+                                        <div className=' absolute left-4 bg-white w-[60px] flex justify-end pr-2 rounded-lg'>
+                                            <p className='font-semibold'>20</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

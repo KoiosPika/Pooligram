@@ -1,6 +1,7 @@
 import { Schema, model, models, Document } from "mongoose";
 import { IPoll } from "./poll.model";
 import { IUser } from "./user.model";
+import { IUserData } from "./userData.model";
 
 export interface IComment extends Document {
     text: string,

@@ -88,11 +88,11 @@ const PollForm = ({ userId, dates }: PollParams) => {
         setNewHashtag('')
     }
 
-    const handleDeleteOption = (index: any) => {
+    const handleDeleteOption = (index: number) => {
         setOptions(prevOptions => prevOptions.filter((_, i) => i !== index));
     };
 
-    const handleDeleteHashtag = (index: any) => {
+    const handleDeleteHashtag = (index: number) => {
         setHashtags(prevHashtags => prevHashtags.filter((_, i) => i !== index));
     };
 

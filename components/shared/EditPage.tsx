@@ -90,7 +90,7 @@ const EditPage = ({ poll, userId, dates }: EditPageParams) => {
         setNewHashtag('')
     }
 
-    const handleDeleteHashtag = (index: any) => {
+    const handleDeleteHashtag = (index: number) => {
         setHashtags(prevHashtags => prevHashtags.filter((_, i) => i !== index));
     };
 

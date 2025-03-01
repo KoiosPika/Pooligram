@@ -63,7 +63,7 @@ const CollectionForm = ({ dates, userId }: CollectionParams) => {
         setDays(day);
     }, [selectedDate])
 
-    const handleDeleteHashtag = (index: any) => {
+    const handleDeleteHashtag = (index: number) => {
         setHashtags(prevHashtags => prevHashtags.filter((_, i) => i !== index));
     };
 

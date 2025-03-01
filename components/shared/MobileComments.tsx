@@ -18,6 +18,13 @@ import { ScrollArea } from '../ui/scroll-area'
 import { formatTimeAgo, getLevelColor } from '@/lib/utils'
 import LoadMoreComments from './LoadMoreComments'
 import { IUserData } from '@/lib/database/models/userData.model'
+import { IUser } from '@/lib/database/models/user.model'
+
+export interface InterComment {
+    text: string,
+    creator: IUserData,
+    createdAt: number
+}
 
 const MobileComments = ({ pollId, user }: { pollId: string, user: IUserData }) => {
     const [open, setOpen] = React.useState(false)

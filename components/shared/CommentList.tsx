@@ -8,6 +8,7 @@ import { createComment, getCommentsByPoll } from '@/lib/actions/comment.actions'
 import { formatTimeAgo, getLevelColor } from '@/lib/utils'
 import LoadMoreComments from './LoadMoreComments'
 import { IUserData } from '@/lib/database/models/userData.model'
+import { InterComment } from './MobileComments'
 
 type CommentListParams = {
     height: number,
@@ -28,7 +29,7 @@ const CommentList = ({ height, user, pollId }: CommentListParams) => {
         getComments()
     }, [])
 
-    const [Comments, setComments] = useState<IComment[]>([]);
+    const [Comments, setComments] = useState<any[]>([]);
     const [newComment, setNewComment] = useState('')
 
 
@@ -38,7 +39,7 @@ const CommentList = ({ height, user, pollId }: CommentListParams) => {
             userId: user.User._id,
             pollId,
         }).then((res) => {
-            let comment: any = {
+            let comment: InterComment = {
                 text: res.text,
                 creator: user,
                 createdAt: Date.now()

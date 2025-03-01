@@ -70,10 +70,7 @@ const CommentList = ({ height, user, pollId }: CommentListParams) => {
                                 </div>
                             </div>
                         </div>
-                        <p className='text-[14px]'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi aperiam, praesentium nihil rem nulla id temporibus amet beatae natus dolorem, soluta asperiores dignissimos veritatis. Rerum nobis omnis perspiciatis aspernatur neque.</p>
-                        {/* <div className='w-full h-7 relative'>
-                            <p className='ml-auto absolute right-3 text-blue-800 font-bold hover:cursor-pointer'>16 Replies</p>
-                        </div> */}
+                        <p className='text-[14px]'>{comment.text}</p>
                     </div>
                 ))}
                 <LoadMoreComments pollId={pollId} />

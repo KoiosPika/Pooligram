@@ -7,7 +7,6 @@ import * as z from "zod";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form"
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { sendEmail } from '@/lib/actions/email.actions';
 import { useRouter } from 'next/navigation';
 
 const ContactFrom = () => {
@@ -32,11 +31,6 @@ const ContactFrom = () => {
             description: values.description,
             name: values.name
         }
-
-        await sendEmail({ email }).then((res)=>{
-            console.log(res)
-            router.push('/');
-        })
     }
     return (
         <div className='w-full flex flex-col justify-center items-center'>
